@@ -1,0 +1,32 @@
+.footer {
+    border: var(--secondary-outline);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius-sm);
+    background: var(--white);
+    height: 58px;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    left: 0;
+    padding: 10px 10px 10px 262px;
+    
+    &.collapsed-menu {
+        padding-left: 66px
+    }
+}
+.pm-container {
+    margin: 0 5px;
+}
+.w-45 {
+    width: 45%;
+}
+.btn-error {
+    border: 1px solid rgb(240, 181, 181) !important;
+}
+.leftside-container {
+    width: 300px;
+}
+.rightside-container {
+    width: calc(100% - 300px);
+}

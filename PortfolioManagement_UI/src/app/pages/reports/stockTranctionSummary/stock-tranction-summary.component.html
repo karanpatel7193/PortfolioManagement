@@ -1,0 +1,129 @@
+<div class="card tile-panel w-100">
+    <div class="card-header">
+        <h4 style="display: contents ;" class="card-title mb-0">Stock Transaction Summary</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <form #SearchtransactionForm="ngForm" novalidate>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2 ">
+                                <label for="inAccount" class="form-label">Account</label>
+                                    <select class="form-select shadow-sm" [(ngModel)]="transactionParameter.accountId" id="inAccount" name="inAccount">
+                                        <option  value="0">Select an Account</option>
+                                        <option *ngFor="let account of stockTransactionListModel.accounts" [value]="account.id">
+                                            {{ account.name }}
+                                        </option>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2 ">
+                                <label for="inBroker" class="form-label">Broker</label>
+                                    <select class="form-select  shadow-sm" [(ngModel)]="transactionParameter.brokerId" id="inBroker" name="inBroker">
+                                    <option   value="0">Select an Broker</option>
+                                    <option *ngFor="let broker of stockTransactionListModel.brokers" [value]="broker.id">
+                                            {{ broker.name }}
+                                        </option>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2 ">
+                                <label for="inTransactionType" class="form-label">Transaction Type</label>
+                                    <select class="form-select  shadow-sm" [(ngModel)]="transactionParameter.transactionTypeId" id="inTransactionType" name="inTransactionType">
+                                        <option value="0">Select a Transaction Type</option>
+                                        <option *ngFor="let type of masterValues" [value]="type.value">
+                                            {{ type.valueText }}
+                                        </option>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2 ">
+                                <label for="inScript" class="form-label">Script</label>
+                                    <select class="form-select shadow-sm" [(ngModel)]="transactionParameter.scriptId" id="inScript" name="inScript">
+                                        <option *ngFor="let script of stockTransactionListModel.scripts" [value]="script.id">
+                                            {{ script.name }}
+                                        </option>
+                                    </select> -->
+                                    <input
+                                    id="script-dropdown"
+                                    type="text"
+                                    class="form-select shadow-sm"
+                                    [(ngModel)]="selectedScript"
+                                    [ngbTypeahead]="searchScript"
+                                    [inputFormatter]="formatter"
+                                    [resultFormatter]="formatter"
+                                    [editable]="false"
+                                    name="script-dropdown"
+                                    (selectItem)="onScriptSelected($event)"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2 ">
+                                <label for="fromDate" class="form-label">From Date</label>
+                                    <input type="date" class="form-control shadow-sm" [(ngModel)]="transactionParameter.fromDate" id="fromDate" name="fromDate" />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2 ">
+                                <label for="toDate" class="form-label">To Date</label>
+                                    <input type="date" class="form-control shadow-sm" [(ngModel)]="transactionParameter.toDate" id="toDate" name="toDate" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-primary" (click)="search()">Search</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="reset()">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr />
+        <table class="table table-bordered table-hover sort">
+            <thead class="">
+                <tr [id]="'transaction-list'">
+                    <th class="sort-header">Account</th>
+                    <th class="sort-header text-end">Buy</th>
+                    <th class="sort-header text-end">Sell</th>
+                    <th class="sort-header text-end">Dividend</th>
+                    <th class="sort-header text-end">Profit</th>
+                    <th class="sort-header text-end">Investment</th>
+                    <th class="sort-header text-end">Hold Buy</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of stockTransactionSummaryes " (click)="transactionParameter.id == item.accountId;"
+                    [ngClass]="{'selected-row': (transactionParameter.id === item.accountId)}">
+                    <td >{{item.accountName}}</td>
+                    <td class="text-end">{{item.buy | number: '1.2-2'}}</td>
+                    <td class="text-end">{{item.sell | number: '1.2-2'}}</td>
+                    <td class="text-end">{{item.dividend | number: '1.2-2'}}</td>
+                    <td class="text-end" [ngClass]="{ 'text-success': getInvestmentAndProfit(item).profit > 0, 'text-danger': getInvestmentAndProfit(item).profit < 0 }">{{getInvestmentAndProfit(item).profit| number: '1.2-2'}}</td>
+                    <td class="text-end">{{getInvestmentAndProfit(item).investment| number: '1.2-2'}}</td>
+                    <td class="text-end">{{item.buy | number: '1.2-2'}}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Total</strong></td> 
+                    <td class="text-end">{{ getTotalSums().totalBuy | number: '1.2-2' }}</td>
+                    <td class="text-end">{{ getTotalSums().totalSell | number: '1.2-2' }}</td>
+                    <td class="text-end">{{ getTotalSums().totalDividend | number: '1.2-2' }}</td>
+                    <td class="text-end">{{ getTotalSums().totalProfit | number: '1.2-2' }}</td>
+                    <td class="text-end">{{ getTotalSums().totalInvestment | number: '1.2-2' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

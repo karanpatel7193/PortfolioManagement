@@ -1,0 +1,32 @@
+{
+  "name": "angular2-multiselect-dropdown",
+  "version": "4.6.3",
+  "description": "Angular 2 and angular 4 and angular 6 multiselect dropdown component.",
+  "keywords": [
+    "angular 2 multiselect dropdown",
+    "angular 4 multiselect dropdown",
+    "angular multiselect",
+    "angular dropdown",
+    "angular 6 dropdown multiselect"
+  ],
+  "license": "MIT",
+  "author": "ISG",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "packagr": "ng-packagr -p ng-package.json"
+  },
+  "private": false,
+  "dependencies": {
+    "@tweenjs/tween.js": "^17.6.0",
+    "@types/tween.js": "^18.6.1"
+  },
+  "devDependencies": {
+    "ng-packagr": "^9.0.3",
+    "tween.js": "^16.6.0"
+  }
+}

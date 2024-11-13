@@ -1,0 +1,43 @@
+.nav-link.active {
+	background-color: #0d6dfc;
+	color: white;
+	border-radius: 3px;
+	padding: 8px 12px;
+}
+
+.nav-link.inactive {
+    background-color: rgb(237, 242, 250); 
+    color: #6c757d; 
+}
+
+.nav-item {
+	margin-right: 10px;
+}
+
+.normal {
+	color: black;
+}
+
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
+.nav-tabs {
+	margin-bottom: 0 !important;
+}
+
+.tab {
+	margin-left: -27px;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+.cursor-pointer:hover {
+	color: blue;
+	text-decoration: underline;
+}

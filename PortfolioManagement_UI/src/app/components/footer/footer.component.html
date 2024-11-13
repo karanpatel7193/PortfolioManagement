@@ -1,0 +1,89 @@
+<div class="footer" [class.collapsed-menu]="isMenuCollapsed">
+	<div class="row pm-container">
+		<div class="footer-disabled-overlay" *ngIf="footerDisabled"></div>
+		<div class="leftside-container">
+            <button class="btn btn-secondary w-100" *ngIf="commonPageModel?.pageName !== 'cecl-q-factors'"
+                    [disabled]="applyDisabled || spinnerService.isSpinnerShow"
+                    (click)="apply()">
+                Apply
+            </button>
+            <button class="btn btn-secondary w-45" *ngIf="commonPageModel?.pageName === 'cecl-q-factors'"
+                    [disabled]="qFactorsButtonsDisabled || spinnerService.isSpinnerShow"
+                    (click)="qFactorsApplyButton()">
+                Apply
+            </button>
+            <button class="btn btn-outline-secondary w-45" *ngIf="commonPageModel?.pageName === 'cecl-q-factors'"
+                    [disabled]="qFactorsButtonsDisabled || spinnerService.isSpinnerShow"
+                    (click)="qFactorsResetButton()">
+                Reset
+            </button>
+        </div>
+        <div class="rightside-container" *ngIf="commonPageModel?.pageName !== 'cecl-q-factors'" >
+            <div class="float-end">
+                <button class="btn btn-outline-secondary" *ngIf="commonPageModel?.downloadAllReport"
+                    [disabled]="downloadAllReport?.status !== 'done' || spinnerService.isSpinnerShow"
+                    [ngClass]="{
+                    'disabled': downloadAllReport?.status !== 'done',
+                    'btn-error': downloadAllReport?.status === 'error'
+                    }"
+                    (click)="download('downloadAllReport', downloadAllReport)">
+                    <div *ngIf="(!downloadAllReport?.value && downloadAllReport?.status !== 'error') || downloadAllReport?.status === 'in progress'" class="spinner-border spinner-border-sm text-dark btn-spinner me-2" role="status"></div>
+                    Download All Reports
+                </button>
+                <button class="btn btn-outline-secondary" *ngIf="commonPageModel?.generateSpreadsheet"
+                    [disabled]="generateSpreadsheet?.status !== 'done' || spinnerService.isSpinnerShow"
+                    [ngClass]="{
+                    'disabled': generateSpreadsheet?.status !== 'done',
+                    'btn-error': generateSpreadsheet?.status === 'error'
+                    }"
+                    (click)="download('generateSpreadsheet', generateSpreadsheet)">
+                    <div *ngIf="(!generateSpreadsheet?.value && generateSpreadsheet?.status !== 'error') || generateSpreadsheet?.status === 'in progress'" class="spinner-border spinner-border-sm text-dark btn-spinner me-2" role="status"></div>
+                    Export Spreadsheet
+                </button>
+                <button class="btn btn-outline-secondary"  *ngIf="commonPageModel?.downloadReport && !(commonPageModel?.pageName == 'cecl-current-estimate')"
+                    [disabled]="downloadReport?.status !== 'done' || spinnerService.isSpinnerShow"
+                    [ngClass]="{
+                    'disabled': downloadReport?.status !== 'done',
+                    'btn-error': downloadReport?.status === 'error'
+                    }"
+                    (click)="download('downloadReport', downloadReport)">
+                    <div *ngIf="downloadReport?.status === 'in progress' || downloadReport?.status === 'not defined'" class="spinner-border spinner-border-sm text-dark btn-spinner me-2" role="status"></div>
+                    Download Report
+                </button>
+                <button class="btn btn-outline-secondary"  *ngIf="commonPageModel?.downloadReport && (commonPageModel?.pageName == 'cecl-current-estimate')"
+                    [disabled]="downloadReport?.status !== 'done' || spinnerService.isSpinnerShow"
+                    [ngClass]="{
+                    'disabled': downloadReport?.status !== 'done',
+                    'btn-error': downloadReport?.status === 'error'
+                    }"
+                    (click)="downloadCECLReport(downloadReport)">
+                    <div *ngIf="downloadReport?.status === 'in progress' || downloadReport?.status === 'not defined'" class="spinner-border spinner-border-sm text-dark btn-spinner me-2" role="status"></div>
+                    Download CECL Report
+                </button>
+                <!-- <button class="btn btn-outline-secondary"  *ngIf="commonPageModel?.downloadAscReport"
+                    [disabled]="downloadAscReport?.status !== 'done' || spinnerService.isSpinnerShow"
+                    [ngClass]="{
+                    'disabled': downloadAscReport?.status !== 'done',
+                    'btn-error': downloadAscReport?.status === 'error'
+                    }"
+                    (click)="download('downloadAscReport', downloadAscReport)">
+                    <div *ngIf="(!downloadAscReport?.value && downloadAscReport?.status !== 'error') || downloadAscReport?.status === 'in progress'" class="spinner-border spinner-border-sm text-dark btn-spinner me-2" role="status"></div>
+                    Download ASC 450 Report
+                </button> -->
+                <button class="btn btn-outline-secondary" *ngIf="showDownloadLoanLevelButton"
+                    [disabled]="spinnerService.isSpinnerShow"
+                    (click)="exportModelShow('Loan-Level')">
+                    Export Loan-Level
+                </button>
+                <button class="btn btn-outline-secondary" *ngIf="showDownloadAccountLevelButton"
+                    [disabled]="spinnerService.isSpinnerShow"
+                    (click)="exportModelShow('Account-Level')">
+                    Download All Data
+                </button>
+            </div>
+        </div>
+	</div>
+</div>
+<app-modal #modal [modalConfig]="modalConfig">
+    {{modelMessage}}
+</app-modal>

@@ -1,0 +1,92 @@
+<div class="card tile-panel w-100">
+    <div class="card-header">
+        <h4 style="display: contents ;" class="card-title mb-0">Splits</h4>
+        <button (click)="add()" class="btn btn-icon btn-tnx float-end"
+            [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}"
+            [disabled]="!access.canInsert"
+            title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i
+                class="fa fa-plus"></i></button>
+        <div class="input-group float-end header-button" style="width:250px;">
+            <input type="text" class="form-control shadow-sm" [(ngModel)]="splitParameter.id" placeholder="Search here..." />
+            <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered sort">
+                <thead class="text-center">
+                    <tr>
+                        <th rowspan="2" class="sort-header">Id</th>
+                        <th rowspan="2" class="sort-header">Script Name</th>
+                        <th colspan="3" class="sort-header text-center">Split</th>
+                        <th colspan="3" class="sort-header text-center">Bonus</th>
+                        <th rowspan="2" class="sort-header">Announce Date</th>
+                        <th rowspan="2" class="sort-header">Reward Date</th>
+                        <th rowspan="2" class="sort-header">Apply</th>
+                        <th rowspan="2" style="width:100px;">Actions</th>
+                    </tr>
+                    <tr>
+                        <th class="sort-header">Split</th>
+                        <th class="sort-header" title="OldfaceValue">Old FV</th>
+                        <th class="sort-header" title="NewfaceValue">NewFV</th>
+                        <th class="sort-header">Bonus</th>
+                        <th class="sort-header">From Ratio</th>
+                        <th class="sort-header">To Ratio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of splitGrid?.splitBonuss;" (click)="splitParameter.id = item.id;"
+                        [ngClass]="{'selected-row': (splitParameter.id == item.id)}">
+                        <td>{{item.id}}</td>
+                        <td >{{item.nseCode}}</td>
+                        <td>{{item.isSplit}}</td>
+                        <td class="text-end">{{item.oldFaceValue}}</td>
+                        <td class="text-end">{{item.newFaceValue}}</td>
+                        <td>{{item.isBonus}}</td>
+                        <td class="text-end">{{item.fromRatio}}</td>
+                        <td class="text-end">{{item.toRatio}}</td>
+                        <td>{{item.announceDate | date: 'dd/MM/yyyy'}} </td>
+                        <td>{{item.rewardDate | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{item.isApply}}</td>
+
+                        <td>
+                            <button class="btn btn-icon btn-tnx" (click)="edit(item.id)"
+                                [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}"
+                                [disabled]="!access.canUpdate"
+                                title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}">
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-icon btn-tnx" (click)="delete(item.id)"
+                                [ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}"
+                                [disabled]="!access.canDelete"
+                                title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-body-secondary">
+        <div class="float-start card-header-controls">
+            <select [(ngModel)]="splitParameter.pageSize" (change)="search()" class="form-select">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+        </div>
+        <div class="float-start total-records">Total Record(s) <strong>{{splitGrid.totalRecords}}</strong></div>
+        <div class="float-end">
+            <ngb-pagination [collectionSize]="splitGrid.totalRecords" [pageSize]="splitParameter.pageSize"
+                [(page)]="splitParameter.pageIndex" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                [boundaryLinks]="true" (pageChange)="search()"></ngb-pagination>
+        </div>
+    </div>
+</div>

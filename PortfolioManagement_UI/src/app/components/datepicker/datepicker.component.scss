@@ -1,0 +1,30 @@
+.month-view {
+    ::ng-deep.ngb-dp-content {
+        display: none;
+    }
+    ::ng-deep.ngb-dp-header {
+        width: 100%;
+        padding-bottom: 0.25rem;
+    }
+    ::ng-deep ngb-datepicker-navigation-select>.form-select {
+        margin: 0px 2px;
+    }
+    ::ng-deep ngb-datepicker {
+        width: 100%;
+    }
+    input[type=text] {
+        width: 100%;
+        border: none;
+        border-radius: 0.375rem;
+        font-size: 13px;
+        line-height: 25px;
+    }
+    ::ng-deep.month-toggle-view {
+        transform: translate(0px, 35px) !important;
+        width: 200px;
+    }
+    ::ng-deep.month-toggle-view ngb-datepicker-navigation-select>.form-select {
+        background-position: right 0.2rem center;
+        padding: 0 0.2rem;
+    }
+}

@@ -1,0 +1,77 @@
+<div class="card tile-panel">
+    <div class="card-header">
+            <h4 style="display: contents ;" class="card-title mb-0">Roles</h4>
+        <button (click)="add()" class="btn btn-icon btn-tnx float-end"
+            [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}"
+            [disabled]="!access.canInsert"
+            title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i
+            class="fa fa-plus"></i>
+        </button>
+        <div class="input-group float-end header-button" style="width:250px;">
+            <input type="text" class="form-control shadow-sm" [(ngModel)]="roleParameter.name" placeholder="Search here..." />
+            <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary">
+                <i class="fa fa-search"></i></button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-bordered sort">
+            <thead>
+                <tr>
+
+                    <th (click)="sort('Id')" class="sort-header">
+                        Id
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (roleParameter.sortExpression != 'Id'), 'fa-sort-asc': (roleParameter.sortExpression == 'Id' && roleParameter.sortDirection === 'asc'), 'fa-sort-desc': (roleParameter.sortExpression == 'Id' && roleParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('Name')" class="sort-header">
+                        Name
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (roleParameter.sortExpression != 'Name'), 'fa-sort-asc': (roleParameter.sortExpression == 'Name' && roleParameter.sortDirection === 'asc'), 'fa-sort-desc': (roleParameter.sortExpression == 'Name' && roleParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('IsPublic')" class="sort-header">
+                        Public?
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (roleParameter.sortExpression != 'IsPublic'), 'fa-sort-asc': (roleParameter.sortExpression == 'IsPublic' && roleParameter.sortDirection === 'asc'), 'fa-sort-desc': (roleParameter.sortExpression == 'IsPublic' && roleParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th style="width:150px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of roleGrid?.roles;">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.isPublic}}</td>
+                    <td>
+                        <button class="btn btn-icon btn-tnx" (click)="roleAccess(item)" [ngClass]="{'btn-outline-info':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}" [disabled]="!access.canUpdate" title="{{access.canUpdate ? 'Click here to edit role access.' : 'You do not have edit access of this page.'}}"><i class="fa fa-sitemap"></i></button>
+                        <button class="btn btn-icon btn-tnx" (click)="edit(item.id)" [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}" [disabled]="!access.canUpdate" title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-icon btn-tnx" (click)="delete(item.id)"[ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}" [disabled]="!access.canDelete"title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-body-secondary">
+        <div class="float-start card-header-controls">
+            <select [(ngModel)]="roleParameter.pageSize" (change)="search()" class="form-select">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+            </select>
+        </div>
+        <div class="float-start total-records">Total Record(s) <strong>{{roleGrid.totalRecords}}</strong></div>
+        <div class="float-end">
+            <ngb-pagination [collectionSize]="roleGrid.totalRecords" [pageSize]="roleParameter.pageSize"
+                [(page)]="roleParameter.pageIndex" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                [boundaryLinks]="true" (pageChange)="search()"></ngb-pagination>
+        </div>
+    </div>
+</div>

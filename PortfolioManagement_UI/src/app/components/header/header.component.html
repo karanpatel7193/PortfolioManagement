@@ -1,0 +1,82 @@
+<div class="header-container pb-2">
+
+    <!-- marquee nifty50 data -->
+    <div class="ttape-root d-flex align-items-center  mb-2">
+        <div class="arrow arrow-left" (click)="scrollLeft()">
+            <i class="icon-chevron-left"></i>
+        </div>
+        <marquee behavior="scroll" direction="left" scrollamount="5" class="marquee-style">
+            <ng-container *ngFor="let item of headerGridModel?.nifty50">
+                <div class="ticker-item-root pointer relative" style="display: inline-block; margin: 0 20px;">
+                    <span class="symbol nowrap">{{ item.nseCode }}</span>
+                    <span class="price">{{ item.price | number: '1.2-2' }}</span>
+                    <i [ngClass]="item.priceChange > 0 ? 'icon-price-up' : 'icon-price-down'"></i>
+                    <span [ngClass]="item.priceChange > 0 ? 'change up' : 'change down'">{{ item.pricePercentage | number: '1.2-2'}}%</span>
+                </div>
+            </ng-container>
+        </marquee>
+        <div class="arrow arrow-right" (click)="scrollRight()">
+            <i class="icon-chevron-right"></i>
+        </div>
+    </div>
+
+    <div class="header-content d-flex align-items-center ">
+        
+        <!-- pms logo -->
+        <div class="d-flex align-items-center ">
+            <div class="d-flex align-items-center logo-wrapper">
+                <a routerLink="dashboard" class="text-decoration-none dfa-logo">
+                    <i class="bi bi-bar-chart-line main-logo"></i>
+                </a>
+                <h4 class="main-header cursor-pointor" title="Portfolio Managment System" >PMS</h4>
+            </div>
+            <form class="script-dropdown me-2">
+                <input
+                    id="script-dropdown"
+                    type="text"
+                    class="form-control shadow-sm"
+                    [(ngModel)]="selectedScript"
+                    [ngbTypeahead]="search"
+                    [inputFormatter]="formatter"
+                    [resultFormatter]="formatter"
+                    [editable]="false"
+                    (selectItem)="onScriptSelected($event)"
+                    name="script-dropdown"
+                />
+            </form>
+        </div>
+
+        <!-- index data -->
+        <div class="indicator-box ms-3">
+            <div class=" row text-center mx-1">
+                <div class="col-md-3 fw-bold  indicator-txt ">NIFTY</div>
+                <div class="col-md-3 fw-bold ">{{ headerModel.nifty }} </div>
+                <div class="col-md-3 text-{{headerModel.niftyDiff < 0 ? 'danger' : 'success'}} fw-bold">{{headerModel.niftyDiff | number}}</div>
+                <div class="col-md-3 text-{{headerModel.niftyPercentage < 0 ? 'danger' : 'success'}} ">{{'(' + (headerModel.niftyPercentage | number: '1.2-2') + '%)'}}</div>
+            </div>
+            <div class=" row text-center mx-1">
+                <div class="col-md-3 fw-bold  indicator-txt">SENSEX</div>
+                <div class="col-md-3 fw-bold ">{{ headerModel.sensex }} </div>
+                <div class="col-md-3 text-{{headerModel.sensexDiff < 0 ? 'danger' : 'success'}} fw-bold"> {{headerModel.sensexDiff | number}}</div>
+                <div class="col-md-3 text-{{headerModel.sensexPercentage < 0 ? 'danger' : 'success'}} ">{{'(' + (headerModel.sensexPercentage | number: '1.2-2') + '%)'}}</div>
+            </div>
+        </div>
+        
+        <!-- user profile -->
+        <div class="user-name dropdown d-flex ms-auto">
+            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle ms-5" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="rounded-circle user-pic">
+                    <img [src]="currentUser!.imageSrc" onerror="this.src='/assets/images/Avatar-1.png';" alt="" class="rounded-circle">
+                </div>
+                <div class="ms-3 user-info">
+                    <div>{{ currentUser.firstName }} {{ currentUser.lastName }}</div>
+                    <div class="small text-muted">{{ currentUser.roleName }}</div>
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-light text-small shadow">
+                <li><a class="dropdown-item" routerLink="/app/profile">Profile</a></li>
+                <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

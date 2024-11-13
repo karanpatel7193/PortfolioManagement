@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Projects\Karan\PortfolioManagement\PortfolioManagement.Api\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2024-11-08T09:44:09.9755647Z;True|2024-10-30T18:53:03.2089821+05:30;True|2024-10-30T18:36:07.6427431+05:30;True|2024-10-30T18:33:14.4036864+05:30;True|2024-10-29T10:31:41.1204850+05:30;True|2024-10-15T18:03:11.1670520+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

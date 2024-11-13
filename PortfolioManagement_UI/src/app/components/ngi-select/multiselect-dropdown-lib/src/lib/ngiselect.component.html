@@ -1,0 +1,375 @@
+<div class="cuppa-dropdown"
+    [ngClass]="{'multiselect-cuppa-dropdown': !settings.singleSelection, 'lazy-load-cuppa-dropdown':settings.lazyLoading,'colorbox-multiselect-cuppa-dropdown':settings.isShowColorProperty }"
+    (clickOutside)="closeDropdownOnClickOut()">
+
+    <div class="selected-list" title="{{setTooltip()}}" #selectedList
+        [ngClass]="{'input-arrow-disable': settings.allowFreeText && settings.singleSelection}">
+        <div class="c-btn" (click)="toggleDropdown($event)" [ngClass]="{'disabled': settings.disabled}"
+            [attr.tabindex]="0">
+            <span class="select-count"
+                *ngIf="settings.singleSelection && toolTipItems?.length == 0 && settings.text">{{settings.text}} </span>
+            <span class="select-count"
+                *ngIf="!settings.singleSelection && toolTipItems?.length == 0 && settings.text">{{settings.text}}
+            </span>
+            <span class="select-count"
+                *ngIf="!settings.singleSelection && toolTipItems?.length !== 0">{{toolTipItems.length}} Selected</span>
+            <!-- <span class="select-count">None Selected</span> -->
+
+            <span #selectedspan [style.width]="widthspan+'%'"
+                *ngIf="settings.singleSelection && !badgeTempl && toolTipItems && toolTipItems?.length != 0 && (toolTipItems[0] | json) != '{}'"
+                [ngClass]="{'c-btn-selected-text' : !isBlanckActive}">
+
+                <span title="{{item[settings.tooltipColumn]}}"
+                    *ngFor="let item of toolTipItems;trackBy: trackByFn.bind(this);">
+                    {{item[settings.labelKey]}}
+                </span>
+            </span>
+            <div class="c-list" *ngIf="toolTipItems?.length != 0 && settings.singleSelection && badgeTempl ">
+                <div class="c-token" *ngFor="let item of toolTipItems;trackBy: trackByFn.bind(this);let k = index">
+                    <span *ngIf="!badgeTempl" class="c-label">{{item[settings.labelKey]}}</span>
+
+                    <span *ngIf="badgeTempl" class="c-label">
+                        <c-templateRenderer [data]="badgeTempl" [item]="item"></c-templateRenderer>
+                    </span>
+                    <span class="c-remove" (click)="onItemClick(item,k,$event);$event.stopPropagation()">
+                        <c-icon [name]="'remove'"></c-icon>
+                    </span>
+                </div>
+            </div>
+            <div class="list-filter" [style.width]="listfilterspan+'%'"
+                *ngIf="settings.enableSearchFilter && !settings.disabled"
+                [ngClass]="{'remove-selected-text': (toolTipItems && toolTipItems.length == 0) || isFreeTextActive || isBlanckActive}">
+                <!-- <span *ngIf="!settings.lazyLoading" [hidden]="filter == undefined || filter?.length == 0" class="c-clear" (click)="clearSearch()">
+                    <c-icon [name]="'clear'"></c-icon>
+                </span>
+                <span *ngIf="settings.lazyLoading" [hidden]="filter == undefined || filter?.length == 0" class="c-clear" (click)="resetInfiniteSearch()">
+                    <c-icon [name]="'clear'"></c-icon>
+                </span> -->
+                <input class="c-input" *ngIf="settings.groupBy && !settings.lazyLoading && !searchTempl" #searchInput
+                    (keyup)="onSearchText($event)" type="text" [placeholder]="settings.searchPlaceholderText"
+                    [(ngModel)]="filter" (keyup)="filterGroupedList()">
+                <input class="c-input" *ngIf="!settings.groupBy && !settings.lazyLoading && !searchTempl" #searchInput
+                    (keyup)="onSearchText($event)" type="text" [placeholder]="settings.searchPlaceholderText"
+                    [(ngModel)]="filter">
+                <input class="c-input" *ngIf="settings.lazyLoading && !searchTempl" #searchInput
+                    (keyup)="onSearchText($event)" type="text" [placeholder]="settings.searchPlaceholderText"
+                    [(ngModel)]="filter" (keyup)="searchTerm$.next($any($event.target).value)">
+                <!--            <input class="c-input" *ngIf="!settings.lazyLoading && !searchTempl && settings.groupBy" #searchInput type="text" [placeholder]="settings.searchPlaceholderText"
+                [(ngModel)]="filter" (keyup)="filterGroupList($event)">-->
+                <c-templateRenderer *ngIf="searchTempl" [data]="searchTempl" [item]="item"></c-templateRenderer>
+            </div>
+
+
+            <!-- <div class="c-list" *ngIf="toolTipItems?.length > 0 && !settings.singleSelection">
+                <div class="c-token" *ngFor="let item of toolTipItems;trackBy: trackByFn.bind(this);let k = index" [hidden]="k > settings.badgeShowLimit-1">
+                    <span *ngIf="!badgeTempl" class="c-label">{{item[settings.labelKey]}}</span>
+                    <span *ngIf="badgeTempl" class="c-label">
+                        <c-templateRenderer [data]="badgeTempl" [item]="item"></c-templateRenderer>
+                    </span>
+                    <span class="c-remove" (click)="onItemClick(item,k,$event);$event.stopPropagation()">
+                        <c-icon [name]="'remove'"></c-icon>
+                    </span>
+                </div>
+            </div> -->
+            <!--<span class="countplaceholder" *ngIf="toolTipItems?.length > settings.badgeShowLimit">+{{toolTipItems?.length - settings.badgeShowLimit }}</span>-->
+            <span class="select-all-check"
+                *ngIf="isActive && settings.enableCheckAll && !settings.singleSelection && data.length > 0 && !isDisabledItemPresent"
+                (click)="toggleSelectAll()" title="Check All">
+                <em class="pixie-tc-check-all"></em>
+            </span>
+            <span class="c-remove clear-all"
+                *ngIf="!settings.allowFreeText && isActive && settings.clearAll  && !settings.disabled"
+                (click)="clearSelection($event);$event.stopPropagation()" title="Uncheck All">
+                <em class="pixie-tc-uncheck-all"></em>
+            </span>
+            <span *ngIf="!isActive" class="c-angle-down">
+                <em class="pixie-tc-arrow-down"></em>
+            </span>
+            <span *ngIf="isActive" class="c-angle-up">
+                <em class="pixie-tc-arrow-up"></em>
+            </span>
+        </div>
+    </div>
+    <div #dropdownList class="dropdown-list animated fadeIn" [ngClass]="{'dropdown-list-top': dropdownListYOffset}"
+        [style.bottom.px]="dropdownListYOffset ? dropdownListYOffset : null" [hidden]="!isActive">
+        <!-- <div [ngClass]="{'arrow-up': !dropdownListYOffset, 'arrow-down': dropdownListYOffset}" class="arrow-2"></div>
+        <div [ngClass]="{'arrow-up': !dropdownListYOffset, 'arrow-down': dropdownListYOffset}"></div> -->
+        <div class="list-area" [ngClass]="{'single-select-mode': settings.singleSelection }">
+            <!-- <div class="pure-checkbox select-all" *ngIf="settings.enableCheckAll && !settings.singleSelection && !settings.limitSelection && data?.length > 0 && !isDisabledItemPresent"
+                (click)="toggleSelectAll()">
+                <input *ngIf="settings.showCheckbox" type="checkbox" [checked]="isSelectAll" [disabled]="settings.limitSelection == toolTipItems?.length"
+                />
+                <label>
+                    <span [hidden]="isSelectAll">{{settings.selectAllText}}</span>
+                    <span [hidden]="!isSelectAll">{{settings.unSelectAllText}}</span>
+                </label>
+            </div> -->
+            <img class="loading-icon" *ngIf="loading" src="assets/images/gif/loader.gif" />
+            <div class="filter-select-all" *ngIf="settings.enableFilterSelectAll && !isDisabledItemPresent">
+                <!--<div class="pure-checkbox select-all" *ngIf="!settings.groupBy && filter?.length > 0 && filterLength > 0" (click)="toggleFilterSelectAll()">
+                      <input  type="checkbox" [checked]="isFilterSelectAll" [disabled]="settings.limitSelection == toolTipItems?.length" />
+                      <label>
+                          <span [hidden]="isFilterSelectAll">{{settings.filterSelectAllText}}</span>
+                          <span [hidden]="!isFilterSelectAll">{{settings.filterUnSelectAllText}}</span>
+                      </label>
+                </div>
+                  <div class="pure-checkbox select-all" *ngIf="settings.groupBy && filter?.length > 0 && groupedData?.length > 0" (click)="toggleFilterSelectAll()">
+                      <input type="checkbox" [checked]="isFilterSelectAll && filter?.length > 0" [disabled]="settings.limitSelection == toolTipItems?.length"
+                      />
+                      <label>
+                          <span [hidden]="isFilterSelectAll">{{settings.filterSelectAllText}}</span>
+                          <span [hidden]="!isFilterSelectAll">{{settings.filterUnSelectAllText}}</span>
+                      </label>
+                  </div>-->
+                <!-- <span class="no-list-message" *ngIf="!settings.groupBy && filterLength == 0"
+                    [hidden]="filter == undefined || filter?.length == 0">{{settings.noDataLabel}}</span>
+                <span class="no-list-message" *ngIf="settings.groupBy && groupedData?.length == 0"
+                    [hidden]="filter == undefined || filter?.length == 0">{{settings.noDataLabel}}</span> -->
+                <!--<div class="btn-container" *ngIf="settings.addNewItemOnFilter && filterLength == 0" [hidden]="filter == undefined || filter?.length == 0">
+                    <button class="c-btn btn-iceblue" (click)="addFilterNewItem()">{{settings.addNewButtonText}}</button>
+                </div>-->
+            </div>
+            <!--<div class="filter-select-all" *ngIf="settings.lazyLoading && settings.enableFilterSelectAll && !isDisabledItemPresent">
+                <div class="pure-checkbox select-all" *ngIf="filter?.length > 0 && infiniteFilterLength > 0" (click)="toggleInfiniteFilterSelectAll()">
+                    <input type="checkbox" [checked]="isInfiniteFilterSelectAll" [disabled]="settings.limitSelection == toolTipItems?.length"
+                    />
+                    <label>
+                        <span [hidden]="isInfiniteFilterSelectAll">{{settings.filterSelectAllText}}</span>
+                        <span [hidden]="!isInfiniteFilterSelectAll">{{settings.filterUnSelectAllText}}</span>
+                    </label>
+                </div>
+            </div>-->
+            <div *ngIf="!settings.groupBy && !settings.lazyLoading && itemTempl == undefined"
+                class="dropdown-list-inner-box">
+                <ul *ngIf="isPresentData" [style.maxHeight]="settings.maxHeight+'px'" class="lazyContainer">
+                    <li title="{{item[settings.tooltipColumn]}}"
+                        *ngFor="let item of data | listFilter:filter : settings.searchBy; let i = index;"
+                        (click)="onItemClick(item,i,$event)" class="pure-checkbox"
+                        [ngClass]="{'selected-item': isSelected(item) == true,'up-down-key-selected': focusedItemIndex === i }">
+                        <input *ngIf="settings.showCheckbox" type="checkbox" [checked]="isSelected(item)"
+                            [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" />
+                            <span *ngIf="settings.isShowColorProperty"  class="color-box" [ngStyle]="{'background-color':item[settings.colorPropertyName]}"></span>
+                            <label>{{item[settings.labelKey]}}</label>
+                    </li>
+                    <li class="no-record-message" *ngIf="(data | listFilter:filter : settings.searchBy)?.length == 0">
+                        No record found.
+                    </li>
+                </ul>
+                <ul *ngIf="!isPresentData">
+                    <li class="no-record-message">
+                        No record found.
+                    </li>
+                </ul>
+            </div>
+            <!-- <div>
+                settings.groupBy = {{settings.groupBy}}
+                settings.lazyLoading = {{settings.lazyLoading}}
+                itemTempl={{itemTempl}}
+            </div> -->
+            <!-- MyDiv -------------------------------------------------------------------------------------------->
+            <!-- <div *ngIf="settings.lazyLoading" class="dropdown-list-inner-box">
+                <ul *ngIf="isLazyLoadingPresentData" virtualScroller #scroll [enableUnequalChildrenSizes]="randomSize"
+                    [items]="virtualdata" (vsEnd)="onScrollDemand($event)"
+                    [style.height]="scroll.viewPortItems?.length <= 5 ? 'auto' : settings.maxHeight + 'px'"
+                    [style.minHeight]="'22px'" [style.maxHeight]="settings.maxHeight+'px'" class="lazyContainer">
+                    <li title="{{item[settings.tooltipColumn]}}"
+                        *ngFor="let item of scroll.viewPortItems; let i = index;" (click)="onItemClick(item,i,$event)"
+                        class="pure-checkbox"
+                        [ngClass]="{'selected-item': isSelected(item) == true , 'up-down-key-selected': focusedItemIndex === i }">
+                        <input *ngIf="settings.showCheckbox" type="checkbox" [checked]="isSelected(item)"
+                            [disabled]="(settings.limitSelection == toolTipItems?.length && !isSelected(item)) || item.disabled" />
+                        <label>{{item[settings.labelKey]}}</label>
+                    </li>
+                    <li *ngIf="scroll.viewPortItems?.length == 0" style="text-align: center;">
+                        No Record Found
+                    </li>
+                </ul>
+            </div> -->
+            <!-- ------------------------------------------------------------------------------------------------ -->
+            <div *ngIf="!settings.groupBy && settings.lazyLoading && itemTempl == undefined"
+                class="dropdown-list-inner-box">
+                <!-- <ul *ngIf="isLazyLoadingPresentData" virtualScroller #scroll [enableUnequalChildrenSizes]="randomSize"
+                    [items]="virtualdata" (vsStart)="onScrollEnd($event)" (vsEnd)="onScrollEnd($event)"
+                    (vsChange)="onScrollDemand($event)"
+                    [style.height]="scroll.viewPortItems.length <= 5 ? 'auto' : settings.maxHeight + 'px'"
+                    [style.minHeight]="'22px'" [style.maxHeight]="settings.maxHeight+'px'" class="lazyContainer">
+                    <li title="{{item[settings.tooltipColumn]}}"
+                        *ngFor="let item of scroll.viewPortItems; let i = index;" (click)="onItemClick(item,i,$event)"
+                        class="pure-checkbox"
+                        [ngClass]="{'selected-item': isSelected(item) == true , 'up-down-key-selected': focusedItemIndex === i }">
+                        <input *ngIf="settings.showCheckbox" type="checkbox" [checked]="isSelected(item)"
+                            [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" />
+                        <span *ngIf="settings.isShowColorProperty"  class="color-box" [ngStyle]="{'background-color':item[settings.colorPropertyName]}"></span>
+                        <label>{{item[settings.labelKey]}}</label>
+                    </li>
+                    <li class="no-record-message" *ngIf="scroll.viewPortItems?.length == 0">
+                        No record found.
+                    </li>
+                </ul> -->
+            </div>
+            <div *ngIf="!settings.groupBy && !settings.lazyLoading && itemTempl != undefined"
+                class="dropdown-list-inner-box">
+                <ul *ngIf="isLazyLoadingPresentData" class="lazyContainer" [style.maxHeight]="settings.maxHeight+'px'">
+                    <li title="{{item[settings.tooltipColumn]}}"
+                        *ngFor="let item of data | listFilter:filter : settings.searchBy; let i = index;"
+                        (click)="onItemClick(item,i,$event)" class="pure-checkbox"
+                        [ngClass]="{'selected-item': isSelected(item) == true , 'up-down-key-selected': focusedItemIndex === i  }">
+                        <input *ngIf="settings.showCheckbox" type="checkbox" [checked]="isSelected(item)"
+                            [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" />
+                        <!--<label></label>-->
+                        <c-templateRenderer [data]="itemTempl" [item]="item"></c-templateRenderer>
+                    </li>
+                </ul>
+            </div>
+            <div *ngIf="!settings.groupBy && settings.lazyLoading && itemTempl != undefined"
+                class="dropdown-list-inner-box">
+                <!-- <ul virtualScroller #scroll2 [enableUnequalChildrenSizes]="randomSize" [items]="virtualdata"
+                    (vsStart)="onScrollEnd($event)" (vsEnd)="onScrollEnd($event)" class="lazyContainer"
+                    [style.maxHeight]="settings.maxHeight+'px'">
+                    <li title="{{item[settings.tooltipColumn]}}"
+                        *ngFor="let item of scroll2.viewPortItems; let i = index;" (click)="onItemClick(item,i,$event)"
+                        class="pure-checkbox"
+                        [ngClass]="{'selected-item': isSelected(item) == true , 'up-down-key-selected': focusedItemIndex === i  }">
+                        <input *ngIf="settings.showCheckbox" type="checkbox" [checked]="isSelected(item)"
+                            [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" />
+                        <label></label>-->
+                        <!-- <c-templateRenderer [data]="itemTempl" [item]="item"></c-templateRenderer> -->
+                    <!-- </li> -->
+                <!-- </ul> --> 
+            </div>
+            <!-- <div *ngIf="settings.groupBy && settings.lazyLoading && itemTempl != undefined"
+                class="dropdown-list-inner-box group-by-list-box">
+                <ul virtualScroller #scroll3 [enableUnequalChildrenSizes]="randomSize" [items]="virtualdata"
+                    (vsStart)="onScrollEnd($event)" (vsEnd)="onScrollEnd($event)"
+                    [style.maxHeight]="settings.maxHeight+'px'" class="lazyContainer">
+                    <div *ngFor="let item of scroll3.viewPortItems; let i = index;">
+                        <li title="{{item[settings.tooltipColumn]}}" (click)="onItemClick(item,i,$event)"
+                            *ngIf="!item.grpTitle"
+                            [ngClass]="{'grp-title': item.grpTitle,'grp-item': !item.grpTitle && !settings.singleSelection,'up-down-key-selected': focusedItemIndex === i }"
+                            class="pure-checkbox">
+                            <input *ngIf="settings.showCheckbox && !settings.singleSelection" type="checkbox"
+                                [checked]="isSelected(item)"
+                                [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" />
+                            <label></label>-->
+                            <!-- <c-templateRenderer [data]="itemTempl" [item]="item"></c-templateRenderer> -->
+                        <!-- </li> -->
+                        <!-- <li title="{{item[settings.tooltipColumn]}}" *ngIf="item.grpTitle" -->
+                            <!-- [ngClass]="{'grp-title': item.grpTitle,'grp-item': !item.grpTitle && !settings.singleSelection , 'up-down-key-selected': focusedItemIndex === i }" -->
+                            <!-- class="pure-checkbox"> -->
+                            <!-- <input *ngIf="settings.showCheckbox" type="checkbox" [checked]="isSelected(item)" -->
+                                <!-- [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" /> -->
+                            <!--<label></label>-->
+                            <!-- <c-templateRenderer [data]="itemTempl" [item]="item"></c-templateRenderer> -->
+                        <!-- </li> -->
+                    <!-- </div> -->
+                <!-- </ul> -->
+            <!-- </div> --> 
+            <div *ngIf="settings.groupBy && !settings.lazyLoading && itemTempl != undefined"
+                class="dropdown-list-inner-box group-by-list-box">
+                <ul class="lazyContainer" [style.maxHeight]="settings.maxHeight+'px'">
+                    <div *ngFor="let item of groupedData; let i = index;">
+                        <li title="{{item[settings.tooltipColumn]}}" (click)="selectGroup(item)"
+                            [ngClass]="{'grp-title': item.grpTitle,'grp-item': !item.grpTitle && !settings.singleSelection , 'up-down-key-selected': focusedItemIndex === i }"
+                            class="pure-checkbox">
+                            <input *ngIf="settings.showCheckbox && !settings.singleSelection" type="checkbox"
+                                [checked]="item.selected"
+                                [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" />
+                            <label class="group-by-title">{{item[settings.labelKey]}}</label>
+                            <ul class="group-by-sub-list-ul">
+                                <div *ngFor="let val of item.list ; let j = index;">
+                                    <li title="{{item[settings.tooltipColumn]}}"
+                                        (click)="onItemClick(val,j,$event); $event.stopPropagation()"
+                                        [ngClass]="{'grp-title': val.grpTitle,'grp-item': !val.grpTitle && !settings.singleSelection , 'up-down-key-selected': focusedItemIndex === i }"
+                                        class="pure-checkbox">
+                                        <input *ngIf="settings.showCheckbox" type="checkbox" [checked]="isSelected(val)"
+                                            [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(val)) || val.disabled" />
+                                        <!--<label></label>-->
+                                        <c-templateRenderer [data]="itemTempl" [item]="val"></c-templateRenderer>
+                                    </li>
+                                </div>
+                            </ul>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+            <!-- <div *ngIf="settings.groupBy && settings.lazyLoading && itemTempl == undefined"
+                class="dropdown-list-inner-box group-by-list-box">
+                <virtual-scroller [items]="groupedData" (vsUpdate)="viewPortItems = $event"
+                    (vsEnd)="onScrollEnd($event)" [ngStyle]="{'height': settings.maxHeight+'px'}">
+                    <ul virtualScroller #scroll4 [enableUnequalChildrenSizes]="randomSize" [items]="virtualdata"
+                        (vsStart)="onScrollEnd($event)" (vsEnd)="onScrollEnd($event)"
+                        [ngStyle]="{'height': settings.maxHeight+'px'}" class="lazyContainer">
+                        <div *ngFor="let item of scroll4.viewPortItems; let i = index;">
+                            <li title="{{item[settings.tooltipColumn]}}" *ngIf="item.grpTitle"
+                                [ngClass]="{'grp-title': item.grpTitle,'grp-item': !item.grpTitle && !settings.singleSelection, 'selected-item': isSelected(item) == true ,'up-down-key-selected': focusedItemIndex === i }"
+                                class="pure-checkbox">
+                                <input *ngIf="settings.showCheckbox && !item.grpTitle && !settings.singleSelection"
+                                    type="checkbox" [checked]="isSelected(item)"
+                                    [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" />
+                                <label>{{item[settings.labelKey]}}</label>
+                            </li>
+                            <li title="{{item[settings.tooltipColumn]}}" (click)="onItemClick(item,i,$event)"
+                                *ngIf="!item.grpTitle"
+                                [ngClass]="{'grp-title': item.grpTitle,'grp-item': !item.grpTitle && !settings.singleSelection, 'selected-item': isSelected(item) == true , 'up-down-key-selected': focusedItemIndex === i  }"
+                                class="pure-checkbox">
+                                <input *ngIf="settings.showCheckbox && !item.grpTitle" type="checkbox"
+                                    [checked]="isSelected(item)"
+                                    [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" />
+                                <label>{{item[settings.labelKey]}}</label>
+                            </li>
+                        </div>
+                    </ul>
+                </virtual-scroller>
+            </div> -->
+            <div *ngIf="settings.groupBy && !settings.lazyLoading && itemTempl == undefined"
+                class="dropdown-list-inner-box group-by-list-box"
+                [ngClass]="{'group-by-multiple-box': !settings.singleSelection}">
+                <ul class="lazyContainer" [style.maxHeight]="settings.maxHeight+'px'">
+                    <div *ngFor="let item of groupedData ; let i = index;">
+                        <li title="{{item[settings.tooltipColumn]}}" (click)="selectGroup(item)"
+                            [ngClass]="{'grp-title': item.grpTitle,'grp-item': !item.grpTitle && !settings.singleSelection , 'up-down-key-selected': focusedItemIndex === i }"
+                            class="pure-checkbox">
+                            <input *ngIf="settings.showCheckbox && !settings.singleSelection" type="checkbox"
+                                [checked]="item.selected"
+                                [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(item)) || item.disabled" />
+                            <label class="group-by-title">{{item[settings.labelKey]}}</label>
+                            <ul class="group-by-sub-list-ul">
+                                <div *ngFor="let val of item.list ; let j = index;">
+                                    <li title="{{item[settings.tooltipColumn]}}"
+                                        (click)="onItemClick(val,j,$event); $event.stopPropagation()"
+                                        [ngClass]="{'selected-item': isSelected(val) == true,'grp-title': val.grpTitle,'grp-item': !val.grpTitle && !settings.singleSelection , 'up-down-key-selected': focusedItemIndex === i }"
+                                        class="pure-checkbox">
+                                        <input *ngIf="settings.showCheckbox" type="checkbox" [checked]="isSelected(val)"
+                                            [disabled]="(settings.limitSelection == toolTipItems.length && !isSelected(val)) || val.disabled" />
+                                        <label>{{val[settings.labelKey]}}</label>
+                                    </li>
+                                </div>
+                            </ul>
+                        </li>
+                    </div>
+                    <!-- <span *ngFor="let item of groupedData ; let i = index;">
+                        <li (click)="onItemClick(item,i,$event)" *ngIf="!item.grpTitle" [ngClass]="{'grp-title': item.grpTitle,'grp-item': !item.grpTitle}" class="pure-checkbox">
+                        <input *ngIf="settings.showCheckbox && !item.grpTitle" type="checkbox" [checked]="isSelected(item)" [disabled]="settings.limitSelection == toolTipItems?.length && !isSelected(item)"
+                        />
+                        <label>{{item[settings.labelKey]}}</label>
+                    </li>
+                    <li *ngIf="item.grpTitle && !settings.selectGroup" [ngClass]="{'grp-title': item.grpTitle,'grp-item': !item.grpTitle}" class="pure-checkbox">
+                        <input *ngIf="settings.showCheckbox && settings.selectGroup" type="checkbox" [checked]="isSelected(item)" [disabled]="settings.limitSelection == toolTipItems?.length && !isSelected(item)"
+                        />
+                        <label>{{item[settings.labelKey]}}</label>
+                    </li>
+                     <li  (click)="selectGroup(item)" *ngIf="item.grpTitle && settings.selectGroup" [ngClass]="{'grp-title': item.grpTitle,'grp-item': !item.grpTitle}" class="pure-checkbox">
+                        <input *ngIf="settings.showCheckbox && settings.selectGroup" type="checkbox" [checked]="item.selected" [disabled]="settings.limitSelection == toolTipItems?.length && !isSelected(item)"
+                        />
+                        <label>{{item[settings.labelKey]}}</label>
+                    </li>
+                    </span> -->
+                </ul>
+            </div>
+            <!-- <span class="no-list-message" *ngIf="!isLazyLoadingPresentData">{{settings.noDataLabel}}</span> -->
+
+            <div *ngIf="!settings.singleSelection" class="dropdown-list-ok-box"><button class="btn"
+                    (click)="onOkClick()">Ok</button></div>
+        </div>
+    </div>
+</div>

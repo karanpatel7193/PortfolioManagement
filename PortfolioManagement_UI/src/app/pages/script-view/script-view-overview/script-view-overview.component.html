@@ -1,0 +1,146 @@
+<div class="card tile-panel w-100">
+    <div class="card-body">
+        <h5 class="card-title">Stock Overview</h5>
+        <hr />
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Open</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.open | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Previous Close</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.previousDay | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Volume</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.volume | number }}</td>
+                        </tr>
+                        <tr>
+                            <td>Value (Lacs)</td>
+                            <!-- <td class="data-value">{{ (scriptviewOverviewModel.value / 100000).toFixed(2) }}</td> -->
+                        </tr>
+                        <tr>
+                            <td>VWAP</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.price | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Beta</td>
+                            <!-- <td class="data-value">{{ scriptviewOverviewModel.beta | number:'1.2-2' }}</td> -->
+                        </tr>
+                        <tr>
+                            <td>Mkt Cap (Rs. Cr.)</td>
+                            <!-- <td class="data-value">{{ (scriptviewOverviewModel.marketCap / 10000000).toFixed(2) }}</td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>High</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.high | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Low</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.low | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>UC Limit</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.upperCircuitLimit | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>LC Limit</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.lowerCircuitLimit | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>52 Week High</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.high52Week | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>52 Week Low</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.low52Week | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Face Value</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.faceValue }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>All Time High</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.allTimeHigh | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>All Time Low</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.allTimeLow | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>20D Avg Volume</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.avgVolume20D }}</td>
+                        </tr>
+                        <tr>
+                            <td>20D Avg Delivery(%)</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.avgDeliveryPercentage || '--' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Book Value Per Share</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.bookValuePerShare | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Dividend Yield</td>
+                            <td class="data-value text-end">{{ scriptviewOverviewModel.dividendYield | number:'1.2-2' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <table class="table">
+                    <tbody>
+                        <tr class="modalclick" data-toggle="modal" data-target="#ttppop">
+                            <td>TTM EPS<br><em>See historical trend</em></td>
+                            <td>
+                                <span class="nseceps bseceps">{{ scriptviewOverviewModel.ttmEps }}</span><br>
+                                <span class="green_txt" id="ttm_eps">(+{{ scriptviewOverviewModel.epsChange | number:'1.2-2' }}% YoY)</span>
+                            </td>
+                        </tr>
+                        <tr class="modalclick" data-toggle="modal" data-target="#ttppop">
+                            <td>TTM PE<br><em>See historical trend</em></td>
+                            <td>
+                                <span class="nseceps bseceps">{{ scriptviewOverviewModel.ttmPe }}</span><br>
+                                <span class="green_txt" id="ttm_eps">(Average PE)</span>
+                            </td>
+                        </tr>
+                        <tr class="modalclick" data-toggle="modal" data-target="#ttppop">
+                            <td>P/B<br><em>See historical trend</em></td>
+                            <td>
+                                <span class="nseceps bseceps">{{ scriptviewOverviewModel.pb }}</span><br>
+                                <span class="green_txt" id="ttm_eps">(High P/B)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sector PE</td>
+                            <td class="data-value">{{ scriptviewOverviewModel.sectorPe }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .data-value {
+        font-weight: bold;
+    }
+</style>

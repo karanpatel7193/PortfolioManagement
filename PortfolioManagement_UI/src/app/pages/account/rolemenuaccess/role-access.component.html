@@ -1,0 +1,57 @@
+<div class="card tile-panel ">
+    <div class="col-lg-12 col-md-10">
+            <div class="rounded">
+
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Role Access: {{role.name}}</h4>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="inMenuId">Menus</label>
+                        <div class="mb-3">
+                            <select class="form-select" [(ngModel)]="menuId" id="inMenuId" name="inMenuId" (change)="fillRoleAccss()">
+                                <option *ngFor="let item of menus;" [value]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="table table-bordered sort">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th style="width:50px;">Insert?</th>
+                                <th style="width:50px;">Update?</th>
+                                <th style="width:50px;">Delete?</th>
+                                <th style="width:50px;">View?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of role?.roleMenuAccesss;">
+                                <td>{{item.menuIdName}}</td>
+                                <td>
+                                    <input type="checkbox" [(ngModel)]="item.canInsert">
+                                </td>
+                                <td>
+                                    <input type="checkbox" [(ngModel)]="item.canUpdate">
+                                </td>
+                                <td>
+                                    <input type="checkbox" [(ngModel)]="item.canDelete">
+                                </td>
+                                <td>
+                                    <input type="checkbox" [(ngModel)]="item.canView">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer d-flex">
+                    <button type="submit" class="btn btn-primary" (click)="save()"  [ngClass]="{'btn btn-primary': !(!access.canInsert && !access.canUpdate), 'btn-outline-secondary': !access.canInsert && !access.canUpdate}"  title="{{!access.canInsert && !access.canUpdate ? 'You do not have add or edit access to this page.' : 'Click here to submit this record.'}}">Save</button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="cancle()">Cancel</button>
+                </div>
+
+            </div>
+    </div>
+</div>

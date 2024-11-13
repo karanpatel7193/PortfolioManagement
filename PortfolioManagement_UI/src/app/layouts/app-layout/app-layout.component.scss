@@ -1,0 +1,20 @@
+.menu-collapsed {
+    transition: padding 0.2s;
+    -webkit-transition: padding 0.2s;
+    padding-left: 64px;
+}
+.menu-expanded {
+    transition: padding 0.2s;
+    -webkit-transition: padding 0.2s;
+    padding-left: 260px;
+}
+app-header {
+    position: sticky;
+    background-color: var(--content-background);
+    z-index: 2;
+    top: 0px;
+}
+
+.main-container {
+    padding: 20px;
+}

@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>PortfolioManagement.Sql</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{62e3331d-89b3-424a-ba1d-ed8f814907e9}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath />
+    <RootNamespace>PortfolioManagement.Sql</RootNamespace>
+    <AssemblyName>PortfolioManagement.Sql</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Functions" />
+    <Folder Include="Stored Procedures" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Functions\fnJavaScriptName.sql" />
+    <Build Include="Functions\fnSplit.sql" />
+    <Build Include="Functions\fnUserFriendlyName.sql" />
+    <Build Include="Stored Procedures\_CodeGenerator.sql" />
+    <Build Include="Tables\Broker.sql" />
+    <Build Include="Tables\Account.sql" />
+    <Build Include="Tables\AccountBroker.sql" />
+    <Build Include="Tables\Script.sql" />
+    <Build Include="Tables\DailySummary.sql" />
+    <Build Include="Tables\StockTransaction.sql" />
+    <Build Include="Tables\TransactionProtfolio.sql" />
+    <Build Include="Stored Procedures\Script_Insert.sql" />
+    <Build Include="Stored Procedures\Script_Update.sql" />
+    <Build Include="Stored Procedures\Script_Delet.sql" />
+    <Build Include="Stored Procedures\Script_Select.sql" />
+    <Build Include="Stored Procedures\Script_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\Script_SelectForLOV.sql" />
+    <Build Include="Stored Procedures\Script_SelectForRecord.sql" />
+    <Build Include="Tables\Role.sql" />
+    <Build Include="Tables\User.sql" />
+    <Build Include="Tables\Menu.sql" />
+    <Build Include="Stored Procedures\Broker_Delete.sql" />
+    <Build Include="Stored Procedures\Broker_Insert.sql" />
+    <Build Include="Stored Procedures\Broker_Select.sql" />
+    <Build Include="Stored Procedures\Broker_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\Broker_SelectForRecord.sql" />
+    <Build Include="Stored Procedures\Broker_Update.sql" />
+    <Build Include="Stored Procedures\Broker_SelectForLov.sql" />
+    <Build Include="Stored Procedures\Menu_Delete.sql" />
+    <Build Include="Stored Procedures\Menu_Insert.sql" />
+    <Build Include="Stored Procedures\Menu_Select.sql" />
+    <Build Include="Stored Procedures\Menu_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\Menu_SelectForLOV.sql" />
+    <Build Include="Stored Procedures\Menu_SelectForRecord.sql" />
+    <Build Include="Stored Procedures\Menu_Update.sql" />
+    <Build Include="Stored Procedures\Role_Delete.sql" />
+    <Build Include="Stored Procedures\Role_Insert.sql" />
+    <Build Include="Stored Procedures\Role_Select.sql" />
+    <Build Include="Stored Procedures\Role_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\Role_SelectForLOV.sql" />
+    <Build Include="Stored Procedures\Role_SelectForRecord.sql" />
+    <Build Include="Stored Procedures\Role_Update.sql" />
+    <Build Include="Stored Procedures\User_Delete.sql" />
+    <Build Include="Stored Procedures\User_Insert.sql" />
+    <Build Include="Stored Procedures\User_Select.sql" />
+    <Build Include="Stored Procedures\User_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\User_SelectForLOV.sql" />
+    <Build Include="Stored Procedures\User_SelectForRecord.sql" />
+    <Build Include="Stored Procedures\User_Update.sql" />
+    <Build Include="Stored Procedures\AccountBroker_Insert.sql" />
+    <Build Include="Stored Procedures\AccountBroker_Update.sql" />
+    <Build Include="Stored Procedures\AccountBroker_Delete.sql" />
+    <Build Include="Stored Procedures\AccountBroker_Select.sql" />
+    <Build Include="Stored Procedures\User_SelectValidLogin.sql" />
+    <Build Include="Stored Procedures\Account_SelectForLov.sql" />
+    <Build Include="Stored Procedures\AccountBroker_SelectForRecord.sql" />
+    <Build Include="Stored Procedures\RoleMenuAccess_SelectByRoleIdParentId.sql" />
+    <Build Include="Tables\RoleMenuAccess.sql" />
+    <Build Include="Stored Procedures\RoleMenuAccess_Select.sql" />
+    <Build Include="Stored Procedures\RoleMenuAccess_Bulk.sql" />
+    <Build Include="Stored Procedures\StockTransaction_Select.sql" />
+    <Build Include="Stored Procedures\StockTransaction_Insert.sql" />
+    <Build Include="Stored Procedures\StockTransaction_Delete.sql" />
+    <Build Include="Stored Procedures\StockTransaction_Update.sql" />
+    <Build Include="Stored Procedures\StockTransaction_SelectForRecord.sql" />
+    <Build Include="Stored Procedures\StockTransaction_SelectForLOV.sql" />
+    <Build Include="Stored Procedures\StockTransaction_SelectForList.sql" />
+    <Build Include="Stored Procedures\StockTransaction_SelectForRecord.sql" />
+    <Build Include="Stored Procedures\AccountBroker_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\Account_Delete.sql" />
+    <Build Include="Stored Procedures\Account_Insert.sql" />
+    <Build Include="Stored Procedures\Account_Select.sql" />
+    <Build Include="Stored Procedures\Account_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\Account_Update.sql" />
+    <Build Include="Stored Procedures\Account_SelectForRecord.sql" />
+    <Build Include="Stored Procedures\StockTransaction_SelectForLOV.sql" />
+    <Build Include="Stored Procedures\StockTransaction_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\Menu_SelectParent.sql" />
+    <Build Include="Stored Procedures\Menu_SelectChild.sql" />
+    <Build Include="Stored Procedures\Menu_SelectForAdd.sql" />
+    <Build Include="Stored Procedures\Menu_SelectForEdit.sql" />
+    <Build Include="Stored Procedures\User_SelectForAdd.sql" />
+    <Build Include="Stored Procedures\User_SelectForChangePassword.sql" />
+    <Build Include="Stored Procedures\User_SelectForEdit.sql" />
+    <Build Include="Stored Procedures\User_SelectForList.sql" />
+    <Build Include="Stored Procedures\User_SelectForResetPassword.sql" />
+    <Build Include="Stored Procedures\User_SelectPasswordSalt.sql" />
+    <Build Include="Stored Procedures\User_UpdateActive.sql" />
+    <Build Include="Stored Procedures\User_UpdatePassword.sql" />
+    <Build Include="Stored Procedures\User_UpdatePasswordDirect.sql" />
+    <Build Include="Stored Procedures\MasterValue_SelectForCache.sql" />
+    <Build Include="Tables\Master.sql" />
+    <Build Include="Tables\MasterValue.sql" />
+    <Build Include="Stored Procedures\StockTransaction_SelectForReport.sql" />
+    <Build Include="Stored Procedures\Account_SelectForAdd.sql" />
+    <Build Include="Stored Procedures\Account_SelectForEdit.sql" />
+    <Build Include="Stored Procedures\StockTransaction_SelectForSummary.sql" />
+    <Build Include="Tables\Portfolio.sql" />
+    <Build Include="Stored Procedures\Master_Insert.sql" />
+    <Build Include="Stored Procedures\Master_Update.sql" />
+    <Build Include="Stored Procedures\Master_Delete.sql" />
+    <Build Include="Stored Procedures\Master_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\Master_SelectForRecord.sql" />
+    <Build Include="Stored Procedures\Index_Insert.sql" />
+    <Build Include="Stored Procedures\Index_UpdateFiiDii.sql" />
+    <Build Include="Stored Procedures\Script_SelectForScrap.sql" />
+    <Build Include="Stored Procedures\ScriptDaySummary_Insert.sql" />
+    <Build Include="Tables\Index.sql" />
+    <Build Include="Tables\ScriptDaySummary.sql" />
+    <Build Include="Tables\ScriptPrice.sql" />
+    <Build Include="Stored Procedures\Portfolio_Insert_Update_Inner.sql" />
+    <Build Include="Stored Procedures\Portfolio_Insert_Update.sql" />
+    <Build Include="Stored Procedures\PMS_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\PMS_Delete.sql" />
+    <Build Include="Stored Procedures\PMS_Insert.sql" />
+    <Build Include="Stored Procedures\PMS_Update.sql" />
+    <Build Include="Stored Procedures\PMS_SelectForRecord.sql" />
+    <Build Include="Tables\PMS.sql" />
+    <Build Include="Stored Procedures\SplitBonus_Insert.sql" />
+    <Build Include="Stored Procedures\SplitBonus_Update.sql" />
+    <Build Include="Stored Procedures\SplitBonus_Delete.sql" />
+    <Build Include="Stored Procedures\SplitBonus_SelectForGrid.sql" />
+    <Build Include="Stored Procedures\SplitBonus_SelectForRecord.sql" />
+    <Build Include="Tables\SplitBonus.sql" />
+    <Build Include="dbo\Tables\Employeeee.sql" />
+    <Build Include="Tables\WatchlistScript.sql" />
+    <Build Include="Tables\Watchlist.sql" />
+    <Build Include="Stored Procedures\User_Registration.sql" />
+    <Build Include="Stored Procedures\SplitBonus_Apply.sql" />
+    <Build Include="Tables\ScriptLatestValue.sql" />
+    <Build Include="Stored Procedures\Portfolio_Report.sql" />
+    <Build Include="Stored Procedures\Watchlist_Delete.sql" />
+    <Build Include="Stored Procedures\Watchlist_Insert.sql" />
+    <Build Include="Stored Procedures\Watchlist_SelectForTab.sql" />
+    <Build Include="Stored Procedures\Watchlist_SelectForTabScript.sql" />
+    <Build Include="Stored Procedures\Watchlist_Update.sql" />
+    <Build Include="Stored Procedures\WatchlistScript_Delete.sql" />
+    <Build Include="Stored Procedures\WatchlistScript_Insert.sql" />
+    <Build Include="Stored Procedures\ScriptView_SelectForPeers.sql" />
+    <Build Include="Stored Procedures\ScriptViewOverview_SelectForOverview.sql" />
+    <Build Include="Stored Procedures\ScriptViewRange_SelectForRange.sql" />
+    <Build Include="Stored Procedures\ScriptView_SelectForAboutCompany.sql" />
+    <Build Include="Stored Procedures\ScriptView_CorporateAction_SelectForBonus.sql" />
+    <Build Include="Stored Procedures\ScriptView_CorporateAction_SelectForSplit.sql" />
+    <Build Include="Stored Procedures\ScriptView_SelectForChart.sql" />
+    <Build Include="Stored Procedures\ScriptView_IndexChart.sql" />
+    <Build Include="Stored Procedures\Index_SelectForHeader.sql" />
+    <Build Include="Stored Procedures\Index_SelectForNifty50.sql" />
+    <Build Include="Tables\IndexRaw.sql" />
+    <Build Include="Tables\PortfolioDateWise.sql" />
+    <Build Include="Stored Procedures\PortfolioDateWise_Insert.sql" />
+    <Build Include="Stored Procedures\PortfolioDateWise_Update.sql" />
+    <Build Include="Stored Procedures\Portfolio_SelectForPortfolioDatewiseProcess.sql" />
+    <Build Include="Stored Procedures\AccountBroker_SelectForPortfolioDatewiseReport.sql" />
+    <Build Include="Stored Procedures\Copy of Portfolio_SelectForPortfolioDatewiseProcess.sql" />
+    <Build Include="Stored Procedures\PortfolioDatewise_SelectForPortfolioDatewiseReport.sql" />
+    <Build Include="Stored Procedures\Analysis_SelectForVolume.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GenerateScript.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="PortfolioManagement.Sql.refactorlog" />
+  </ItemGroup>
+</Project>

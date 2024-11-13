@@ -1,0 +1,229 @@
+<div class="card tile-panel w-100">
+    <div class="card-header">
+        <h4 style="display: contents ;" class="card-title mb-0">Stock Transaction</h4>
+        <button (click)="add()" class="btn btn-icon btn-tnx float-end"
+            [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}"
+            title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i
+                class="fa fa-plus"></i></button>
+        <div class="input-group float-end header-button" style="width:250px;">
+            <input type="text" class="form-control" [(ngModel)]="transactionParameter.accountId" placeholder="Search here..." />
+            <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <form #SearchtransactionForm="ngForm" novalidate>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inAccount" class="form-label">Account</label>
+                                    <select class="form-select shadow-sm" [(ngModel)]="transactionParameter.accountId" id="inAccount" name="inAccount">
+                                        <option  value="0">Select an Account</option>
+                                        <option *ngFor="let account of stockTransactionListModel.accounts" [value]="account.id">
+                                            {{ account.name }}
+                                        </option>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inBroker" class="form-label">Broker</label>
+                                    <select class="form-select shadow-sm" [(ngModel)]="transactionParameter.brokerId" id="inBroker" name="inBroker">
+                                    <option   value="0">Select an Broker</option>
+                                        <option *ngFor="let broker of stockTransactionListModel.brokers" [value]="broker.id">
+                                            {{ broker.name }}
+                                        </option>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inTransactionType" class="form-label">Transaction Type</label>
+                                    <select class="form-select shadow-sm" [(ngModel)]="transactionParameter.transactionTypeId" id="inTransactionType" name="inTransactionType">
+                                        <option value="0">Select a Transaction Type</option>
+                                        <option *ngFor="let type of masterValues" [value]="type.value">
+                                            {{ type.valueText }}
+                                        </option>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inScript" class="form-label">Script</label>
+                                <input
+                                        id="script-dropdown"
+                                        type="text"
+                                        class="form-select shadow-sm"
+                                        [(ngModel)]="selectedScript"
+                                        [ngbTypeahead]="searchScript"
+                                        [inputFormatter]="formatter"
+                                        [resultFormatter]="formatter"
+                                        [editable]="false"
+                                        name="script-dropdown"
+                                        (selectItem)="onScriptSelected($event)"
+                                    />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="fromDate" class="form-label">From Date</label>
+                                    <input type="date" class="form-control shadow-sm" [(ngModel)]="transactionParameter.fromDate" id="fromDate" name="fromDate" />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="toDate" class="form-label">To Date</label>
+                                    <input type="date" class="form-control shadow-sm" [(ngModel)]="transactionParameter.toDate" id="toDate" name="toDate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-primary btn-tn" (click)="search()">Search</button>
+                        <button type="button" class="btn btn-outline-secondary btn-tn ms-2" (click)="reset()">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr />
+        <table class="table table-bordered sort">
+            <thead>
+                <tr [id]="'transaction-list'">
+
+                    <th (click)="sort('date')" class="sort-header">
+                        Date
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'date'), 'fa-sort-asc': (transactionParameter.sortExpression == 'date' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'date' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('accountId')" class="sort-header">
+                        Account
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'accountId'), 'fa-sort-asc': (transactionParameter.sortExpression == 'accountId' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'accountId' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('brokerId')" class="sort-header">
+                        Broker
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'brokerId'), 'fa-sort-asc': (transactionParameter.sortExpression == 'brokerId' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'brokerId' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('transactionTypeId')" class="sort-header">
+                        Type
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'transactionTypeId'), 'fa-sort-asc': (transactionParameter.sortExpression == 'transactionTypeId' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'transactionTypeId' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('scriptId')" class="sort-header">
+                        Script
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'scriptId'), 'fa-sort-asc': (transactionParameter.sortExpression == 'scriptId' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'scriptId' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('qty')" class="sort-header">
+                        Quantity
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'qty'), 'fa-sort-asc': (transactionParameter.sortExpression == 'qty' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'qty' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('price')" class="sort-header">
+                        Price
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'price'), 'fa-sort-asc': (transactionParameter.sortExpression == 'price' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'price' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('brokerage')" class="sort-header">
+                        Brokerage
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'brokerage'), 'fa-sort-asc': (transactionParameter.sortExpression == 'brokerage' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'brokerage' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('buy')" class="sort-header">
+                        Buy
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'buy'), 'fa-sort-asc': (transactionParameter.sortExpression == 'buy' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'buy' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('sell')" class="sort-header">
+                        Sell
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'sell'), 'fa-sort-asc': (transactionParameter.sortExpression == 'sell' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'sell' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('dividend')" class="sort-header">
+                        Dividend
+                        <i class="fa"
+                            [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'dividend'), 'fa-sort-asc': (transactionParameter.sortExpression == 'dividend' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'dividend' && transactionParameter.sortDirection == 'desc') }"
+                            aria-hidden="true"></i>
+                    </th>
+
+                    <th style="width:100px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr *ngFor="let item of transactionGrid?.stocks;" (click)="transactionParameter.id == item.id;"
+                    [ngClass]="{'selected-row': (transactionParameter.id == item.id)}">
+                    <td>{{ item.date | date:'dd/MM/yy' }}</td>
+                    <td>{{item.accountName}}</td>
+                    <td>{{item.brokerName}}</td>
+                    <td>{{item.transactionTypeName}}</td>
+                    <td (click)="redirect(item.scriptId,item.scriptName)" class="cursor-pointer">{{item.scriptName}}</td>
+                    <td class="text-end">{{item.qty}}</td>
+                    <td class="text-end">{{item.price| number: '1.2-2'}}</td>
+                    <td class="text-end">{{item.brokerage| number: '1.2-2'}}</td>
+                    <td class="text-end">{{item.buy| number: '1.2-2'}}</td>
+                    <td class="text-end">{{item.sell| number: '1.2-2'}}</td>
+                    <td class="text-end">{{item.dividend| number: '1.2-2'}}</td>
+
+                    <td>
+                        <button class="btn btn-icon btn-tnx" (click)="edit(item.id)"
+                            [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}"
+                            title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}"><i
+                                class="fa fa-pencil"></i></button>
+                        <button class="btn btn-icon btn-tnx" (click)="delete(item.id)"
+                            [ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}"
+                            title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"><i
+                                class="fa fa-trash"></i></button>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        <div class="card-footer text-body-secondary">
+            <div class="float-start card-header-controls">
+                <select [(ngModel)]="transactionParameter.pageSize" (change)="search()" class="form-select">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                </select>
+            </div>
+            <div class="float-start total-records">Total Record(s) <strong>{{transactionGrid.totalRecords}}</strong></div>
+            <div class="float-end">
+                <ngb-pagination [collectionSize]="transactionGrid.totalRecords" [pageSize]="transactionParameter.pageSize"
+                    [(page)]="transactionParameter.pageIndex" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                    [boundaryLinks]="true" (pageChange)="search()"></ngb-pagination>
+            </div>
+    </div>
+</div>
+

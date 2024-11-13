@@ -1,0 +1,97 @@
+<div class="card tile-panel">
+    <div class="col-lg-12 col-md-10">
+        <form #splitForm="ngForm" novalidate>
+            <div class="rounded">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">{{mode}} Split/Bonus</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="scriptName" class="form-label">Script Name</label>
+                                <select class="form-select" [disabled]="mode === 'Edit'"  [(ngModel)]="split.scriptID" id="inScript" name="inScript" (change)="getFaceValue(split.scriptID)">
+                                    <option *ngFor="let script of scripts" [value]="script.id">
+                                        {{ script.name }}
+                                    </option>
+                                </select>
+                                <div *ngIf="!splitForm.form.controls['scriptName']?.valid && splitForm.form.controls['scriptName']?.touched" class="text-danger">
+                                    Script Name is required.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input me-2 shadow-sm"
+                                    [(ngModel)]="split.isSplit" id="inIsSplit" name="inIsSplit">
+                                <span class="custom-control-description me-2">Is Split</span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="Old Face Value" id="oldFaceValue" name="oldFaceValue"
+                                [(ngModel)]="split.oldFaceValue" class="form-control shadow-sm d-inline-block" disabled>
+                        </div>
+                        <div class="col-md-3" style="display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-arrow-right"></i>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="New Face Value" id="newFaceValue" name="newFaceValue"
+                                [(ngModel)]="split.newFaceValue" class="form-control shadow-sm d-inline-block"
+                                [disabled]="!split.isSplit">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <label class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input me-2 shadow-sm"
+                                    [(ngModel)]="split.isBonus" id="inIsBonus" name="inIsBonus">
+                                <span class="custom-control-description me-2">Is Bonus</span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="fromRatio" id="fromRatio"  name="fromRatio" [(ngModel)]="split.fromRatio"
+                                [disabled]="!split.isBonus" class="form-control shadow-sm d-inline-block">
+                        </div>
+                        <div class="col-md-3" style="display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-arrow-right"></i>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" placeholder="toRatio" id="toRatio" name="toRatio" [(ngModel)]="split.toRatio"
+                                [disabled]="!split.isBonus" class="form-control shadow-sm d-inline-block">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="announceDate" class="form-label">Announce Date</label>
+                                <input type="date" class="form-control shadow-sm shadow-sm" [ngModel]="split.announceDate | date:'yyyy-MM-dd'" (ngModelChange)="split.announceDate = $event"  id="announceDate" name="announceDate" required />
+                            </div>
+                        </div>
+                        <div class=" col-md-6">
+                            <div class="form-group">
+                                <label for="date" class="form-label"> Reward Date</label>
+                                <input type="date"   class="form-control shadow-sm shadow-sm" [ngModel]="split.rewardDate| date:'yyyy-MM-dd'"  (ngModelChange)="split.rewardDate = $event" id="rewardDate" name="rewardDate" required />
+                                <div *ngIf="!splitForm.form.controls['date']?.valid && splitForm.form.controls['date']?.touched" class="text-danger">
+                                    Date is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex">
+                <!-- <button type="submit" class="btn btn-primary" (click)="save(splitForm.valid ?? false)"  [ngClass]="{'btn-outline-primary': !access.canInsert && !access.canUpdate, 'btn-outline-secondary': !access.canInsert && !access.canUpdate}"  title="{{!access.canInsert && !access.canUpdate ? 'You do not have add or edit access to this page.' : 'Click here to submit this record.'}}">Save</button> -->
+        <button type="submit" class="btn btn-primary" (click)="save(splitForm.valid ?? false)"  [ngClass]="{'btn-outline-primary': !access.canInsert && !access.canUpdate, 'btn-outline-secondary': !access.canInsert && !access.canUpdate}"  title="{{!access.canInsert && !access.canUpdate ? 'You do not have add or edit access to this page.' : 'Click here to submit this record.'}}">Save</button>
+
+                <button type="button" class="btn btn-outline-secondary me-2" (click)="cancel()">Cancel</button>
+                <button class="btn btn-icon btn-tnx" (click)="apply(split.id)" [ngClass]="{'btn btn-danger':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}" [disabled]="!access.canDelete" title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"> Apply</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

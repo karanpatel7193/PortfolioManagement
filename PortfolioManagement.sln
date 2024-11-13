@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PortfolioManagement_UI", "PortfolioManagement_UI\", "{41E52402-DC30-437F-9840-10E7F80A3A4F}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_60565"
+		Debug.AspNetCompiler.PhysicalPath = "PortfolioManagement_UI\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60565\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_60565"
+		Release.AspNetCompiler.PhysicalPath = "PortfolioManagement_UI\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60565\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "60565"
+		SlnRelativePath = "PortfolioManagement_UI\"
+	EndProjectSection
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PortfolioManagement.Sql", "PortfolioManagement.Sql\PortfolioManagement.Sql.sqlproj", "{62E3331D-89B3-424A-BA1D-ED8F814907E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioManagement.Business", "PortfolioManagement.Business\PortfolioManagement.Business.csproj", "{E82DA19A-A15C-4302-9EEE-2B460D229A07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioManagement.Api", "PortfolioManagement.Api\PortfolioManagement.Api.csproj", "{DDCAC9EC-EC74-43F8-826D-BE2E7774F1D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioManagement.Entity", "PortfolioManagement.Entity\PortfolioManagement.Entity.csproj", "{133CB026-DF62-41CE-8E12-EEDEC593A5AC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLibrary", "CommonLibrary\CommonLibrary.csproj", "{AE91443B-09C3-47F0-A0E2-E7604C134D64}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioManagement.DataProcessor", "PortfolioManagement.DataProcessor\PortfolioManagement.DataProcessor.csproj", "{649413E8-FEE4-486F-9AB1-95434E06157E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41E52402-DC30-437F-9840-10E7F80A3A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41E52402-DC30-437F-9840-10E7F80A3A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41E52402-DC30-437F-9840-10E7F80A3A4F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{41E52402-DC30-437F-9840-10E7F80A3A4F}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{62E3331D-89B3-424A-BA1D-ED8F814907E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E3331D-89B3-424A-BA1D-ED8F814907E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E3331D-89B3-424A-BA1D-ED8F814907E9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{62E3331D-89B3-424A-BA1D-ED8F814907E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E3331D-89B3-424A-BA1D-ED8F814907E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E3331D-89B3-424A-BA1D-ED8F814907E9}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E82DA19A-A15C-4302-9EEE-2B460D229A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E82DA19A-A15C-4302-9EEE-2B460D229A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E82DA19A-A15C-4302-9EEE-2B460D229A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E82DA19A-A15C-4302-9EEE-2B460D229A07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDCAC9EC-EC74-43F8-826D-BE2E7774F1D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDCAC9EC-EC74-43F8-826D-BE2E7774F1D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDCAC9EC-EC74-43F8-826D-BE2E7774F1D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDCAC9EC-EC74-43F8-826D-BE2E7774F1D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{133CB026-DF62-41CE-8E12-EEDEC593A5AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{133CB026-DF62-41CE-8E12-EEDEC593A5AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{133CB026-DF62-41CE-8E12-EEDEC593A5AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{133CB026-DF62-41CE-8E12-EEDEC593A5AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE91443B-09C3-47F0-A0E2-E7604C134D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE91443B-09C3-47F0-A0E2-E7604C134D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE91443B-09C3-47F0-A0E2-E7604C134D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE91443B-09C3-47F0-A0E2-E7604C134D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{649413E8-FEE4-486F-9AB1-95434E06157E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{649413E8-FEE4-486F-9AB1-95434E06157E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{649413E8-FEE4-486F-9AB1-95434E06157E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{649413E8-FEE4-486F-9AB1-95434E06157E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A5D4ED4-FBDF-427A-86AC-56C542681D38}
+	EndGlobalSection
+EndGlobal

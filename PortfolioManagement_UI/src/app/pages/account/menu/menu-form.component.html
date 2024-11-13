@@ -1,0 +1,107 @@
+<div class="card tile-panel">
+    <div [ngClass]="{'col-lg-6': mode == 'Edit' && menu.isClient, 'col-lg-12': !(mode == 'Edit' && menu.isClient)}">
+        <form #MenuForm="ngForm" novalidate>
+            <div class="rounded">
+                <div class="card-header">
+                    <h4 class="card-title">{{mode}} Menu</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inName" class="form-label">Name</label>
+                                    <input type="text" class="form-control shadow-sm mb-2" [(ngModel)]="menu.name" id="inName" name="inName" placeholder="Name" required #inName="ngModel" [ngClass]="{'form-control-danger':(MenuForm.submitted || inName.dirty  || inName.touched) && (inName.invalid)}" />
+                                    <div class="invalid-feedback" *ngIf="(MenuForm.submitted && inName.invalid) || (inName.dirty && inName.invalid) || (inName.touched && inName.invalid)">
+                                       Name is required.
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inParentId" class="form-label">Parent Menu</label>
+                                    <select class="form-select mb-2" [(ngModel)]="menu.parentId" id="inParentId" name="inParentId" required #inParentId="ngModel" [ngClass]="{'form-control-danger':(MenuForm.submitted || inParentId.dirty  || inParentId.touched) && (inParentId.invalid)}">
+                                        <option *ngFor="let item of parentMenus;" [value]="item.id">{{item.name}}</option>
+                                    </select>
+                                    <div class="invalid-feedback" *ngIf="(MenuForm.submitted && inParentId.invalid) || (inParentId.dirty && inParentId.invalid) || (inParentId.touched && inParentId.invalid)">
+                                        parent is required.
+                                     </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inDescription" class="form-label">Description</label>
+                            <input type="text" class="form-control shadow-sm mb-2" [(ngModel)]="menu.description" id="inDescription" name="inDescription" placeholder="Description" required #inDescription="ngModel" [ngClass]="{'form-control-danger':(MenuForm.submitted || inDescription.dirty  || inDescription.touched) && (inDescription.invalid)}" />
+                            <div class="invalid-feedback" *ngIf="(MenuForm.submitted && inDescription.invalid) || (inDescription.dirty && inDescription.invalid) || (inDescription.touched && inDescription.invalid)">
+                                Description is required.
+                             </div>
+                        </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="inPageTitle" class="form-label">Page Title</label>
+                                <input type="text" class="form-control  shadow-sm mb-2" [(ngModel)]="menu.pageTitle" id="inPageTitle" name="inPageTitle" placeholder="Page Title" required #inPageTitle="ngModel" [ngClass]="{'form-control-danger':(MenuForm.submitted || inPageTitle.dirty  || inPageTitle.touched) && (inPageTitle.invalid)}" />
+                                <div class="invalid-feedback" *ngIf="(MenuForm.submitted && inPageTitle.invalid) || (inPageTitle.dirty && inPageTitle.invalid) || (inPageTitle.touched && inPageTitle.invalid)">
+                                    Page Title is required.
+                                 </div>    
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="inIcon" class="form-label">Icon</label>
+                                    <input type="text" class="form-control  shadow-sm mb-2" [(ngModel)]="menu.icon" id="inIcon" name="inIcon" placeholder="Icon" required #inIcon="ngModel" [ngClass]="{'form-control-danger':(MenuForm.submitted || inIcon.dirty  || inIcon.touched) && (inIcon.invalid)}" />
+                                    <div class="invalid-feedback" *ngIf="(MenuForm.submitted && inIcon.invalid) || (inIcon.dirty && inIcon.invalid) || (inIcon.touched && inIcon.invalid)">
+                                        Icon is required.
+                                     </div> 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="inRouting" class="form-label">Routing</label>
+                                <input type="text" class="form-control shadow-sm mb-2" [(ngModel)]="menu.routing" id="inRouting" name="inRouting" placeholder="Routing" required #inRouting="ngModel" [ngClass]="{'form-control-danger':(MenuForm.submitted || inRouting.dirty  || inRouting.touched) && (inRouting.invalid)}" />
+                                <div class="invalid-feedback" *ngIf="(MenuForm.submitted && inRouting.invalid) || (inRouting.dirty && inRouting.invalid) || (inRouting.touched && inRouting.invalid)">
+                                    Routing is required.
+                                 </div>    
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inOrderBy" class="form-label">Order By</label>
+                                <input type="number" class="form-control shadow-sm mb-2" [(ngModel)]="menu.orderBy" id="inOrderBy" name="inOrderBy" placeholder="Order By" required #inOrderBy="ngModel" [ngClass]="{'form-control-danger':(MenuForm.submitted || inOrderBy.dirty  || inOrderBy.touched) && (inOrderBy.invalid)}" />
+                                <div class="invalid-feedback" *ngIf="(MenuForm.submitted && inOrderBy.invalid) || (inOrderBy.dirty && inOrderBy.invalid) || (inOrderBy.touched && inOrderBy.invalid)">
+                                    Order By21 is required.
+                                 </div>   
+                            </div>
+                        </div>
+                    </div>
+                    <label class="custom-control custom-checkbox me-2">
+                        <input type="checkbox" class="custom-control-input me-1" [(ngModel)]="menu.isMenu" id="inIsMenu" name="inIsMenu"  />
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Is Menu</span>
+                    </label>
+
+                    <label class=" me-2 form-label">
+                        <input type="checkbox" class="custom-control-input me-1" [(ngModel)]="menu.isClient" id="inIsClient" name="inIsClient" />
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Is Client</span>
+                    </label>
+
+                    <label class="custom-control custom-checkbox me-2">
+                        <input type="checkbox" class="custom-control-input me-1" [(ngModel)]="menu.isPublic" id="inIsPublic" name="inIsPublic" />
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Is Public</span>
+                    </label>
+
+                </div>
+                <div class="card-footer d-flex">
+                    <button class="btn btn-primary" (click)="save(MenuForm.valid ?? false)" [ngClass]="{'btn-outline-primary':!access.canInsert && !access.canUpdate, 'btn-outline-secondary':!access.canInsert && !access.canUpdate}" title="{{!(!access.canInsert && !access.canUpdate) ? 'Click here to submitthis record.' : 'You do not have add or edit access of this page.'}}">Save</button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="cancle()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="card tile-panel ">
+	<div class="col-lg-12 col-md-10">
+		<form #watchlistForm="ngForm" novalidate>
+			<div class="rounded">
+				<div class="card-header">
+					<h4 class="card-title mb-0">{{mode}} Watchlist</h4>
+				</div>
+				<div class="card-body">
+					<div class="row g-3">
+						<div class="col-md-6 mb-1">
+							<div class="form-group mb-1">
+								<label for="inName">Name</label>
+								<div class="input-group  mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="watchlist.name" id="inName" name="inName" placeholder="Name" required #inName="ngModel" [ngClass]="{'form-control-danger':(watchlistForm.submitted || inName.dirty  || inName.touched) && (inName.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(watchlistForm.submitted && inName.invalid) || (inName.dirty && inName.invalid) || (inName.touched && inName.invalid)">
+                                        Name is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="card-footer d-flex">
+                    <button class="btn btn-primary" (click)="save(watchlistForm.valid ?? false)" [ngClass]="{'btn-outline-primary':!access.canInsert || !access.canUpdate, 'btn-outline-secondary':!access.canInsert || !access.canUpdate}" title="{{!(!access.canInsert || !access.canUpdate) ? 'Click here to submitthis record.' : 'You do not have add or edit access of this page.'}}">Save</button>
+					<button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+

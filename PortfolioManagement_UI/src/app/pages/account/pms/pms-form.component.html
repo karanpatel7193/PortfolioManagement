@@ -1,0 +1,46 @@
+<div class="card tile-panel ">
+    <div class="col-lg-12 col-md-10">
+        <form #pmsForm="ngForm" novalidate>
+            <div class="rounded">
+                <div class="card-header  ">
+                    <h4 class="card-title mb-0">{{mode}} PMS</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label class="form-label" for="inId">id</label>
+                                <div class=" mt-2 mb-2">
+                                    <input type="text" class="form-control shadow-sm" [(ngModel)]="pms.id" id="inId" name="inId" placeholder="Name" required #inId="ngModel" [ngClass]="{'form-control-danger':(pmsForm.submitted || inId.dirty  || inId.touched) && (inId.invalid)}">
+                                    <div class="invalid-feedback" *ngIf="(pmsForm.submitted && inId.invalid) || (inId.dirty && inId.invalid) || (inId.touched && inId.invalid)">
+                                       ID is required.
+                                    </div>
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label class="form-label" for="inName">Name</label>
+                                <div class=" mt-2 mb-2">
+                                    <input type="text" class="form-control shadow-sm" [(ngModel)]="pms.name" id="inName" name="inName" placeholder="Name" required #inName="ngModel" [ngClass]="{'form-control-danger':(pmsForm.submitted || inName.dirty  || inName.touched) && (inName.invalid)}">
+                                    <div class="invalid-feedback" *ngIf="(pmsForm.submitted && inName.invalid) || (inName.dirty && inName.invalid) || (inName.touched && inName.invalid)">
+                                       Name is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label custom-control custom-checkbox mt-2">
+                                    <input type="checkbox" class="custom-control-input me-2 shadow-sm" style="padding: 10px;" name="inIsActive" [(ngModel)]="pms.isActive">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">IsActive</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex">
+                    <button type="submit" class="btn btn-primary" (click)="save(pmsForm.valid ?? false)" [ngClass]="{'btn-outline-primary': !access.canInsert && !access.canUpdate, 'btn-outline-secondary': !access.canInsert && !access.canUpdate}"  title="{{!access.canInsert && !access.canUpdate ? 'You do not have add or edit access to this page.' : 'Click here to submit this record.'}}">Save</button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+    .nav-link.active {
+        background-color: #0d6dfc;
+        color: white;
+        border-radius: 3px;
+        padding: 8px 12px;
+    }
+
+    .nav-item {
+        margin-right: 10px;
+    }
+
+    .table {
+        margin-top: 20px;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .text-end {
+        text-align: end;
+        margin-top: 15px;
+    }
+
+    .btn-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .btn-link:hover {
+        text-decoration: underline;
+    }

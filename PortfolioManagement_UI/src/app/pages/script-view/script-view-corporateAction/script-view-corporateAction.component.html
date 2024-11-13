@@ -1,0 +1,66 @@
+<div class="card tile-panel w-100">
+    <div class="card-body">
+        <h5 class="card-title">Corporate Action</h5>
+        <hr />
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <button class="nav-link" [class.active]="selectedTab === 'bonus'" (click)="selectTab('bonus')">
+                    Bonus
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" [class.active]="selectedTab === 'split'" (click)="selectTab('split')">
+                    Splits
+                </button>
+            </li>
+        </ul>
+
+        <div *ngIf="selectedTab === 'bonus'" >
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Announcement Date</th>
+                        <th>Reward Date</th>
+                        <th>Ratio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of corporateActionBonusModel">
+                        <td>{{ item.announceDate | date: 'medium' }}</td>
+                        <td>{{ item.rewardDate | date: 'medium' }}</td>
+                        <td>{{ item.fromRatio }} : {{ item.toRatio }}</td>
+                    </tr>
+                    <tr *ngIf="!corporateActionBonusModel.length">
+                        <td colspan="3" class="text-center">No bonus data available</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="selectedTab === 'split'" >
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Ex-Split</th>
+                        <th>Old FV</th>
+                        <th>New FV</th>
+                        <th>Announcement Date</th>
+                        <th>Reward Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of corporateActionSplitModel">
+                        <td>{{ item.isSplit ? 'Yes' : 'No' }}</td>
+                        <td>{{ item.oldFaceValue }}</td>
+                        <td>{{ item.newFaceValue }}</td>
+                        <td>{{ item.announceDate | date: 'medium' }}</td>
+                        <td>{{ item.rewardDate  | date: 'medium'}}</td>
+                    </tr>
+                    <tr *ngIf="!corporateActionSplitModel.length">
+                        <td colspan="5" class="text-center">No split data available</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="flex-centered col-xl-3 col-lg-4 col-md-5 col-sm-7 col-10">
+    <div class="form-signin w-100 m-auto tile-panel">
+        <form (ngSubmit)="login(UserForm.valid ?? false)" #UserForm="ngForm" autocomplete="off" novalidate>
+            <h1 class="h3 mt-2 mb-2 fw-normal">Login here</h1>
+            <p class="sub-title mb-2">Sign in with your username or email</p>
+            <!-- Uncomment and adjust as needed -->
+            <!--
+            <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted" class="alert alert-danger" role="alert">
+                <div><strong>Oh snap!</strong></div>
+                <div *ngFor="let error of errors">{{ error }}</div>
+            </div>
+
+            <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted" class="alert alert-success" role="alert">
+                <div><strong>Hooray!</strong></div>
+                <div *ngFor="let message of messages">{{ message }}</div>
+            </div>
+            -->
+            <div class="form-floating mb-3">
+                <input type="text" name="inputEmail" id="inputEmail" class="form-control shadow-sm size-lg" autofocus [(ngModel)]="user.username" placeholder="Username" required #inputEmail="ngModel" [ngClass]="{'form-control-danger':(UserForm.submitted || inputEmail.dirty  || inputEmail.touched) && (inputEmail.invalid)}" />
+                <label for="floatingEmail">Email Address</label>
+                <div class="invalid-feedback text-start" *ngIf="(UserForm.submitted && inputEmail.invalid) || (inputEmail.dirty && inputEmail.invalid) || (inputEmail.touched && inputEmail.invalid)">
+                    <p>Username is required!</p>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" name="inputPassword" id="inputPassword" class="form-control shadow-sm size-lg" [(ngModel)]="user.password" placeholder="Password" required #inputPassword="ngModel" [ngClass]="{'form-control-danger':(UserForm.submitted || inputPassword.dirty  || inputPassword.touched) && (inputPassword.invalid)}" />
+                <label for="floatingPassword">Password</label>
+                <div class="invalid-feedback text-start" *ngIf="(UserForm.submitted && inputPassword.invalid) || (inputPassword.dirty && inputPassword.invalid) || (inputPassword.touched && inputPassword.invalid)">
+                    <p>Password is required.</p>
+                </div>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary mb-3" [class.btn-pulse]="UserForm.submitted">Login</button>
+            <a href="" routerLink="/auth/forgetPassword"><small>Forget Password ?</small></a>
+            <p>Don't have an account ? <a href="" routerLink="/auth/registration">Register</a></p>
+
+            <p class="mt-4 mb-3 text-muted">© InfoElegant 2020–2025</p>
+
+        </form>
+    </div>
+</div>

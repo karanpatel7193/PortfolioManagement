@@ -1,0 +1,45 @@
+<div class="container ">
+    <div class="row mb-4">
+        <div class="col-md-6 ">
+            <h6 class="fw-bold">Invested Value</h6>
+            <p>₹ {{ portfolioReportModels.portfolioSummary.totalInvestmentAmount | number: '1.2-2' }}</p>
+           
+        </div>
+        <div class="col-md-6">
+            <h6 class="fw-bold">Current Value</h6>
+            <p>₹ {{ portfolioReportModels.portfolioSummary.totalMarketAmount | number: '1.2-2' }}</p>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h6 class="fw-bold">Realized Profit</h6>
+            <p>₹ {{ portfolioReportModels.portfolioSummary.releasedProfit | number: '1.2-2' }}</p>
+        </div>
+        <div class="col-md-6">
+            <h6 class="fw-bold">Unrealized Profit</h6>
+            <p class=" text-{{ portfolioReportModels.portfolioSummary.overallGLAmount < 0 ? 'danger' : 'success' }}">
+                ₹ {{ portfolioReportModels.portfolioSummary.overallGLAmount | number: '1.2-2' }} <br>
+                <span class="d-flex align-items-center">
+                    <span class="me-2">{{ portfolioReportModels.portfolioSummary.overallGLPercentage }}%</span>
+                    <i [ngClass]="portfolioReportModels.portfolioSummary.overallGLPercentage > 0 ? 'bi bi-caret-up-fill' : 'bi bi-caret-down-fill'"></i>
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h6 class="fw-bold">Max Gainer</h6>
+            <p>{{ maxGainer?.scriptName }}<br />
+                <span>₹ {{ maxGainer?.overallGLAmount | number: '1.2-2' }}</span><br>
+                <span class="text-success">▲ {{ maxGainer?.overallGLPercentage }}%</span>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h6 class="fw-bold">Max Loser</h6>
+            <p>{{ minGainer?.scriptName }}<br />
+                <span>₹ {{ minGainer?.overallGLAmount | number: '1.2-2' }}</span><br />
+                <span class="text-danger">▼ {{ minGainer?.overallGLPercentage }}%</span>
+            </p>
+        </div>
+    </div>
+</div>

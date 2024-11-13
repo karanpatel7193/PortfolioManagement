@@ -1,0 +1,46 @@
+<!-- <div class="ttape-root" style="background-color: black; height: 30px; overflow: hidden;">
+  <div class="arrow arrow-left" (click)="scrollLeft()">
+    <i class="icon-chevron-left"></i>
+  </div>
+  <marquee behavior="scroll" direction="left" scrollamount="5" style="color: white; line-height: 30px;">
+    <ng-container *ngFor="let item of scriptViewNiftySensexGridModel?.nifty50">
+      <div class="ticker-item-root pointer relative" style="display: inline-block; margin: 0 20px;">
+        <span class="symbol nowrap">{{ item.nseCode }}</span>
+        <span class="price">{{ item.price | number: '1.2-2' }}</span>
+        <i [ngClass]="item.priceChange > 0 ? 'icon-price-up' : 'icon-price-down'"></i>
+        <span [ngClass]="item.priceChange > 0 ? 'change up' : 'change down'">{{ item.pricePercentage | number: '1.2-2'
+          }}%</span>
+      </div>
+    </ng-container>
+  </marquee>
+  <div class="arrow arrow-right" (click)="scrollRight()">
+    <i class="icon-chevron-right"></i>
+  </div>
+</div> -->
+
+<div class="container my-4">
+  <div class="row text-center">
+    <div class="col-md-2">
+        <div class="d-flex justify-content-center align-items-center">
+        <span class="font-weight-bold">NIFTY</span>
+          <span class="">{{headerModel.nifty}}</span>
+          <span class="text-{{headerModel.niftyPercentage  < 0 ? 'danger' : 'success'}}">
+            {{headerModel.niftyPercentage }}%
+          </span>
+        </div>
+    </div>
+    
+    <div class="col-md-2">
+        <div class="d-flex justify-content-center align-items-center">
+        <span class="font-weight-bold">SENSEX</span>
+          <span >{{headerModel.sensex}}</span>
+          <span class="text-{{headerModel.sensexPercentage < 0 ? 'danger' : 'success'}}">
+            {{headerModel.sensexPercentage}}%
+          </span>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+

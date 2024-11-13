@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-lg-12">
+        <form #accountForm="ngForm" novalidate>
+            <div class="card tile-panel w-100">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">{{mode}} Account</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="inName">Name</label>
+                                <div class="input-group mt-2">
+                                    <input type="text" class="form-control shadow-sm"[(ngModel)]="accountModel.name" id="inName" name="inName" placeholder="Name" required #inName="ngModel" [ngClass]="{'form-control-danger':(accountForm.submitted || inName.dirty  || inName.touched) && (inName.invalid)}" >
+                                    <div class="invalid-feedback" *ngIf="(accountForm.submitted && inName.invalid) || (inName.dirty && inName.invalid) || (inName.touched && inName.invalid)">
+                                        Name is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div>
+                            <fieldset class="row mb-3 mt-3">
+                                <label class="form-label">Brokers</label>
+                                <div class="col-sm-5 mt-2">
+                                    <div>
+                                        <div class="form-check form-check-inline" *ngFor="let broker of accountModel.brokers">
+                                            <input class="form-check-input" type="checkbox" [value]="broker.name" [name]="broker.name" [(ngModel)]="broker.isSelected" [id]="broker.id">
+                                            <label class="form-check-label vertical-label" [for]="broker.id">
+                                                {{broker.name}}
+                                            </label>
+                                        </div>
+                                </div>
+                                </div>
+                                </fieldset>
+                            </div>
+                    </div>
+                <div class="card-footer d-flex">
+                    <button class="btn btn-primary" (click)="save(accountForm.valid ?? false)" [ngClass]="{'btn-outline-primary':!access.canInsert || !access.canUpdate, 'btn-outline-secondary':!access.canInsert || !access.canUpdate}" title="{{!(!access.canInsert || !access.canUpdate) ? 'Click here to submitthis record.' : 'You do not have add or edit access of this page.'}}">Save</button>
+					<button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+				</div>
+            </div>
+        </form>
+    </div>
+</div>

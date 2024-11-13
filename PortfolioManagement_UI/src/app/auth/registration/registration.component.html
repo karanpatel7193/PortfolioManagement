@@ -1,0 +1,136 @@
+<div class="flex-centered col-xl-3 col-lg-4 col-md-5 col-sm-7 col-10">
+    <div class="form-signin w-100 m-auto tile-panel">
+        <form #userForm="ngForm" novalidate>
+            <div class="rounded">
+                <div class="card-body">
+                    <h4 class="card-title mb-2"> Registration </h4>
+
+                    <div class="row g-3 mb-2">
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" [(ngModel)]="user.type" value="Individual" checked>
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Individual
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" [(ngModel)]="user.type" value="Company">
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Company
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3" *ngIf="user.type === 'Company'">
+                        <div class="col-md-12">
+                            <div class="form-group text-start">
+                                <label for="inCompanyName" class="form-label">Company</label>
+                                <input type="text" class="form-control shadow-sm mb-2" [(ngModel)]="user.pmsName"
+                                    id="inCompanyName" name="inCompanyName" placeholder="Company Name"
+                                    required
+                                    #inCompanyName="ngModel"
+                                    [ngClass]="{'form-control-danger': (userForm.submitted || inCompanyName.dirty || inCompanyName.touched) && inCompanyName.invalid}">
+                                <div class="invalid-feedback"
+                                    *ngIf="(userForm.submitted && inCompanyName.invalid) || (inCompanyName.dirty && inCompanyName.invalid) || (inCompanyName.touched && inCompanyName.invalid)">
+                                    Company Name is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3 ">
+                            <div class="form-group text-start">
+                                <label for="inFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control shadow-sm mb-2" [(ngModel)]="user.firstName"
+                                    id="inFirstName" name="inFirstName" #inFirstName="ngModel" placeholder="First Name"
+                                    required
+                                    [ngClass]="{'form-control-danger':((userForm.submitted || inFirstName.dirty || inFirstName.touched) && (inFirstName.invalid))}">
+                                <div class="invalid-feedback"
+                                    *ngIf="(userForm.submitted && inFirstName.invalid) || (inFirstName.dirty && inFirstName.invalid) || (inFirstName.touched && inFirstName.invalid)">
+                                    First Name is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group text-start">
+                                <label for="inLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control shadow-sm mb-2" [(ngModel)]="user.lastName"
+                                    id="inLastName" name="inLastName" placeholder="Last Name" required
+                                    #inLastName="ngModel"
+                                    [ngClass]="{'form-control-danger':(userForm.submitted || inLastName.dirty  || inLastName.touched) && (inLastName.invalid)}">
+                                <div class="invalid-feedback"
+                                    *ngIf="(userForm.submitted && inLastName.invalid) || (inLastName.dirty && inLastName.invalid) || (inLastName.touched && inLastName.invalid)">
+                                    Last Name is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group text-start">
+                                <label for="inEmail" class="form-label">Email</label>
+                                <input type="text" class="form-control shadow-sm mb-2" [(ngModel)]="user.email"
+                                    id="inEmail" name="inEmail" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group text-start col-md-6">
+                            <label for="inUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control shadow-sm mb-2" [(ngModel)]="user.username"
+                                id="inUsername" name="inUsername" placeholder="username" required
+                                #inUsername="ngModel"
+                                [ngClass]="{'form-control-danger':((userForm.submitted || inUsername.invalid) && (inUsername.dirty || inUsername.touched))}">
+                            <div class="invalid-feedback"
+                                *ngIf="(userForm.submitted && inUsername.invalid) || (inUsername.dirty && inUsername.invalid) || (inUsername.touched && inUsername.invalid)">
+                                username is required.
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group text-start">
+                                <label for="inPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control shadow-sm mb-2" [(ngModel)]="user.password"
+                                    id="inPassword" name="inPassword" placeholder="Password" required
+                                    #inPassword="ngModel"
+                                    [ngClass]="{'form-control-danger':((userForm.submitted || inPassword.invalid) && (inPassword.dirty || inPassword.touched))}">
+                                <div class="invalid-feedback"
+                                    *ngIf="(inPassword.touched && inPassword.invalid)">
+                                    Password is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group text-start">
+                                <label for="inConfirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control shadow-sm mb-2" [(ngModel)]="user.confirmPassword"
+                                    id="inConfirmPassword" name="inConfirmPassword" placeholder="Confirm Password" required
+                                    #inConfirmPassword="ngModel"
+                                    [ngClass]="{'form-control-danger':((userForm.submitted || inConfirmPassword.invalid) && (inConfirmPassword.dirty || inConfirmPassword.touched))}">
+                                <div class="invalid-feedback"
+                                    *ngIf="(inConfirmPassword.touched && inConfirmPassword.invalid)">
+                                    Confirm Password is required.
+                                </div>
+                                <div class="invalid-feedback"
+                                    *ngIf="(userForm.submitted && inPassword.value !== inConfirmPassword.value)">
+                                    Passwords do not match.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer">
+                        <button type="submit" class="btn btn-primary"
+                            (click)="save(userForm.valid ?? false)">Save</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

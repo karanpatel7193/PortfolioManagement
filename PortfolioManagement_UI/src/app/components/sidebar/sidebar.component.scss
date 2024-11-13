@@ -1,0 +1,143 @@
+.dark-sidebar {
+	justify-content: space-between;
+	align-items: flex-start;
+	padding: 8px;
+	gap: 8px;
+	height: calc(100vh - 85px);
+	background: var(--primary-background);
+	z-index: 3;
+	box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.2);
+
+	.menutabs {
+		min-height: 230px;
+		height: calc(100vh - 250px);
+		width: 100%;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	.sub-tabs {
+		padding-left: 36px;
+		margin-top: 3px;
+
+		a {
+			color: var(--white);
+		}
+	}
+
+	.nav-items {
+		width: 100%;
+
+		.nav-link {
+			padding: 7px 8px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-weight: 500;
+			margin-bottom: 5px;
+			color: var(--primary-light);
+
+			span {
+				margin-left: 20px;
+			}
+
+			&:hover {
+				background-color: var(--primary-background-hover);
+			}
+
+			&.active {
+				background-color: var(--primary-active);
+
+				i {
+					color: var(--primary-light);
+				}
+
+				span {
+					color: var(--primary-light);
+				}
+			}
+		}
+
+		.dropdown-toggle::after {
+			float: right;
+			margin-top: 10px;
+		}
+
+		.project-logo {
+			max-width: 50px;
+			max-height: 24px;
+		}
+	}
+
+	.margin-auto {
+		margin-top: auto;
+	}
+
+	.btn-expand-collapse {
+
+		.nav-link {
+			background-color: var(--primary-active);
+
+			&:hover {
+				background-color: var(--primary-background-hover);
+			}
+
+			i {
+				color: var(--primary-light);
+			}
+
+			span {
+				color: var(--primary-light);
+			}
+		}
+	}
+
+	&.expanded {
+		width: 260px;
+		transition: all 0.2s;
+		-webkit-transition: all 0.2s;
+		overflow-x: hidden;
+
+		.nav-link {
+			width: 244px;
+		}
+	}
+
+	&.collapsed {
+		width: 64px;
+		transition: all 0.2s;
+		-webkit-transition: all 0.2s;
+
+		.nav-link {
+			text-align: center;
+			width: 48px;
+
+			span {
+				display: none;
+			}
+		}
+
+		.sub-tabs {
+			display: none;
+		}
+
+		.user-info {
+			display: none;
+		}
+
+		.project-list {
+			.nav-link {
+				padding-left: 0;
+				padding-right: 0;
+			}
+
+			.dropdown-toggle::after {
+				display: none;
+			}
+
+			.project-logo {
+				max-width: 46px;
+			}
+		}
+	}
+}
+

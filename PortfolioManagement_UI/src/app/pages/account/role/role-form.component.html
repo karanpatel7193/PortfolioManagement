@@ -1,0 +1,37 @@
+﻿<div class="card tile-panel ">
+    <div class="col-lg-12 col-md-10">
+        <form #roleForm="ngForm" novalidate>
+            <div class="rounded">
+                <div class="card-header  ">
+                    <h4 class="card-title mb-0">{{mode}} Role</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="inName">Name</label>
+                                <div class=" mt-2">
+                                    <input type="text" class="form-control shadow-sm" [(ngModel)]="role.name" id="inName" name="inName" placeholder="Name" required #inName="ngModel" [ngClass]="{'form-control-danger':(roleForm.submitted || inName.dirty  || inName.touched) && (inName.invalid)}">
+                                    <div class="invalid-feedback" *ngIf="(roleForm.submitted && inName.invalid) || (inName.dirty && inName.invalid) || (inName.touched && inName.invalid)">
+                                       Name is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="custom-control custom-checkbox mt-2">
+                                    <input type="checkbox" class="custom-control-input me-2 shadow-sm" style="padding: 10px;" name="inIsPublic" [(ngModel)]="role.isPublic">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Is Public</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex">
+                    <button type="submit" class="btn btn-primary" (click)="save(roleForm.valid ?? false)"  [ngClass]="{'btn btn-primary': !(!access.canInsert && !access.canUpdate), 'btn-outline-secondary': !access.canInsert && !access.canUpdate}"  title="{{!access.canInsert && !access.canUpdate ? 'You do not have add or edit access to this page.' : 'Click here to submit this record.'}}">Save</button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="cancle()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

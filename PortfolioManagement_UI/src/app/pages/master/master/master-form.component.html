@@ -1,0 +1,77 @@
+<div class="card tile-panel">
+    <div class="card-header">
+        <h4 style="display: contents ;" class="card-title mb-0">{{mode}} Masters</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <form #SearchmasterForm="ngForm" novalidate>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label for="inId" class="form-label">Id</label>
+                                <input type="text" class="form-control shadow-sm" [(ngModel)]="master.id" id="inId"
+                                [readonly]="mode === 'Edit'" name="inId" placeholder="ID" required #inId="ngModel"
+                                    [ngClass]="{'form-control-danger':(SearchmasterForm.submitted || inId.dirty || inId.touched) && (inId.invalid)}">
+                                <div class="invalid-feedback"
+                                    *ngIf="(SearchmasterForm.submitted && inId.invalid) || (inId.dirty && inId.invalid) || (inId.touched && inId.invalid)">
+                                    id is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label for="inName" class="form-label">Name</label>
+                                <input type="text" class="form-control shadow-sm" [(ngModel)]="master.type" id="inName"
+                                    name="inName" placeholder="Name" required #inName="ngModel"
+                                    [ngClass]="{'form-control-danger':(SearchmasterForm.submitted || inName.dirty || inName.touched) && (inName.invalid)}">
+                                <div class="invalid-feedback"
+                                    *ngIf="(SearchmasterForm.submitted && inName.invalid) || (inName.dirty && inName.invalid) || (inName.touched && inName.invalid)">
+                                    Name is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <label for="Values" class="form-label">Values</label>
+        <div class="table-responsive">
+            <table class="table table-bordered sort">
+                <thead style="vertical-align: 0%;">
+                  <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                    <th style="width: 50px;">
+                      <button class="btn-icon" title="Click here to add new record." (click)="addRow()">
+                        <i class="fa-solid fa-circle-plus"></i>
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- New rows -->
+                  <tr *ngFor="let row of master.masterValues; let i = index">
+                    <td>
+                      <input type="text" class="form-control shadow-sm" [(ngModel)]="row.value" placeholder="Key" />
+                    </td>
+                    <td>
+                      <input type="text" class="form-control shadow-sm" [(ngModel)]="row.valueText" placeholder="Value" />
+                    </td>
+                    <td style="width: 50px;">
+                      <button class="btn btn-icon" (click)="deleteRow(i)" title="Delete row">
+                        <i class="fa-solid fa-circle-minus"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div class="card-footer d-flex">
+        <button type="submit" class="btn btn-primary" (click)="save(SearchmasterForm.valid ?? false)"  [ngClass]="{'btn btn-primary': !(!access.canInsert && !access.canUpdate), 'btn-outline-secondary': !access.canInsert && !access.canUpdate}"  title="{{!access.canInsert && !access.canUpdate ? 'You do not have add or edit access to this page.' : 'Click here to submit this record.'}}">Save</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+    </div>
+</div>

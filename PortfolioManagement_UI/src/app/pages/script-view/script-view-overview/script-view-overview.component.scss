@@ -1,0 +1,37 @@
+.stock-data-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.stock-overview-table {
+    flex: 1 1 calc(25% - 20px);
+    min-width: 200px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.data-value {
+    font-weight: bold;
+}
+
+.green-text {
+    color: green;
+}
+
+.red-text {
+    color: red;
+}
+
+.neutral-text {
+    color: gray;
+}

@@ -1,0 +1,117 @@
+{
+    "data": {
+        "parameters": {
+            "blocks": [
+                {
+                    "id": "location02",
+                    "type": "location",
+                    "class": "left-options small-top",
+                    "options": [
+                        {
+                            "id": "Segments",
+                            "label": "Segments",
+                            "type": "group",
+                            "options": [
+                                {
+                                    "name": "segment",
+                                    "label": "Auto Direct",
+                                    "type": "radio",
+                                    "id": "AutoDirect",
+                                    "value": "AutoDirect",
+                                    "is_checked": "true"
+                                },
+                                {
+                                    "name": "segment",
+                                    "label": "Auto Indirect",
+                                    "type": "radio",
+                                    "id": "AutoIndirect",
+                                    "value": "AutoIndirect",
+                                    "is_checked": "false"
+                                },
+                                {
+                                    "name": "segment",
+                                    "label": "Consumer Line",
+                                    "type": "radio",
+                                    "id": "ConsumerLine",
+                                    "value": "ConsumerLine",
+                                    "is_checked": "false"
+                                },
+                                {
+                                    "name": "segment",
+                                    "label": "Consumer Loan",
+                                    "type": "radio",
+                                    "id": "ConsumerLoan",
+                                    "value": "ConsumerLoan",
+                                    "is_checked": "false"
+                                },
+                                {
+                                    "name": "segment",
+                                    "label": "Other Vehicle",
+                                    "type": "radio",
+                                    "id": "OtherVehicle",
+                                    "value": "OtherVehicle",
+                                    "is_checked": "false"
+                                },
+                                {
+                                    "name": "segment",
+                                    "label": "Residential RE",
+                                    "type": "radio",
+                                    "id": "ResidentialRE",
+                                    "value": "ResidentialRE",
+                                    "is_checked": "false"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "Methods",
+                            "label": "Methods",
+                            "type": "group",
+                            "options": [
+                                {
+                                    "name": "methods",
+                                    "label": "Basel II",
+                                    "type": "radio",
+                                    "id": "BaselII",
+                                    "value": "BaselII",
+                                    "is_checked": "true"
+                                },
+                                {
+                                    "name": "methods",
+                                    "label": "Intrinsic",
+                                    "type": "radio",
+                                    "id": "Intrinsic",
+                                    "value": "Intrinsic",
+                                    "is_checked": "false"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "environment",
+                            "label": "Environment",
+                            "type": "group",
+                            "options": [
+                                {
+                                    "name": "environment",
+                                    "label": "PIT",
+                                    "type": "radio",
+                                    "id": "PIT",
+                                    "value": "PIT",
+                                    "is_checked": "true"
+                                },
+                                {
+                                    "name": "environment",
+                                    "label": "TTC",
+                                    "type": "radio",
+                                    "id": "TTC",
+                                    "value": "TTC",
+                                    "is_checked": "false"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "status": "done"
+}

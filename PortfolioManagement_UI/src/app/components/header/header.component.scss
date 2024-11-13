@@ -1,0 +1,165 @@
+.logo-wrapper {
+  width: 260px;
+}
+.script-dropdown {
+    width: 400px;
+}
+.breadcrumb-item {
+    text-transform: capitalize;
+}
+.main-header {
+    line-height: 1.8rem;
+
+}
+.header-status {
+    .btn-outline-secondary {
+        padding: 3px 7px;
+    }
+}
+.main-logo {
+    font-size: 30px;
+    color: var(--white);
+    margin: 0 20px;
+}
+.breadcrumb {
+    margin: 0 15px;
+    line-height: 31px;
+}
+.header-container {
+    // height: 77px;
+    position: sticky;
+    -webkit-position: sticky;
+    top: 0px;
+    /* compensate for shadow with negative margin */
+    /* content should fall over shadow and cover */
+    z-index: 4;
+    background: var(--dark-background);
+    color: var(--white);
+    box-shadow: var(--box-shadow-lr);
+
+    .main-header {
+        padding: 14px 10px;
+        display: inline-block;
+        margin-bottom: 0;
+    }
+    .header-content {
+        height: 40px;
+    }
+}
+
+.user-name {
+    padding: 6px;
+
+    .user-info {
+        color: var(--white);
+    }
+
+    .user-pic {
+        border: 2px solid var(--white);
+        padding: 3px;
+
+        img {
+            height: 36px;
+            width: 36px;
+        }
+    }
+
+    .dropdown-toggle::after {
+        content: none;
+    }
+
+    .dropdown-menu {
+        width: 222px;
+    }
+
+    .dropdown-item {
+        cursor: pointer;
+    }
+}
+// start tag used for marquee
+.symbol {
+    margin-right: 5px;
+  }
+  
+  .price {
+    margin-right: 5px;
+  }
+  
+  .change.up {
+    color: green; /* Green for positive change */
+  }
+
+  
+  .change.down {
+    color: red; /* Red for negative change */
+  }
+  
+  .arrow {
+    cursor: pointer;
+  }
+  
+  .arrow-left {
+    margin-right: 5px;
+  }
+  
+  .arrow-right {
+    margin-left: 5px;
+  }
+  .cursor-pointor{
+    cursor: pointer;
+  }
+
+  // .dropdown{
+  //   border-radius: 20px;
+  //   width: 350px;
+  // }
+  
+  .indicator-box{
+    backdrop-filter: blur(10px) saturate(200%);
+    -webkit-backdrop-filter: blur(10px) saturate(200%);
+    background-color: rgba(213, 238, 234, 0.59);
+    border-radius: 5px;
+    width: 350px;
+    border: 1px solid rgba(209, 213, 219, 0.3);
+  }
+  .indicator-txt{
+    color: #100230;
+  }
+
+  .marquee-style{
+    color: white;
+    line-height: 30px;
+    font-weight: bold;
+  }
+
+  .ttape-root{
+    background-color: black; 
+    height: 27px;
+  }
+// end tag used for marquee
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .main-header, .market-indicators, .user-info {
+    display: none !important;
+  }
+
+  .user-name.dropdown {
+    width: 65px !important;
+    margin-right: 13px;
+  }
+
+  .logo-wrapper {
+    width: auto !important;
+  }
+  .script-dropdown {
+    width: 258px;
+  }
+}
+  
+
+
+.float-right {
+  float: right;
+}
+
+

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="c40e65fc-b59d-4038-bbcb-af233eaf945c" ChangeDateTime="10/21/2024 13:19:27">
+    <Property Name="ElementName" Value="[dbo].[PortfolioDateWise].[UnRelease]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PortfolioDateWise]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UnReleasedAmount" />
+  </Operation>
+</Operations>

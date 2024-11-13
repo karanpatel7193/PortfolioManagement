@@ -1,0 +1,23 @@
+<div class="input-group" *ngIf="viewMode == dateView">
+    <input
+        class="form-control shadow-sm"
+        placeholder="placeholder"
+        name="dp"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [(ngModel)]="dateModel"
+        ngbDatepicker
+        #d="ngbDatepicker"
+        (closed)="onChange($event)"
+    />
+    <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+</div>
+<div class="input-group month-view" *ngIf="viewMode != dateView">
+    <ng-container *ngIf="toggleMonth else directMonthPicker">
+        <input type="text" [placeholder]="placeholder" [name]="datepickerName" [datepickerClass]="'month-toggle-view'" ngbDatepicker #tdp="ngbDatepicker" [(ngModel)]="dateModel" [minDate]="minDate"
+        [maxDate]="maxDate" [startDate]="dateValue" (keydown)="preventKeys($event);" (click)="tdp.toggle()" (navigate)="onChange($event)" (closed)="onDateSelected()" />
+    </ng-container>
+    <ng-template #directMonthPicker>
+        <ngb-datepicker #dp [(ngModel)]="dateModel" [startDate]="dateValue" [minDate]="minDate" [maxDate]="maxDate" (navigate)="onChange($event)"></ngb-datepicker>
+    </ng-template>
+</div>

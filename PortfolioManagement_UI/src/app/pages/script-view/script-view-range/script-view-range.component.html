@@ -1,0 +1,62 @@
+<div class="card tile-panel w-100">
+    <div class="card-body">
+        <div class="d-flex float-start">
+            <h5>{{scriptViewRangeChartModel.script.nseCode}} -</h5>
+            <h5>&nbsp;{{scriptViewRangeChartModel.script.scriptName}}</h5>
+        </div>
+        <span class="float-end">Sector: <strong>{{scriptViewRangeChartModel.script.industryName}}</strong></span>
+        <br>
+        <hr />
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="stock-price ms-2">
+                            <h2 *ngIf="scriptViewRangeChartModel.script.priceChange > 0" class="text-success">{{scriptViewRangeChartModel.script.price | currency : 'INR' : 'symbol': '1.2-2' }}</h2>
+                            <h2 *ngIf="scriptViewRangeChartModel.script.priceChange < 0" class="text-danger">{{scriptViewRangeChartModel.script.price | currency : 'INR' : 'symbol': '1.2-2' }}</h2>
+                            <span class="percentage-change d-block">
+                                <i *ngIf="scriptViewRangeChartModel.script.priceChange > 0" class="bi bi-arrow-up-circle-fill text-success me-1"></i>
+                                <i *ngIf="scriptViewRangeChartModel.script.priceChange < 0" class="bi bi-arrow-down-circle-fill text-danger me-1"></i>
+                                ({{scriptViewRangeChartModel.script.priceChange | number }} | {{scriptViewRangeChartModel.script.pricePercentage | number}} %)
+                            </span>
+                            <div class="highlight text-muted mt-2">{{scriptViewRangeChartModel.script.currentDate | date:'medium'}} </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ">
+                        <div class="ps-2 ">
+                            <h5 class="text-muted">Day Range</h5>
+                            <div class="row">
+                                <h6 class="col-md-6 text-primary">{{scriptViewRangeChartModel.script.low}}</h6>
+                                <h6 class="col-md-6 text-primary text-end">{{scriptViewRangeChartModel.script.high}}</h6>
+                            </div>
+                            <div class="range-slider w-100 d-flex align-items-center">
+                                <span class="text-muted me-1">L</span>
+                                <input type="range" disabled class="form-range" min="{{scriptViewRangeChartModel.script.low}}" max="{{scriptViewRangeChartModel.script.high}}" value="{{scriptViewRangeChartModel.script.price}}" step="1" style="width: 100%;">
+                                <span class="text-muted ms-1">H</span>
+                            </div>
+                            <h5 class="text-muted">52 Week Range</h5>
+                            <div class="row">
+                                <h6 class="col-md-6 text-primary">{{scriptViewRangeChartModel.script.low52Week}}</h6>
+                                <h6 class="col-md-6 text-primary text-end">{{scriptViewRangeChartModel.script.high52Week}}</h6>
+                            </div>
+                            <div class="range-slider w-100 d-flex align-items-center">
+                                <span class="text-muted me-1">L</span>
+                                <input type="range" disabled class="form-range" min="{{scriptViewRangeChartModel.script.low52Week}}" max="{{scriptViewRangeChartModel.script.high52Week}}" value="{{scriptViewRangeChartModel.script.price}}" step="1" style="width: 100%;">
+                                <span class="text-muted ms-1">H</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h5 class="text-muted">Volume</h5>
+                                    <div class="highlight">{{scriptViewRangeChartModel.script.volume}}</div>
+                                </div>
+                                <div class="col-md-7 text-end">
+                                    <h5 class="text-muted">Bid / Ask</h5>
+                                    <div class="highlight">-- / --</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ps-5">
+                            <div echarts [options]="lineChartOption"></div>
+                    </div>
+                </div>
+    </div>
+</div>

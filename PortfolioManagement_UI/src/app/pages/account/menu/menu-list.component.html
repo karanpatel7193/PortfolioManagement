@@ -1,0 +1,85 @@
+<div class="card tile-panel">
+    <div class="card-header">
+        <h4 style="display: contents ;" class="card-title mb-0">Menus</h4>
+        <button (click)="add()" class="btn btn-icon btn-tnx float-end" [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}" title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i class="fa fa-plus"></i></button>
+        <div class="input-group float-end header-button" style="width:250px;">
+            <input type="text" class="form-control shadow-sm" [(ngModel)]="menuParameter.name" placeholder="Search here..." />
+            <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered sort">
+            <thead>
+                <tr>
+
+                    <th (click)="sort('Id')" class="sort-header">
+                        Id
+                        <i class="fa" [ngClass]="{'fa-sort': (menuParameter.sortExpression != 'Id'), 'fa-sort-asc': (menuParameter.sortExpression == 'Id' && menuParameter.sortDirection === 'asc'), 'fa-sort-desc': (menuParameter.sortExpression == 'Id' && menuParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+                    <th>
+                        Icon
+                    </th>
+                    <th (click)="sort('Name')" class="sort-header">
+                        Name
+                        <i class="fa" [ngClass]="{'fa-sort': (menuParameter.sortExpression != 'Name'), 'fa-sort-asc': (menuParameter.sortExpression == 'Name' && menuParameter.sortDirection === 'asc'), 'fa-sort-desc': (menuParameter.sortExpression == 'Name' && menuParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+                    <th (click)="sort('ParentIdName')" class="sort-header">
+                        Parent Menu
+                        <i class="fa" [ngClass]="{'fa-sort': (menuParameter.sortExpression != 'ParentIdName'), 'fa-sort-asc': (menuParameter.sortExpression == 'ParentIdName' && menuParameter.sortDirection === 'asc'), 'fa-sort-desc': (menuParameter.sortExpression == 'ParentIdName' && menuParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+                    <th (click)="sort('PageTitle')" class="sort-header">
+                        Page Title
+                        <i class="fa" [ngClass]="{'fa-sort': (menuParameter.sortExpression != 'PageTitle'), 'fa-sort-asc': (menuParameter.sortExpression == 'PageTitle' && menuParameter.sortDirection === 'asc'), 'fa-sort-desc': (menuParameter.sortExpression == 'PageTitle' && menuParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+                    <th (click)="sort('OrderBy')" class="sort-header">
+                        Order
+                        <i class="fa" [ngClass]="{'fa-sort': (menuParameter.sortExpression != 'OrderBy'), 'fa-sort-asc': (menuParameter.sortExpression == 'OrderBy' && menuParameter.sortDirection === 'asc'), 'fa-sort-desc': (menuParameter.sortExpression == 'OrderBy' && menuParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+                    <th (click)="sort('IsMenu')" class="sort-header">
+                        Is Menu
+                        <i class="fa" [ngClass]="{'fa-sort': (menuParameter.sortExpression != 'IsMenu'), 'fa-sort-asc': (menuParameter.sortExpression == 'IsMenu' && menuParameter.sortDirection === 'asc'), 'fa-sort-desc': (menuParameter.sortExpression == 'IsMenu' && menuParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+                    <th style="width:99px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of menuGrid?.menus;">
+                    <td>{{item.id}}</td>
+                    <td style="font-size:19px;"><i class="{{item.icon}}"></i></td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.parentIdName}}</td>
+                    <td>{{item.pageTitle}}</td>
+                    <td>{{item.orderBy}}</td>
+                    <td>{{item.isMenu}}</td>
+
+                    <td>
+                        <button class="btn btn-icon btn-tnx" (click)="edit(item.id)" [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}"  title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-icon btn-tnx" (click)="delete(item.id)" [ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}"  title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-body-secondary">
+        <div class="float-start card-header-controls">
+            <select [(ngModel)]="menuParameter.pageSize" (change)="search()" class="form-select">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+        </div>
+        <div class="float-end">
+            <ngb-pagination [collectionSize]="menuGrid.totalRecords" [pageSize]="menuParameter.pageSize" [(page)]="menuParameter.pageIndex" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="search()"></ngb-pagination>
+        </div>
+    </div>
+</div>

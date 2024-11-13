@@ -1,0 +1,27 @@
+<div class="card tile-panel">
+    <div class="card-header">
+        <h4 style="display: contents ;" class="card-title mb-0">Masters</h4>
+        <button (click)="add()" class="btn btn-icon btn-tnx float-end" [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}" title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i class="fa fa-plus"></i></button>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered sort">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Type</th>
+                    <th style="width:100px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of masters;">
+                    <td>{{item.id}}</td>
+                    <td>{{item.type}}</td>
+                    <td>
+                        <button class="btn btn-icon btn-tnx" (click)="edit(item.id)" [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}" title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-icon btn-tnx" (click)="delete(item.id)" [ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}" title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

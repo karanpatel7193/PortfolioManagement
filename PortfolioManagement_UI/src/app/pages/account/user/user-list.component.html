@@ -1,0 +1,151 @@
+<div class="card tile-panel">
+    <div class="card-header">
+        <h4 style="display: contents ;" class="card-title mb-0">Users</h4>
+        <button (click)="add()" class="btn btn-icon btn-tnx float-end" [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}"  title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i class="fa fa-plus"></i></button>
+        <div class="input-group float-end header-button" style="width:250px;">
+            <input type="text" class="form-control shadow-sm" [(ngModel)]="userParameter.firstName" placeholder="Search here..." />
+            <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <form #SearchUserForm="ngForm" novalidate>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inFirstName" class="form-label">First Name</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control shadow-sm" [(ngModel)]="userParameter.firstName" id="inSearchFirstName" name="inSearchFirstName" placeholder="First Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inLastName" class="form-label">Last Name</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control shadow-sm" [(ngModel)]="userParameter.lastName" id="inSearchLastName" name="inSearchLastName" placeholder="Last Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inRoleId" class="form-label">Role</label>
+                                <div class="input-group">
+                                    <select class="form-select shadow-sm" [(ngModel)]="userParameter.roleId" id="inSearchRoleId" name="inRoleId">
+                                        <option value="0">Select Role</option>
+                                        <option *ngFor="let item of roles;" [value]="item.id">{{item.name}}</option>
+                                    </select>                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inUsername" class="form-label">Username</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control shadow-sm" [(ngModel)]="userParameter.username" id="inSearchUsername" name="inSearchUsername" placeholder="Username">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inEmail" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control shadow-sm" [(ngModel)]="userParameter.email" id="inSearchEmail" name="inSearchEmail" placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group mb-2">
+                                <label for="inPhoneNumber" class="form-label">Phone Number</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control shadow-sm" [(ngModel)]="userParameter.phoneNumber" id="inSearchPhoneNumber" name="inSearchPhoneNumber" placeholder="Phone Number">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 mb-4">
+                        <button class="btn btn-primary" (click)="search()" [ngClass]="{'btn-outline-primary':!access.canView, 'btn-outline-secondary':!access.canView}" title="{{!(!access.canView) ? 'Click here to search record.' : 'You do not have search access of this page.'}}">Search</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="reset()">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table class="table table-bordered sort">
+            <thead>
+                <tr>
+
+                    <th (click)="sort('Id')" class="sort-header">
+                        Id
+                        <i class="fa" [ngClass]="{'fa-sort': (userParameter.sortExpression != 'Id'), 'fa-sort-asc': (userParameter.sortExpression == 'Id' && userParameter.sortDirection === 'asc'), 'fa-sort-desc': (userParameter.sortExpression == 'Id' && userParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('FirstName')" class="sort-header">
+                        First Name
+                        <i class="fa" [ngClass]="{'fa-sort': (userParameter.sortExpression != 'FirstName'), 'fa-sort-asc': (userParameter.sortExpression == 'FirstName' && userParameter.sortDirection === 'asc'), 'fa-sort-desc': (userParameter.sortExpression == 'FirstName' && userParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('LastName')" class="sort-header">
+                        Last Name
+                        <i class="fa" [ngClass]="{'fa-sort': (userParameter.sortExpression != 'LastName'), 'fa-sort-asc': (userParameter.sortExpression == 'LastName' && userParameter.sortDirection === 'asc'), 'fa-sort-desc': (userParameter.sortExpression == 'LastName' && userParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('RoleName')" class="sort-header">
+                        Role
+                        <i class="fa" [ngClass]="{'fa-sort': (userParameter.sortExpression != 'RoleName'), 'fa-sort-asc': (userParameter.sortExpression == 'RoleName' && userParameter.sortDirection === 'asc'), 'fa-sort-desc': (userParameter.sortExpression == 'RoleName' && userParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('Username')" class="sort-header">
+                        Username
+                        <i class="fa" [ngClass]="{'fa-sort': (userParameter.sortExpression != 'Username'), 'fa-sort-asc': (userParameter.sortExpression == 'Username' && userParameter.sortDirection === 'asc'), 'fa-sort-desc': (userParameter.sortExpression == 'Username' && userParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('Email')" class="sort-header">
+                        Email
+                        <i class="fa" [ngClass]="{'fa-sort': (userParameter.sortExpression != 'Email'), 'fa-sort-asc': (userParameter.sortExpression == 'Email' && userParameter.sortDirection === 'asc'), 'fa-sort-desc': (userParameter.sortExpression == 'Email' && userParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+
+                    <th (click)="sort('PhoneNumber')" class="sort-header">
+                        Phone
+                        <i class="fa" [ngClass]="{'fa-sort': (userParameter.sortExpression != 'PhoneNumber'), 'fa-sort-asc': (userParameter.sortExpression == 'PhoneNumber' && userParameter.sortDirection === 'asc'), 'fa-sort-desc': (userParameter.sortExpression == 'PhoneNumber' && userParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                    </th>
+
+                    <th style="width:99px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of userGrid?.users;">
+                    <td>{{item.id}}</td>
+                    <td>{{item.firstName}}</td>
+                    <td>{{item.lastName}}</td>
+                    <td>{{item.roleName}}</td>
+                    <td>{{item.username}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.phoneNumber}}</td>
+                    <td>
+                        <button class="btn btn-icon btn-tnx" (click)="edit(item.id)" [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}" title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-icon btn-tnx" (click)="delete(item.id)" [ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}" title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-body-secondary">
+        <div class="float-start card-header-controls">
+            <select [(ngModel)]="userParameter.pageSize" (change)="search()" class="form-select">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+        </div>
+        <div class="float-end">
+            <ngb-pagination [collectionSize]="userGrid.totalRecords" [pageSize]="userParameter.pageSize" [(page)]="userParameter.pageIndex" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="search()"></ngb-pagination>
+        </div>
+    </div>
+</div>

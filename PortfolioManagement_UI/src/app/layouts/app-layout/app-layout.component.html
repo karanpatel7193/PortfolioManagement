@@ -1,0 +1,11 @@
+<div class="layout">
+    <div class="content w-100 pt-0 pe-0">
+        <app-header></app-header>
+        <app-sidebar></app-sidebar>
+        <div [ngClass]="sessionService.isMenuCollapsedValue ? 'menu-collapsed' : 'menu-expanded'">
+            <div class="main-container">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

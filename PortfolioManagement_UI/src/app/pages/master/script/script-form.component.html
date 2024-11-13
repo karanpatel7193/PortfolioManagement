@@ -1,0 +1,154 @@
+<div class="card tile-panel ">
+	<div class="col-lg-12 col-md-10">
+		<form #scriptForm="ngForm" novalidate>
+			<div class="rounded">
+				<div class="card-header">
+					<h4 class="card-title mb-0">{{mode}} Script</h4>
+				</div>
+				<div class="card-body">
+					<div class="row g-3">
+						<div class="col-md-6 mb-2">
+							<div class="form-group">
+								<label for="inName">Name</label>
+								<div class="input-group mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="script.name" id="inName" name="inName" placeholder="Name" required #inName="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || inName.dirty  || inName.touched) && (inName.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(scriptForm.submitted && inName.invalid) || (inName.dirty && inName.invalid) || (inName.touched && inName.invalid)">
+                                        Name is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 mb-2">
+							<div class="form-group">
+								<label for="inBseCode">BSE</label>
+								<div class="input-group mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="script.bseCode" id="inBseCode" name="inBseCode" placeholder="inBseCode" required #inBseCode="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || inBseCode.dirty  || inBseCode.touched) && (inBseCode.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(scriptForm.submitted && inBseCode.invalid) || (inBseCode.dirty && inBseCode.invalid) || (inBseCode.touched && inBseCode.invalid)">
+                                        BseCode is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row g-3">
+						<div class="col-md-6 mb-2">
+							<div class="form-group">
+								<label for="inNseCode">NSE</label>
+								<div class="input-group mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="script.nseCode" id="inNseCode" name="inNseCode" placeholder="Nse Code" required #inNseCode="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || inNseCode.dirty  || inNseCode.touched) && (inNseCode.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(scriptForm.submitted && inNseCode.invalid) || (inNseCode.dirty && inNseCode.invalid) || (inNseCode.touched && inNseCode.invalid)">
+                                        Nse Code is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 mb-2">
+							<div class="form-group">
+								<label for="isinCode">ISIN</label>
+								<div class="input-group mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="script.isinCode" id="isinCode" name="isinCode" placeholder="ISINCode" required #isinCode="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || isinCode.dirty  || isinCode.touched) && (isinCode.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(scriptForm.submitted && isinCode.invalid) || (isinCode.dirty && isinCode.invalid) || (isinCode.touched && isinCode.invalid)">
+                                        ISINCode is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- <div class="row g-3">
+						<div class="col-md-6 mb-2">
+							<div class="form-group">
+								<label for="inMoneyControlURL">Money Control URL</label>
+								<div class="input-group mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="script.moneyControlURL" id="inMoneyControlURL" name="inMoneyControlURL" placeholder="Money Control URL" required #inMoneyControlURL="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || inMoneyControlURL.dirty  || inMoneyControlURL.touched) && (inMoneyControlURL.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(scriptForm.submitted && inMoneyControlURL.invalid) || (inMoneyControlURL.dirty && inMoneyControlURL.invalid) || (inMoneyControlURL.touched && inMoneyControlURL.invalid)">
+                                        Name is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 mb-2">
+							
+					<div class="form-group">
+						<label for="inFetchURL">Fetch URL</label>
+						<div class="input-group mt-2">
+							<input type="text" class="form-control shadow-sm" [(ngModel)]="script.fetchURL" id="inFetchURL" name="inFetchURL" placeholder="Fetch URL" required #inFetchURL="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || inFetchURL.dirty  || inFetchURL.touched) && (inFetchURL.invalid)}" />
+							<div class="invalid-feedback" *ngIf="(scriptForm.submitted && inFetchURL.invalid) || (inFetchURL.dirty && inFetchURL.invalid) || (inFetchURL.touched && inFetchURL.invalid)">
+								Name is required.
+							</div>
+						</div>
+					</div>
+						</div>
+					</div> -->
+
+					<div class="row g-3">
+						<div class="col-md-6 mb-2">
+							<div class="form-group">
+								<label for="inPrice">Price</label>
+								<div class="input-group mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="script.price" id="inPrice" name="inPrice" placeholder="Name" required #inPrice="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || inPrice.dirty  || inPrice.touched) && (inPrice.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(scriptForm.submitted && inPrice.invalid) || (inPrice.dirty && inPrice.invalid) || (inPrice.touched && inPrice.invalid)">
+                                        Price is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 mb-2">
+							<div class="form-group">
+								<label for="inIndustryName">Industry Name</label>
+								<div class="input-group mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="script.industryName" id="inIndustryName" name="inIndustryName" placeholder="Industry Name" required #inIndustryName="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || inIndustryName.dirty  || inIndustryName.touched) && (inIndustryName.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(scriptForm.submitted && inIndustryName.invalid) || (inIndustryName.dirty && inIndustryName.invalid) || (inIndustryName.touched && inIndustryName.invalid)">
+                                        IndustryName is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row g-3">
+						<div class="col-md-6 mb-2">
+							<div class="form-group">
+								<label for="inFaceValue">FaceValue</label>
+								<div class="input-group mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="script.faceValue" id="inFaceValue" name="inFaceValue" placeholder="Nse Code" required #inFaceValue="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || inFaceValue.dirty  || inFaceValue.touched) && (inFaceValue.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(scriptForm.submitted && inFaceValue.invalid) || (inFaceValue.dirty && inFaceValue.invalid) || (inFaceValue.touched && inFaceValue.invalid)">
+                                        FaceValue is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 mb-2">
+							<div class="form-group">
+								<label for="group">Group</label>
+								<div class="input-group mt-2">
+									<input type="text" class="form-control shadow-sm" [(ngModel)]="script.group" id="group" name="group" placeholder="group" required #group="ngModel" [ngClass]="{'form-control-danger':(scriptForm.submitted || group.dirty  || group.touched) && (group.invalid)}" />
+									<div class="invalid-feedback" *ngIf="(scriptForm.submitted && group.invalid) || (group.dirty && group.invalid) || (group.touched && group.invalid)">
+                                        group is required.
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input me-2" [(ngModel)]="script.isFetch" id="inIsFetch" name="inIsFetch">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Is Fetch</span>
+                    </label>
+			
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input me-2 ms-2" [(ngModel)]="script.isActive" id="inIsActive" name="inIsActive">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Is Active</span>
+                    </label>
+				</div>
+				<div class="card-footer d-flex">
+                    <button class="btn btn-primary" (click)="save(scriptForm.valid ?? false)" [ngClass]="{'btn-outline-primary':!access.canInsert && !access.canUpdate, 'btn-outline-secondary':!access.canInsert && !access.canUpdate}" title="{{!(!access.canInsert && !access.canUpdate) ? 'Click here to submitthis record.' : 'You do not have add or edit access of this page.'}}">Save</button>
+					<button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+

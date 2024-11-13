@@ -1,0 +1,158 @@
+<div *ngIf="isPortfolioReport">
+    <div class="row mb-2">
+        <div class="col-md-10">
+            <h4 class="float-start">Portfolio Report</h4>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-outline-secondary float-end filterButton" [ngbPopover]="popContent" [popoverTitle]="popTitle" triggers="manual" #popover="ngbPopover" (click)="popover.toggle()" placement="bottom-right" [autoClose]="'outside'">
+                <i class="bi bi-funnel-fill"></i>
+            </button>
+        </div>
+    </div>
+</div>
+  
+<div *ngIf="!isPortfolioReport">
+    <div class="row mb-2">
+        <div class="col-md-10">
+            <h4 class="float-start">Dashboard</h4>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-outline-secondary float-end filterButton" [ngbPopover]="popContent" [popoverTitle]="popTitle" triggers="manual" #popover="ngbPopover" (click)="popover.toggle()" placement="bottom-right" [autoClose]="'outside'">
+                <i class="bi bi-funnel-fill"></i>
+            </button>
+        </div>
+    </div>
+</div>
+  
+    <ng-template #popContent>
+        <div>
+        <form>
+            <div class="row mb-2 align-items-center">
+                <div class="col-md-4">
+                <label>Account</label>
+                </div>
+                <div class="col-md-8">
+                    <select class="form-select" (change)="onAccountChange()" [(ngModel)]="transactionParameter.accountId" id="inAccount" name="accountId">
+                    <option *ngFor="let account of stockTransactionListModel.accounts" [value]="account.id">{{ account.name }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-2 align-items-center ">
+                <div class="col-md-4">
+                    <label>Broker</label>
+                </div>
+            <div class="col-md-8">
+                <select class="form-select" [(ngModel)]="transactionParameter.brokerId" id="inBroker" name="inBroker">
+                <option *ngFor="let broker of stockTransactionListModel.brokers" [value]="broker.id">{{ broker.name }}</option>
+                </select>
+            </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary btn-sm" (click)="search()">Search</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="reset()">Reset</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </ng-template>
+    
+    <ng-template #popTitle>Filters</ng-template>
+  
+<div class="card-body">
+    <div class="row">
+    <div class="col-md-4" *ngIf="isShowChart">
+        <div class="card tile-panel ">
+        <div class="card-body pb-0">
+            <h5 class="card-title">Sector-wise Allocation</h5>
+            <hr />
+            <ng-container *ngIf="investmentSectorData && investmentSectorData.length > 0; else noDataMessage">
+            <app-portfoilo-report-chart [chartData]="investmentSectorData"></app-portfoilo-report-chart>
+            </ng-container>
+            <ng-template #noDataMessage>
+            <p>No data available for sector-wise allocation.</p>
+            </ng-template>
+        </div>
+        </div>
+    </div>
+
+    <div class="col-md-4" *ngIf="isShowChart">
+        <div class="card tile-panel ">
+        <div class="card-body pb-0">
+            <h5 class="card-title">Market-wise Allocation</h5>
+            <hr />
+            <ng-container *ngIf="marketSectorData && marketSectorData.length > 0; else noMarketDataMessage">
+            <app-portfoilo-report-chart [chartData]="marketSectorData"></app-portfoilo-report-chart>
+            </ng-container>
+            <ng-template #noMarketDataMessage>
+            <p>No data available for market-wise allocation.</p>
+            </ng-template>
+        </div>
+        </div>
+    </div>
+
+    <div class="col-md-4" *ngIf="isShowChart">
+        <div class="card tile-panel summary">
+        <div class="card-body pb-0">
+            <h5 class="card-title">Summary</h5>
+            <hr />
+            <app-portfolio-report-summary [portfolioReportModels]="portfolioReportModels"></app-portfolio-report-summary>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+  
+  <div class="card tile-panel w-100">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover m-0">
+          <thead>
+            <tr>
+              <th class="text-start">Stock</th>
+              <th class="text-end">Quantity</th>
+              <th class="text-end">Avg. Price</th>
+              <th class="text-end">LTP</th>
+              <th class="text-end">Inv.Amt</th>
+              <th class="text-end">Mkt.Val</th>
+              <th class="text-end">Overall G/L</th>
+              <th class="text-end">Overall G/L %</th>
+              <th class="text-end">Day G/L</th>
+              <th class="text-end">Day G/L %</th>
+              <th class="text-end">Realized<br>Profit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of portfolioReportModels.scripts" (click)="transactionParameter.id = item.accountId" [ngClass]="{'selected-row': (transactionParameter.id === item.accountId)}">
+              <td (click)="redirect(item.scriptId, item.scriptName)" class="cursor-pointer">{{ item.scriptName }}</td>
+              <td class="text-end">{{ item.qty }}</td>
+              <td class="text-end">{{ item.costPrice | number: '1.2-2' }}</td>
+              <td class="text-end">{{ item.currentPrice | number: '1.2-2' }}</td>
+              <td class="text-end">{{ item.investmentAmount | number: '1.2-2' }}</td>
+              <td class="text-end">{{ item.marketValue | number: '1.2-2' }}</td>
+              <td class="text-end" [ngClass]="{ 'green': item.overallGLAmount > 0, 'red': item.overallGLAmount < 0 }">
+                {{ item.overallGLAmount | number: '1.2-2' }}
+              </td>
+              <td class="text-end" [ngClass]="{ 'green': item.overallGLPercentage > 0, 'red': item.overallGLPercentage < 0 }">
+                {{ item.overallGLPercentage | number: '1.2-2' }}%
+              </td>
+              <td class="text-end" [ngClass]="{ 'green': item.dayGLAmount > 0, 'red': item.dayGLAmount < 0 }">
+                {{ item.dayGLAmount | number: '1.2-2' }}
+              </td>
+              <td class="text-end" [ngClass]="{ 'green': item.dayGLPercentage > 0, 'red': item.dayGLPercentage < 0 }">
+                {{ item.dayGLPercentage | number: '1.2-2' }}%
+              </td>
+              <td class="text-end">{{ item.releasedProfit | number: '1.2-2' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card mt-3">
+    <app-portfolio-datewise-chart [accountId]="myAccountId" [brokerId]="myBrokerId"></app-portfolio-datewise-chart>
+  </div>
+  

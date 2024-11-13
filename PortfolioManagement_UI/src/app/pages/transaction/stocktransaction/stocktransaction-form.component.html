@@ -1,0 +1,161 @@
+    <div class="card tile-panel ">
+        <div class="col-lg-12 col-md-10">
+            <form #transactionForm="ngForm" novalidate>
+                <div class="rounded">
+                    <div class="card-header  ">
+                        <h4 class="card-title mb-0">{{mode}} Stock Transaction</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" [disabled]="mode === 'Edit'"  class="form-control shadow-sm" [ngModel]="stockTransaction.date| date:'yyyy-MM-dd'"  (ngModelChange)="stockTransaction.date= $event" id="date" name="date" required />
+                                    <div *ngIf="!transactionForm.form.controls['date']?.valid && transactionForm.form.controls['date']?.touched" class="text-danger">
+                                        Date is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3 ">
+                                <div class="form-group">
+                                    <label for="accountName" class="form-label">Account Name</label>
+                                    <select class="form-select shadow-sm" [disabled]="mode === 'Edit'" (change)="onAccountChange()"  [(ngModel)]="stockTransaction.accountId" id="inAccount" name="accountId">
+                                        <option  value="0">Select an Account</option>
+                                        <option *ngFor="let account of stockTransactionListModel.accounts" [value]="account.id">
+                                            {{ account.name }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="!transactionForm.form.controls['accountName']?.valid && transactionForm.form.controls['accountName']?.touched" class="text-danger">
+                                        Account Name is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="transactionTypeName" class="form-label">Transaction Type</label>
+                                    <select class="form-select shadow-sm" (change)="calculateAmount(true); onTransactionTypeChange(stockTransaction.transactionTypeId);" [(ngModel)]="stockTransaction.transactionTypeId" id="instockTransaction" name="instockTransaction">
+                                        <option  value="0">Transaction Type</option>
+                                        <option *ngFor="let transaction of masterValues" [value]="transaction.value"  >
+                                            {{ transaction.valueText }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="!transactionForm.form.controls['transactionTypeName']?.valid && transactionForm.form.controls['transactionTypeName']?.touched" class="text-danger">
+                                        Transaction Type is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="scriptName" class="form-label">Script Name</label>
+                                    <input
+                                        id="script-dropdown"
+                                        type="text"
+                                        class="form-control shadow-sm"
+                                        [(ngModel)]="selectedScript"
+                                        [ngbTypeahead]="search"
+                                        [inputFormatter]="formatter"
+                                        [resultFormatter]="formatter"
+                                        [editable]="false"
+                                        name="script-dropdown"
+                                        [disabled]="mode === 'Edit'"
+                                        (selectItem)="onScriptSelected($event)"
+                                    />
+                                    
+                                    <div *ngIf="!transactionForm.form.controls['scriptName']?.valid && transactionForm.form.controls['scriptName']?.touched" class="text-danger">
+                                        Script Name is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="qty" class="form-label">Quantity</label>
+                                    <input type="number" class="form-control shadow-sm" (change)="calculateAmount()" [(ngModel)]="stockTransaction.qty" id="qty" name="qty" placeholder="Quantity" required />
+                                    <div *ngIf="!transactionForm.form.controls['qty']?.valid && transactionForm.form.controls['qty']?.touched" class="text-danger">
+                                        Quantity is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="price" class="form-label">Price</label>
+                                    <input type="number" class="form-control shadow-sm" (change)="calculateAmount()" [(ngModel)]="stockTransaction.price" id="price" name="price" placeholder="Price" required />
+                                    <div *ngIf="!transactionForm.form.controls['price']?.valid && transactionForm.form.controls['price']?.touched" class="text-danger">
+                                        Price is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="brokerName" class="form-label">Broker Name</label>
+                                    <select class="form-select shadow-sm" [disabled]="mode === 'Edit'"  (change)="calculateAmount()" [(ngModel)]="stockTransaction.brokerId" id="inBroker" name="inBroker">
+                                        <option  value="0">Select an Broker</option>
+                                        <option *ngFor="let broker of stockTransactionListModel.brokers" [value]="broker.id">
+                                            {{ broker.name }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="!transactionForm.form.controls['brokerName']?.valid && transactionForm.form.controls['brokerName']?.touched" class="text-danger">
+                                        Broker Name is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="brokerage" class="form-label">Brokerage</label>
+                                    <input type="number" class="form-control shadow-sm"   
+                                    (change)="calculateAmount(true)" (change)="calculateBrokerage()"  [value]="stockTransaction.brokerage " [(ngModel)]="stockTransaction.brokerage" id="brokerage" name="brokerage" placeholder="Brokerage" required  />
+                                    <div *ngIf="!transactionForm.form.controls['brokerage']?.valid && transactionForm.form.controls['brokerage']?.touched" class="text-danger">
+                                        Brokerage is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-2" >
+                                <div class="form-group">
+                                    <label for="buy" class="form-label">Buy</label>
+                                    <input type="number" class="form-control shadow-sm" (change)="calculateBrokerage(); onTransactionTypeChange(stockTransaction.transactionTypeId);" [disabled]="isBuyDisabled"  [(ngModel)]="stockTransaction.buy" id="buy" name="buy" placeholder="Buy" required />
+                                    <div *ngIf="!transactionForm.form.controls['buy']?.valid && transactionForm.form.controls['buy']?.touched" class="text-danger">
+                                        Buy is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="sell" class="form-label">Sell</label>
+                                    <input type="number" class="form-control shadow-sm"  (change)="calculateBrokerage(); onTransactionTypeChange(stockTransaction.transactionTypeId); "[disabled]="isSellDisabled"   [(ngModel)]="stockTransaction.sell" id="sell" name="sell" placeholder="Sell" required />
+                                    <div *ngIf="!transactionForm.form.controls['sell']?.valid && transactionForm.form.controls['sell']?.touched" class="text-danger">
+                                        Sell is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-3 ">
+                                <div class="form-group">
+                                    <label for="dividend" class="form-label">Dividend</label>
+                                    <input type="number" class="form-control shadow-sm"  [disabled]="isDividendDisabled" [(ngModel)]="stockTransaction.dividend" id="dividend" name="dividend" placeholder="Dividend" required />
+                                    <div *ngIf="!transactionForm.form.controls['dividend']?.valid && transactionForm.form.controls['dividend']?.touched" class="text-danger">
+                                        Dividend is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex">
+                        <button class="btn btn-primary" (click)="save(transactionForm.valid)" [ngClass]="{'btn-outline-primary':!access.canInsert && !access.canUpdate, 'btn-outline-secondary':!access.canInsert && !access.canUpdate}" title="{{!(!access.canInsert && !access.canUpdate) ? 'Click here to submitthis record.' : 'You do not have add or edit access of this page.'}}">Save</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
