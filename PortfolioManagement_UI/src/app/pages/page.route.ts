@@ -44,11 +44,6 @@ const routes: Routes = [
 				canActivate: [AuthGuard]
 			},
 			{
-				path: 'indexView',
-				loadChildren: () => import('./index-view/index-view.module').then(m => m.IndexViewModule),
-				canActivate: [AuthGuard]
-			},
-			{
 				path: 'analysis',
 				loadChildren: () => import('./analysis/analysis.module').then(m => m.AnalyticsModule),
 				canActivate: [AuthGuard]

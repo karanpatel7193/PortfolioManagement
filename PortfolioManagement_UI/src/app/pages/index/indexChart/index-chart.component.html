@@ -1,0 +1,16 @@
+<div class="card tile-panel w-100">
+    <div class="card-body">
+        <h5 class="card-title">Index Chart
+            <div class="button-container float-end">
+                <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '1D'}" (click)="setDateRange('1D')">1D</button>
+                <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '1W'}" (click)="setDateRange('1W')">1W</button>
+                <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '1M'}" (click)="setDateRange('1M')">1M</button>
+                <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '3M'}" (click)="setDateRange('3M')">3W</button>
+                <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '6M'}" (click)="setDateRange('6M')">6M</button>
+                <button class="btn btn-outline-primary"      [ngClass]="{'active': selectedRange === '1Y'}" (click)="setDateRange('1Y')">1Y</button>
+            </div>
+        </h5>
+        <hr />
+        <div echarts [options]="indexChart" class="chart-container" style="height: 400px;"></div>
+    </div>
+</div>

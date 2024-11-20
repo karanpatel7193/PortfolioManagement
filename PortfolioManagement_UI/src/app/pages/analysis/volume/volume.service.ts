@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { BaseService } from 'src/app/services/base.service';
 import { VolumeGridModel, VolumeParameterModel } from './volume.model';
+import { HttpService } from 'src/app/services/http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VolumeService {
 
-  constructor(private httpBase: BaseService) { }
+  constructor(private http: HttpService) { }
 
-  public getForVolume(): Observable<VolumeGridModel> {
-    return this.httpBase.post('analysis/volume/getForVolume',null).pipe(
-        map((response: VolumeGridModel) => {
-            return response;
-        }),
-    );
-}
+    public getForVolume(): Observable<VolumeGridModel> {
+        return this.http.post('analysis/volume/getForVolume',null).pipe(
+            map((response: VolumeGridModel) => {
+                return response;
+            }),
+        );
+    }
 }

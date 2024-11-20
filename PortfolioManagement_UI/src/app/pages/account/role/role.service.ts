@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BaseService } from '../../../services/base.service';
 import { catchError, map, tap } from 'rxjs/operators';
 import { RoleModel, RoleMainModel, RoleParameterModel, RoleGridModel} from './role.model';
 import { MenuMainModel } from '../menu/menu.model';
 import { Observable } from 'rxjs';
+import { HttpService } from 'src/app/services/http.service';
 
 @Injectable()
 export class RoleService {
-    constructor(private httpBase: BaseService) {
+    constructor(private http: HttpService) {
     }
 
     public getRecord(id: number): Observable<RoleModel> {
-        return this.httpBase.get('account/role/getRecord/' + id).pipe(
+        return this.http.get('account/role/getRecord/' + id).pipe(
             map((response: RoleModel) => {
                 return response;
             }),
@@ -19,7 +19,7 @@ export class RoleService {
     }
 
     public getForLOV(roleParameter: RoleParameterModel): Observable<RoleMainModel[]> {
-        return this.httpBase.post('account/role/getLovValue', roleParameter).pipe(
+        return this.http.post('account/role/getLovValue', roleParameter).pipe(
             map((response: RoleMainModel[]) => {
                 return response;
             }),
@@ -27,7 +27,7 @@ export class RoleService {
     }
 
     public getForGrid(roleParameter: RoleParameterModel): Observable<RoleGridModel> {
-        return this.httpBase.post('account/role/getGridData', roleParameter).pipe(
+        return this.http.post('account/role/getGridData', roleParameter).pipe(
             map((response: RoleGridModel) => {
                 return response;
             }),
@@ -36,13 +36,13 @@ export class RoleService {
 
     public save(role: RoleModel): Observable<number> {
         if (role.id === 0)
-            return this.httpBase.post('account/role/insert', role).pipe(
+            return this.http.post('account/role/insert', role).pipe(
                 map((response: number) => {
                     return response;
                 }),
             );
         else
-            return this.httpBase.post('account/role/update', role).pipe(
+            return this.http.post('account/role/update', role).pipe(
                 map((response: number) => {
                     return response;
                 }),
@@ -50,7 +50,7 @@ export class RoleService {
     }
 
     public delete(id: number): Observable<void> {
-        return this.httpBase.post('account/role/delete/' + id, null).pipe(
+        return this.http.post('account/role/delete/' + id, null).pipe(
             map((response: void) => {
                 return response;
             }),
@@ -58,7 +58,7 @@ export class RoleService {
     }
 
     public fillParent(): Observable<MenuMainModel[]> {
-        return this.httpBase.get('account/menu/getParent').pipe(
+        return this.http.get('account/menu/getParent').pipe(
             map((response: MenuMainModel[]) => {
                 return response;
             }),

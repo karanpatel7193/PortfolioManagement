@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BaseService } from 'src/app/services/base.service';
 import { HttpService } from 'src/app/services/http.service';
 import { WatchlistModel, WatchlistScriptModel, WatchlistScriptTabModel, WatchlistParameterModel, WatchlistMainModel } from './watchlist.model';
 import {  map, Observable } from 'rxjs';
@@ -9,9 +8,7 @@ providedIn: 'root'
 })
 export class WatchlistService {
 
-	constructor(private http: HttpService,
-		private httpBase: BaseService) { }
-
+	constructor(private http: HttpService) { }
 
     public getTabRecord(): Observable<WatchlistMainModel[]> {
         return this.http.post('watchlist/getTabValue',null).pipe(

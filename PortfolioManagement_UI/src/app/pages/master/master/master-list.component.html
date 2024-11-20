@@ -4,7 +4,7 @@
         <button (click)="add()" class="btn btn-icon btn-tnx float-end" [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}" title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i class="fa fa-plus"></i></button>
     </div>
     <div class="card-body">
-        <table class="table table-bordered sort">
+        <table class="table table-bordered table-hover sort">
             <thead>
                 <tr>
                     <th>Id</th>

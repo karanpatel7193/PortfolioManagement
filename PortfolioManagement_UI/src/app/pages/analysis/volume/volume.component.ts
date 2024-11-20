@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast.service';
 import { VolumeGridModel, VolumeModel } from './volume.model';
 import { VolumeService } from './volume.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-stock-volume',
@@ -12,35 +13,51 @@ import { VolumeService } from './volume.service';
   styleUrls: ['./volume.component.scss']
 })
 export class VolumeComponent implements OnInit {
-  public volumeModel: VolumeModel = new VolumeModel();
-  public volumeGrid: VolumeGridModel = new VolumeGridModel();
-  public access: AccessModel = new AccessModel();
-  public volumes: VolumeModel[] = [];
+    public volumeModel: VolumeModel = new VolumeModel();
+    public volumeGrid: VolumeGridModel = new VolumeGridModel();
+    public access: AccessModel = new AccessModel();
 
-  constructor(private volumeService: VolumeService,
-    private sessionService: SessionService,
-    private router: Router,
-    private toastr: ToastService) {
-    this.setAccess();
-  }
+    sortColumn: string = ''; 
+    sortDirection: string = '';  
 
-  ngOnInit() {
-    this.fetchData();
-  }
+    constructor(private volumeService: VolumeService,
+        private sessionService: SessionService,
+        private router: Router,
+        private toastr: ToastService,
+        private commonService: CommonService) {
+        this.setAccess();
+    }
 
+    ngOnInit() {
+        this.getVolumeData();
+    }
 
-  public fetchData(): void {
-    this.volumeService.getForVolume().subscribe(data => {
-      this.volumeGrid = data;
-    });
-  }
+    public getVolumeData(): void {
+        this.volumeService.getForVolume().subscribe(data => {
+            this.volumeGrid.volumes = data.volumes;
+        });
+    }
 
-  public setAccess(): void {
-    //const currentUrl = this.router.url.substring(0, this.router.url.indexOf('/list'));
-    this.access = this.sessionService.getAccess('report/stockTransactionreport');
-  }
+    sortData(column: keyof VolumeModel) {
+        this.volumeGrid.volumes = this.commonService.sortGrid(this.volumeGrid.volumes, column, this.sortColumn, this.sortDirection);
+    
+        if (this.sortColumn === column) {
+            this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            this.sortColumn = column;
+            this.sortDirection = 'asc'; 
+        }
+    }
 
-  public navigate(id: number) {
-    this.router.navigate([`app/scriptView/${id}`]);
-  }
+    public redirect(id: number, symbol:string){
+		this.commonService.redirectToPage(id,symbol);
+	}
+
+    public setAccess(): void {
+        this.access = this.sessionService.getAccess('app/analysis');
+    }
+
+    public navigate(id: number) {
+        this.router.navigate([`app/scriptView/${id}`]);
+    }
 }

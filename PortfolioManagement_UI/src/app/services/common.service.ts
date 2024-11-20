@@ -26,5 +26,28 @@ export class CommonService {
         window.open(targetUrl, '_blank');
     }
 
-
+    public sortGrid<T>(items: T[], column: keyof T, sortExpression: string, sortDirection: string): T[] {
+        if (sortExpression === column as string) {
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            sortExpression = column as string;
+            sortDirection = 'asc';
+        }
+    
+        return items.sort((a, b) => {
+            const aValue = a[column];
+            const bValue = b[column];
+    
+            const aStr = String(aValue).toLowerCase();
+            const bStr = String(bValue).toLowerCase();
+    
+            if (aStr < bStr) {
+                return sortDirection === 'asc' ? -1 : 1;
+            }
+            if (aStr > bStr) {
+                return sortDirection === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+    }
 }

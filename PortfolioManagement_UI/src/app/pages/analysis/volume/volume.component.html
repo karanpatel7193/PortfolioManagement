@@ -1,42 +1,111 @@
-<div class="row">
-	<div class="col-lg-12">
-		<div class="card tile-panel w-100">
-			<div
-				class="card-header ms-2 mt-2 d-flex align-items-center justify-content-between"
-			>
-				<h4 class="card-title mb-0">Analytics Report</h4>
-			</div>
-
-			<div class="card-body" style="width: 95%">
-				<table class="table table-bordered sort">
-					<thead>
-						<tr id="broker-list">
-							<th>ScriptId</th>
-							<th>ScriptName</th>
-							<th>Volume</th>
-							<th>WeekAverageVolume</th>
-							<th>WeekPercentage</th>
-							<th>MonthPercentage</th>
-							<th>MonthAverageVolume</th>
-							<th>NewsCount</th>
-							<th style="width: 100px">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr *ngFor="let item of volumes">
-							<td>{{ item.scriptId }}</td>
-							<td title="{{ item.scriptName }}" (click)="navigate(item.scriptId)"> {{ item.scriptName }} </td>
-							<td>{{ item.volume }}</td>
-							<td>{{ item.weekAverageVolume }}</td>
-							<td>{{ item.weekPercentage }}</td>
-							<td>{{ item.monthPercentage }}</td>
-							<td>{{ item.monthAverageVolume }}</td>
-							<td>{{ item.newsCount }}</td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+<div class="card tile-panel w-100">
+    <div class="card-body">
+        <h5 class="float-start">Analytics Report</h5> <br>
+        <hr>
+        <div class="table-scroll">
+            <table class="table table-hover common-table-bordered main-table">
+                <thead>
+                    <tr>
+                        <th class="sort-header text-start"  (click)="sortData('scriptName')">
+                            Script
+                            <i class="fa"
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'scriptName'), 
+                                   'fa-sort-asc': (sortColumn === 'scriptName' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'scriptName' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
+                        </th>
+                    
+                        <th class="sort-header text-end" (click)="sortData('volume')">
+                            Volume
+                            <i class="fa"
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'volume'), 
+                                   'fa-sort-asc': (sortColumn === 'volume' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'volume' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
+                        </th>
+                    
+                        <th class="sort-header text-end" (click)="sortData('weekVolumeAverage')">
+                            Week Volume Average
+                            <i class="fa"
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'weekVolumeAverage'), 
+                                   'fa-sort-asc': (sortColumn === 'weekVolumeAverage' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'weekVolumeAverage' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
+                        </th>
+                    
+                        <th class="sort-header text-end" (click)="sortData('weekVolumePercentage')">
+                            Week Volume %
+                            <i class="fa"
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'weekVolumePercentage'), 
+                                   'fa-sort-asc': (sortColumn === 'weekVolumePercentage' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'weekVolumePercentage' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
+                        </th>
+                    
+                        <th class="sort-header text-end" (click)="sortData('monthVolumeAverage')">
+                            Month Volume Average
+                            <i class="fa"
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'monthVolumeAverage'), 
+                                   'fa-sort-asc': (sortColumn === 'monthVolumeAverage' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'monthVolumeAverage' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
+                        </th>
+                    
+                        <th class="sort-header text-end" (click)="sortData('monthVolumePercentage')">
+                            Month Volume %
+                            <i class="fa"
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'monthVolumePercentage'), 
+                                   'fa-sort-asc': (sortColumn === 'monthVolumePercentage' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'monthVolumePercentage' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
+                        </th>
+                    
+                        <th class="sort-header text-end">
+                            News
+                            <i class="fa"
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'news'), 
+                                   'fa-sort-asc': (sortColumn === 'news' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'news' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
+                        </th>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of volumeGrid.volumes">
+                        <td class="cursor-pointer text-start" title="{{ item.scriptName }}" (click)="redirect(item.scriptId, item.scriptName)">
+                            {{ item.scriptName }}
+                        </td> 
+                        <td class="text-end">{{ item.weekVolumeAverage }}</td>
+                        <td class="text-end">{{ item.weekVolumePercentage }}</td>
+                        <td class="text-end">{{ item.volume }}</td>
+                        <td class="text-end">{{ item.monthVolumeAverage }}</td>
+                        <td class="text-end">{{ item.monthVolumePercentage }}</td>
+                        <td class="text-end">{{ item.newsCount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 	</div>
 </div>

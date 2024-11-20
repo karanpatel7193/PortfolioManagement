@@ -3,14 +3,10 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { HttpService } from '../../../services/http.service';
 import { BrokerModel, BrokerMainModel, BrokerParameterModel,BrokerGridModel } from './broker.model';
-import { from } from 'rxjs';
-import { BaseService } from 'src/app/services/base.service';
 
 @Injectable()
 export class BrokerService {
-	constructor(private http: HttpService,
-		private httpBase: BaseService
-	) {
+	constructor(private http: HttpService,) {
 	}
 
 	public getRecord(id: number): Observable<BrokerModel> {

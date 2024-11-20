@@ -9,6 +9,7 @@ import { MasterValuesModel } from 'src/app/models/mastervalue.model';
 import { CommonService } from 'src/app/services/common.service';
 import { ScriptMainModel } from '../../master/script/script.model';
 import { debounceTime, distinctUntilChanged, filter, map, Observable } from 'rxjs';
+import { BrokerModel } from '../../master/broker/broker.model';
 
 @Component({
 	selector: 'app-transaction-list',
@@ -24,6 +25,8 @@ export class StocktransactionListComponent implements OnInit {
 	public transactionSummaryGrid: StockTransactionSummaryModel[] = [];
     public stockTransactionListModel: StockTransactionListModel = new StockTransactionListModel();
 	public masterValues: MasterValuesModel[] = [];
+	public filteredBrokers: BrokerModel[] = [];
+
 
 
 	public selectedScript: ScriptMainModel = new ScriptMainModel();
@@ -166,6 +169,17 @@ export class StocktransactionListComponent implements OnInit {
 
 	public redirect(id: number, symbol:string){
 		this.commonService.redirectToPage(id,symbol);
+	}
+
+    public onAccountChange(): void {
+		this.filteredBrokers = this.stockTransactionListModel.brokers.filter(
+			broker => broker.accountId == this.transactionParameter.accountId
+		);
+		if (this.filteredBrokers.length > 0) {
+			this.transactionParameter.brokerId = this.filteredBrokers[0].id; 
+		} else {
+			this.transactionParameter.brokerId = 0; 
+		}
 	}
 
 	public setAccess(): void {

@@ -1,17 +1,17 @@
 export class VolumeModel {
-    scriptId: number = 0;
-    scriptName: string = '';
-    volume: number = 0;
-    weekAverageVolume: number = 0;
-    monthAverageVolume: number = 0;
-    weekPercentage: number = 0;
-    monthPercentage: number = 0;
-    newsCount: number = 0; 
+    public scriptId: number = 0;
+    public scriptName: string = '';
+    public volume: number = 0;
+    public weekVolumeAverage: number = 0;
+    public monthVolumeAverage: number = 0;
+    public weekVolumePercentage: number = 0;
+    public monthVolumePercentage: number = 0;
+    public newsCount: number = 0; 
 }
 
 export class VolumeGridModel {
-    volumes: VolumeModel[] = [];
+    public volumes: VolumeModel[] = [];
 }
 export class VolumeParameterModel {
-    dateTime: Date = new Date(0);
+    public dateTime: Date = new Date(0);
   }

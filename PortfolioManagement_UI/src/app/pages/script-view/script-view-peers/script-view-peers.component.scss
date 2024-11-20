@@ -54,7 +54,7 @@
 .table-scroll thead th {
     position: -webkit-sticky;
     position: sticky;
-    top: 0;
+    top: -1px;
     background-color: #f8fafc;
     vertical-align: top;
     z-index: 1;

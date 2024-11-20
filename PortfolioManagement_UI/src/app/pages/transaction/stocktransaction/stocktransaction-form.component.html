@@ -52,7 +52,7 @@
                                     <input
                                         id="script-dropdown"
                                         type="text"
-                                        class="form-control shadow-sm"
+                                        class="form-select shadow-sm"
                                         [(ngModel)]="selectedScript"
                                         [ngbTypeahead]="search"
                                         [inputFormatter]="formatter"
@@ -61,6 +61,7 @@
                                         name="script-dropdown"
                                         [disabled]="mode === 'Edit'"
                                         (selectItem)="onScriptSelected($event)"
+                                        placeholder="Search Script"
                                     />
                                     
                                     <div *ngIf="!transactionForm.form.controls['scriptName']?.valid && transactionForm.form.controls['scriptName']?.touched" class="text-danger">

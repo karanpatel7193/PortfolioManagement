@@ -9,11 +9,11 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-bordered sort">
+        <table class="table table-bordered table-hover sort">
             <thead>
                 <tr [id]="'script-list'">
 
-                    <th (click)="sort('Name')" class="sort-header">
+                    <th (click)="sort('Name')" class="sort-header" style="cursor: pointer;">
                         Name
                         <i class="fa" [ngClass]="{'fa-sort': (accountParameter.sortExpression != 'Name'), 'fa-sort-asc': (accountParameter.sortExpression == 'Name' && accountParameter.sortDirection == 'asc'), 'fa-sort-desc': (accountParameter.sortExpression == 'Name' && accountParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
                     </th>

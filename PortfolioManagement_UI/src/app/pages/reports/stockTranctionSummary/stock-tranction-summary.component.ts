@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, filter, map, Observable } from 'rxj
 @Component({
   selector: 'app-stock-transaction-summary',
   templateUrl: './stock-tranction-summary.component.html',
+  styleUrls: ['./stock-tranction-summary.component.scss']
 })
 export class StockTransactionSummaryComponent implements OnInit {
 public access: AccessModel = new AccessModel();

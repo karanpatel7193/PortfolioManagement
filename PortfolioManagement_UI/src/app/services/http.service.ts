@@ -6,12 +6,13 @@ import { ResponseModel } from '../models/response.model';
 import { Router } from '@angular/router';
 import { SpinnerService } from '../components/spinner/spinner.service';
 import { ToastService } from './toast.service';
+import { SessionService } from './session.service';
 
 @Injectable()
 export class HttpService {
 	public requestObj: any = {};
 
-	constructor(private http: HttpClient, private spinner: SpinnerService, private router: Router, private toasterService: ToastService) { }
+	constructor(private http: HttpClient, private spinner: SpinnerService, private router: Router, private toasterService: ToastService, private sessionService: SessionService) { }
 
 
 	public get(url: string, hideSpinner: boolean = true): Observable<any> {
@@ -106,6 +107,10 @@ export class HttpService {
 	//Used to catch API errors 
 	private handleErrors(error: HttpErrorResponse, hideSpinner?: boolean) {
 		console.log('Error: ', error);
+		if (error.status == 401) {
+			this.sessionService.logout();
+			return of(error);
+		}
 		if (!hideSpinner) {
 			this.spinner.hide()
 		}

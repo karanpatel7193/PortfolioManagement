@@ -16,6 +16,7 @@ import { ToastService } from 'src/app/services/toast.service';
       transform: translate3d(0, 0, 0);
     }
   `],
+  styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
     public access: AccessModel = new AccessModel();

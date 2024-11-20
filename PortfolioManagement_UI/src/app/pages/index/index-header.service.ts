@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BaseService } from 'src/app/services/base.service';
 import { map, Observable } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { HeaderGridModel, HeaderModel } from './index-header.model';
@@ -9,7 +8,7 @@ import { HeaderGridModel, HeaderModel } from './index-header.model';
 })
 export class IndexHeaderService {
 
-  constructor(private httpBase: BaseService,private http: HttpService) { }
+  constructor(private http: HttpService) { }
 
 
 public getForGrid(): Observable<HeaderGridModel> {

@@ -108,11 +108,17 @@ export class PortfolioReportComponent implements OnInit {
 
 	public reset(): void {
 		this.transactionParameter = new StockTransactionParameterModel();
+		
 		this.transactionParameter.sortExpression = 'Id';
 		this.transactionParameter.sortDirection = 'asc';
+
+		this.transactionParameter.accountId = 0;
+		this.transactionParameter.brokerId = 0;
+		this.fillDropdowns();
 		this.search();
 	}
 
+	
 	public search(): void {
 		if (!this.access.canView) {
 			this.toastr.warning('You do not have view access of this page.');

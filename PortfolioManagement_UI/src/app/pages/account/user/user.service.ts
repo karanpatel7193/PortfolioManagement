@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
-//  import { BaseService } from '../../../services/base.service';
 import { catchError, map, tap } from 'rxjs/operators';
 import {
     UserModel, UserMainModel, UserParameterModel, UserGridModel,
     UserAddModel, UserEditModel, UserListModel, UserLoginModel
 } from './user.model';
 import { Observable } from 'rxjs';
-import { BaseService } from 'src/app/services/base.service';
 import { HttpClient } from '@angular/common/http';
+import { HttpService } from 'src/app/services/http.service';
 
 @Injectable({
-    providedIn: 'root' // This makes the service available application-wide
+    providedIn: 'root' 
   })
 export class UserService {
-    // constructor(private httpBase: HttpClient) {
-    constructor(private httpBase: BaseService) {
+    constructor(private http: HttpService) {
     }
 
     public getRecord(id: number): Observable<UserModel> {
-        return this.httpBase.get('account/user/getRecord/' + id).pipe(
+        return this.http.get('account/user/getRecord/' + id).pipe(
             map((response: UserModel) => {
                 return response;
             }),
@@ -26,7 +24,7 @@ export class UserService {
     }
 
     public getForLOV(userParameter: UserParameterModel): Observable<UserMainModel[]> {
-        return this.httpBase.post('account/user/getLovValue', userParameter).pipe(
+        return this.http.post('account/user/getLovValue', userParameter).pipe(
             map((response: UserMainModel[]) => {
                 return response;
             }),
@@ -34,7 +32,7 @@ export class UserService {
     }
 
     public getAddMode(userParameter: UserParameterModel): Observable<UserAddModel> {
-        return this.httpBase.post('account/user/getAddMode', userParameter).pipe(
+        return this.http.post('account/user/getAddMode', userParameter).pipe(
             map((response: UserAddModel) => {
                 return response;
             }),
@@ -42,7 +40,7 @@ export class UserService {
     }
 
     public getEditMode(userParameter: UserParameterModel): Observable<UserEditModel> {
-        return this.httpBase.post('account/user/getEditMode', userParameter).pipe(
+        return this.http.post('account/user/getEditMode', userParameter).pipe(
             map((response: UserEditModel) => {
                 return response;
             })
@@ -50,7 +48,7 @@ export class UserService {
     }
 
     public getForGrid(userParameter: UserParameterModel): Observable<UserGridModel> {
-        return this.httpBase.post('account/user/getGridData', userParameter).pipe(
+        return this.http.post('account/user/getGridData', userParameter).pipe(
             map((response: UserGridModel) => {
                 return response;
             }),
@@ -58,7 +56,7 @@ export class UserService {
     }
 
     public getListMode(userParameter: UserParameterModel): Observable<UserListModel> {
-        return this.httpBase.post('account/user/getListMode', userParameter).pipe(
+        return this.http.post('account/user/getListMode', userParameter).pipe(
             map((response: UserListModel) => {
                 return response;
             }),
@@ -66,7 +64,7 @@ export class UserService {
     }
 
     public Registration(user: UserModel): Observable<number> {
-        return this.httpBase.post('account/user/registration', user).pipe(
+        return this.http.post('account/user/registration', user).pipe(
             map((response: number) => {
                 return response;
             }),
@@ -75,13 +73,13 @@ export class UserService {
 
     public save(user: UserModel): Observable<number> {
         if (user.id === 0)
-            return this.httpBase.post('account/user/insert', user).pipe(
+            return this.http.post('account/user/insert', user).pipe(
                 map((response: number) => {
                     return response;
                 }),
             );
         else
-            return this.httpBase.post('account/user/update', user).pipe(
+            return this.http.post('account/user/update', user).pipe(
                 map((response: number) => {
                     return response;
                 }),
@@ -89,7 +87,7 @@ export class UserService {
     }
 
     public delete(id: number): Observable<void> {
-        return this.httpBase.post('account/user/delete/' + id, null).pipe(
+        return this.http.post('account/user/delete/' + id, null).pipe(
             map((response: void) => {
                 return response;
             })
@@ -97,7 +95,7 @@ export class UserService {
     }
 
     public validateLogin(user: UserModel): Observable<UserLoginModel> {
-        return this.httpBase.post('account/user/validateLogin', user).pipe(
+        return this.http.post('account/user/validateLogin', user).pipe(
             map((response: UserLoginModel) => {
                 return response;
             }),
@@ -105,7 +103,7 @@ export class UserService {
     }
 
     public resetPassword(user: UserModel): Observable<boolean> {
-        return this.httpBase.post('account/user/resetPassword', user).pipe(
+        return this.http.post('account/user/resetPassword', user).pipe(
             map((response: boolean) => {
                 return response;
             }),
@@ -113,7 +111,7 @@ export class UserService {
     }
 
     public updatePassord(user: UserModel): Observable<string> {
-        return this.httpBase.post('account/user/updatePassword', user).pipe(
+        return this.http.post('account/user/updatePassword', user).pipe(
             map((response: string) => {
                 return response;
             }),

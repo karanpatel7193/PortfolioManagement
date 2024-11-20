@@ -5,10 +5,6 @@
             [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}"
             title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i
                 class="fa fa-plus"></i></button>
-        <div class="input-group float-end header-button" style="width:250px;">
-            <input type="text" class="form-control" [(ngModel)]="transactionParameter.accountId" placeholder="Search here..." />
-            <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary"><i class="fa fa-search"></i></button>
-        </div>
     </div>
 
     <div class="card-body">
@@ -19,7 +15,7 @@
                         <div class="col-lg-4 col-md-4">
                             <div class="form-group mb-2">
                                 <label for="inAccount" class="form-label">Account</label>
-                                    <select class="form-select shadow-sm" [(ngModel)]="transactionParameter.accountId" id="inAccount" name="inAccount">
+                                    <select class="form-select shadow-sm" (change)="onAccountChange()" [(ngModel)]="transactionParameter.accountId" id="inAccount" name="inAccount">
                                         <option  value="0">Select an Account</option>
                                         <option *ngFor="let account of stockTransactionListModel.accounts" [value]="account.id">
                                             {{ account.name }}
@@ -33,7 +29,7 @@
                                 <label for="inBroker" class="form-label">Broker</label>
                                     <select class="form-select shadow-sm" [(ngModel)]="transactionParameter.brokerId" id="inBroker" name="inBroker">
                                     <option   value="0">Select an Broker</option>
-                                        <option *ngFor="let broker of stockTransactionListModel.brokers" [value]="broker.id">
+                                        <option *ngFor="let broker of filteredBrokers" [value]="broker.id">
                                             {{ broker.name }}
                                         </option>
                                     </select>
@@ -66,6 +62,7 @@
                                         [editable]="false"
                                         name="script-dropdown"
                                         (selectItem)="onScriptSelected($event)"
+                                        placeholder="Search Script"
                                     />
                             </div>
                         </div>
@@ -92,7 +89,7 @@
             </div>
         </div>
         <hr />
-        <table class="table table-bordered sort">
+        <table class="table table-bordered table-hover sort main-table">
             <thead>
                 <tr [id]="'transaction-list'">
 

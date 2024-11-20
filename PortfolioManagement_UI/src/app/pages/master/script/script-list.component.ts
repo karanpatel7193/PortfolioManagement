@@ -10,7 +10,9 @@ import { ToastService } from '../../../services/toast.service';
 @Component({
 	selector: 'app-script-list',
 	templateUrl: './script-list.component.html',
+	styleUrls: ['./script-list.component.scss']
 })
+
 export class ScriptListComponent implements OnInit {
 	public access: AccessModel = new AccessModel();
 	public scriptParameter: ScriptParameterModel = new ScriptParameterModel();

@@ -3,10 +3,6 @@
     <div class="card-header">
         <h4 style="display: contents ;" class="card-title mb-0">Scripts</h4>
         <button (click)="add()" class="btn btn-icon btn-tnx float-end" [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}" [disabled]="!access.canInsert" title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i class="fa fa-plus"></i></button>
-        <div class="input-group float-end header-button" style="width:250px;">
-            <input type="text" class="form-control shadow-sm" [(ngModel)]="scriptParameter.name" placeholder="Search here..." />
-            <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary"><i class="fa fa-search"></i></button>
-        </div>
     </div>
 
     <div class="card-body">
@@ -44,95 +40,97 @@
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered sort">
-                <thead class="text-center">
-                    <tr [id]="'script-list'">
-    
-                        <th (click)="sort('Id')" class="sort-header">
-                            Id
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'Id'), 'fa-sort-asc': (scriptParameter.sortExpression == 'Id' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'Id' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th>
-    
-                        <th (click)="sort('Name')" class="sort-header">
-                            Name
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'Name'), 'fa-sort-asc': (scriptParameter.sortExpression == 'Name' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'Name' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th>
-    
-                        <th (click)="sort('BseCode')" class="sort-header">
-                            BSE
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'BseCode'), 'fa-sort-asc': (scriptParameter.sortExpression == 'BseCode' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'BseCode' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th>
-    
-                        <th (click)="sort('NseCode')" class="sort-header">
-                            NSE
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'NseCode'), 'fa-sort-asc': (scriptParameter.sortExpression == 'NseCode' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'NseCode' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th>
-    
-                        <th (click)="sort('iSINCode')" class="sort-header">
-                            ISIN
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'iSINCode'), 'fa-sort-asc': (scriptParameter.sortExpression == 'iSINCode' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'iSINCode' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th>
-    
-                        <!-- <th style="max-width:200px;" (click)="sort('MoneyControlURL')" class="sort-header">
-                            MoneyControlURL
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'MoneyControlURL'), 'fa-sort-asc': (scriptParameter.sortExpression == 'MoneyControlURL' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'MoneyControlURL' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th>
-    
-                        <th (click)="sort('FetchURL')" class="sort-header">
-                            FetchURL
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'FetchURL'), 'fa-sort-asc': (scriptParameter.sortExpression == 'FetchURL' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'FetchURL' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th> -->
-    
-                        <th (click)="sort('IsFetch')" class="sort-header">
-                            Fetch
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'IsFetch'), 'fa-sort-asc': (scriptParameter.sortExpression == 'IsFetch' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'IsFetch' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th>
-    
-                        <th (click)="sort('IsActive')" class="sort-header">
-                            Active
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'IsActive'), 'fa-sort-asc': (scriptParameter.sortExpression == 'IsActive' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'IsActive' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th>
-    
-                        <th (click)="sort('Price')" class="sort-header">
-                            Price
-                            <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'Price'), 'fa-sort-asc': (scriptParameter.sortExpression == 'Price' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'Price' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                        </th>
-                        <th (click)="sort('Price')" class="sort-header">
-                            Industry Name
-                        </th> 
-                        <th (click)="sort('Price')" class="sort-header">
-                            FV
-                        </th> 
-                        <th (click)="sort('Price')" class="sort-header">
-                            Group
-                        </th>
-    
-                        <th style="width:100px;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of scriptGrid?.scripts;" (click)="scriptParameter.id == item.id;" [ngClass]="{'selected-row': (scriptParameter.id == item.id)}">
-                        <td>{{item.id}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.bseCode}}</td>
-                        <td>{{item.nseCode}}</td>
-                        <td>{{item.isinCode}}</td>
-                        <!-- <td>{{item.moneyControlURL}}</td>
-                        <td>{{item.fetchURL}}</td> -->
-                        <td>{{item.isFetch}}</td>
-                        <td>{{item.isActive}}</td>
-                        <td class="text-end">{{item.price | number: '1.2-2'}}</td>
-                        <td>{{item.industryName}}</td>
-                        <td>{{item.faceValue}}</td>
-                        <td>{{item.group}}</td>
-    
-                        <td>
-                            <button class="btn btn-icon btn-tnx" (click)="edit(item.id)" [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}" [disabled]="!access.canUpdate" title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}"><i class="fa fa-pencil"></i></button>
-                            <button class="btn btn-icon btn-tnx" (click)="delete(item.id)" [ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}" [disabled]="!access.canDelete" title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"><i class="fa fa-trash"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-scroll">
+                <table class="table table-bordered sort">
+                    <thead class="text-center">
+                        <tr [id]="'script-list'">
+        
+                            <th (click)="sort('Id')" class="sort-header">
+                                Id
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'Id'), 'fa-sort-asc': (scriptParameter.sortExpression == 'Id' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'Id' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th>
+        
+                            <th (click)="sort('Name')" class="sort-header">
+                                Name
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'Name'), 'fa-sort-asc': (scriptParameter.sortExpression == 'Name' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'Name' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th>
+        
+                            <th (click)="sort('BseCode')" class="sort-header">
+                                BSE
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'BseCode'), 'fa-sort-asc': (scriptParameter.sortExpression == 'BseCode' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'BseCode' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th>
+        
+                            <th (click)="sort('NseCode')" class="sort-header">
+                                NSE
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'NseCode'), 'fa-sort-asc': (scriptParameter.sortExpression == 'NseCode' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'NseCode' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th>
+        
+                            <th (click)="sort('iSINCode')" class="sort-header">
+                                ISIN
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'iSINCode'), 'fa-sort-asc': (scriptParameter.sortExpression == 'iSINCode' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'iSINCode' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th>
+        
+                            <!-- <th style="max-width:200px;" (click)="sort('MoneyControlURL')" class="sort-header">
+                                MoneyControlURL
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'MoneyControlURL'), 'fa-sort-asc': (scriptParameter.sortExpression == 'MoneyControlURL' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'MoneyControlURL' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th>
+        
+                            <th (click)="sort('FetchURL')" class="sort-header">
+                                FetchURL
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'FetchURL'), 'fa-sort-asc': (scriptParameter.sortExpression == 'FetchURL' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'FetchURL' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th> -->
+        
+                            <th (click)="sort('IsFetch')" class="sort-header">
+                                Fetch
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'IsFetch'), 'fa-sort-asc': (scriptParameter.sortExpression == 'IsFetch' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'IsFetch' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th>
+        
+                            <th (click)="sort('IsActive')" class="sort-header">
+                                Active
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'IsActive'), 'fa-sort-asc': (scriptParameter.sortExpression == 'IsActive' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'IsActive' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th>
+        
+                            <th (click)="sort('Price')" class="sort-header">
+                                Price
+                                <i class="fa" [ngClass]="{'fa-sort': (scriptParameter.sortExpression != 'Price'), 'fa-sort-asc': (scriptParameter.sortExpression == 'Price' && scriptParameter.sortDirection == 'asc'), 'fa-sort-desc': (scriptParameter.sortExpression == 'Price' && scriptParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
+                            </th>
+                            <th (click)="sort('Price')" class="sort-header">
+                                Industry Name
+                            </th> 
+                            <th (click)="sort('Price')" class="sort-header">
+                                FV
+                            </th> 
+                            <th (click)="sort('Price')" class="sort-header">
+                                Group
+                            </th>
+        
+                            <th style="width:100px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of scriptGrid?.scripts;" (click)="scriptParameter.id == item.id;" [ngClass]="{'selected-row': (scriptParameter.id == item.id)}">
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.bseCode}}</td>
+                            <td>{{item.nseCode}}</td>
+                            <td>{{item.isinCode}}</td>
+                            <!-- <td>{{item.moneyControlURL}}</td>
+                            <td>{{item.fetchURL}}</td> -->
+                            <td>{{item.isFetch}}</td>
+                            <td>{{item.isActive}}</td>
+                            <td class="text-end">{{item.price | number: '1.2-2'}}</td>
+                            <td>{{item.industryName}}</td>
+                            <td>{{item.faceValue}}</td>
+                            <td>{{item.group}}</td>
+        
+                            <td>
+                                <button class="btn btn-icon btn-tnx" (click)="edit(item.id)" [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}" [disabled]="!access.canUpdate" title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-icon btn-tnx" (click)="delete(item.id)" [ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}" [disabled]="!access.canDelete" title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>

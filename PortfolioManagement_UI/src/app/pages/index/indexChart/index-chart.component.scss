@@ -1,0 +1,29 @@
+.btn {
+    padding: 5px 5px ; 
+    font-size: 12px  ; 
+    border-radius: 0  ; 
+    height: 30px  ; 
+    width: 30px  ;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    margin-top: -4px
+}
+
+.button-container {
+    display: flex;
+    align-items: center; 
+    height: 100%; 
+}
+
+
+.btn.active {
+    background-color: #007bff; 
+    color: white; 
+    border-color: #007bff; 
+}
+
+.btn.active:hover {
+    background-color: #0056b3;
+    border-color: #0056b3; 
+}

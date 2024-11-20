@@ -5,16 +5,13 @@
             [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}"
             [disabled]="!access.canInsert"
             title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i
-                class="fa fa-plus"></i></button>
-        <div class="input-group float-end header-button" style="width:250px;">
-            <input type="text" class="form-control shadow-sm" [(ngModel)]="splitParameter.id" placeholder="Search here..." />
-            <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary"><i class="fa fa-search"></i></button>
-        </div>
+                class="fa fa-plus"></i>
+        </button>
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered sort">
+            <table class="table table-bordered table-hover sort">
                 <thead class="text-center">
                     <tr>
                         <th rowspan="2" class="sort-header">Id</th>

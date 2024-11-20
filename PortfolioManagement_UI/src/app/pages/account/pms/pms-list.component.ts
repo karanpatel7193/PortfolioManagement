@@ -10,6 +10,7 @@ import { PmsService } from './pms.service';
 @Component({
 	selector: 'app-pms-list',
 	templateUrl: './pms-list.component.html',
+	styleUrls:['./pms-list.component.scss']
 })
 export class PmsListComponent implements OnInit {
 	public access: AccessModel = new AccessModel();

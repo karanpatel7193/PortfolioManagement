@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ScriptViewOverviewModel } from './script-view-overview.model';
-import { BaseService } from 'src/app/services/base.service';
 import { map, Observable } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -9,7 +8,7 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class ScriptViewOverviewService {
 
-  constructor(private httpBase: BaseService,private http: HttpService) { }
+  constructor(private http: HttpService) { }
 
 
   public getRecord(id: number): Observable<ScriptViewOverviewModel> {
