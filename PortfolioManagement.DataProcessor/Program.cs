@@ -45,6 +45,9 @@ namespace PortfolioManagement.DataProcessor
                         Log.Write("End process...");
                     }
                     Thread.Sleep(60000);
+
+                    if (AppSettings.ExitTime <= DateTime.UtcNow)
+                        break;
                 }
                 Log.Write("End data processor...");
             }

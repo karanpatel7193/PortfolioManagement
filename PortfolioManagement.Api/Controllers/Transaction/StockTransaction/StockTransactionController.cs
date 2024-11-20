@@ -137,8 +137,7 @@ namespace PortfolioManagement.Api.Controllers.Transaction.StockTransaction
             {
                 stockTransactionParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
                 StockTransactionBusiness stockTransactionBusiness = new StockTransactionBusiness(Startup.Configuration);
-                response = new Response(await stockTransactionBusiness.
-                    SelectForList(stockTransactionParameterEntity));
+                response = new Response(await stockTransactionBusiness.SelectForList(stockTransactionParameterEntity));
             }
             catch (Exception ex)
             {

@@ -44,12 +44,21 @@ namespace PortfolioManagement.DataProcessor
                 return MyConvert.ToInt(Program.Configuration["AppSettings:Scrap:RandomMin"]);
             }
         }
-        
+
         public static int RandomMax
         {
             get
             {
                 return MyConvert.ToInt(Program.Configuration["AppSettings:Scrap:RandomMax"]);
+            }
+        }
+        public static DateTime ExitTime
+        {
+            get
+            {
+                DateTime current = DateTime.UtcNow;
+                string[] exitTimePart = MyConvert.ToString(Program.Configuration["AppSettings:Scrap:ExitTime"]).Split(':');
+                return new DateTime(current.Year, current.Month, current.Day, MyConvert.ToInt(exitTimePart[0]), MyConvert.ToInt(exitTimePart[1]), MyConvert.ToInt(exitTimePart[2]));
             }
         }
         #endregion Scrap

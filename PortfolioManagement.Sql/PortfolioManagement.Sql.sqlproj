@@ -208,7 +208,6 @@
     <Build Include="Stored Procedures\ScriptView_CorporateAction_SelectForBonus.sql" />
     <Build Include="Stored Procedures\ScriptView_CorporateAction_SelectForSplit.sql" />
     <Build Include="Stored Procedures\ScriptView_SelectForChart.sql" />
-    <Build Include="Stored Procedures\ScriptView_IndexChart.sql" />
     <Build Include="Stored Procedures\Index_SelectForHeader.sql" />
     <Build Include="Stored Procedures\Index_SelectForNifty50.sql" />
     <Build Include="Tables\IndexRaw.sql" />
@@ -217,10 +216,11 @@
     <Build Include="Stored Procedures\PortfolioDateWise_Update.sql" />
     <Build Include="Stored Procedures\Portfolio_SelectForPortfolioDatewiseProcess.sql" />
     <Build Include="Stored Procedures\AccountBroker_SelectForPortfolioDatewiseReport.sql" />
-    <Build Include="Stored Procedures\Copy of Portfolio_SelectForPortfolioDatewiseProcess.sql" />
     <Build Include="Stored Procedures\PortfolioDatewise_SelectForPortfolioDatewiseReport.sql" />
     <Build Include="Stored Procedures\Analysis_SelectForVolume.sql" />
     <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="Stored Procedures\Index_SelectForFiiDiiChart.sql" />
+    <Build Include="Stored Procedures\Index_SelectForChart.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GenerateScript.txt" />

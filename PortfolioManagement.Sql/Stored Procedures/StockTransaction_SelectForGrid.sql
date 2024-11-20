@@ -7,6 +7,8 @@
     @BrokerId TINYINT = NULL,
     @SortExpression VARCHAR(50),
     @SortDirection VARCHAR(5),
+    @FromDate DATE = NULL,
+    @ToDate DATE = NULL,
     @PageIndex INT,
     @PageSize INT,
     @PmsId INT
@@ -47,6 +49,8 @@ BEGIN
       AND T.[TransactionTypeId] = COALESCE(@TransactionTypeId, T.[TransactionTypeId])
       AND T.[ScriptId] = COALESCE(@ScriptId, T.[ScriptId])
       AND T.[BrokerId] = COALESCE(@BrokerId, T.[BrokerId])
+      AND (T.[Date] >= COALESCE(@FromDate, T.[Date]))
+      AND (T.[Date] <= COALESCE(@ToDate, T.[Date]))
       AND T.[PmsId] = @PmsId
     ORDER BY ' + QUOTENAME(@SortExpression) + ' ' + @SortDirection + '
     OFFSET ((@PageIndex - 1) * @PageSize) ROWS
@@ -56,13 +60,15 @@ BEGIN
     -- Execute the dynamic SQL with all required parameters
     EXEC sp_executesql 
         @SqlQuery,
-        N'@Id BIGINT, @Date DATETIME, @AccountId TINYINT, @TransactionTypeId INT, @ScriptId SMALLINT, @BrokerId TINYINT, @PageIndex INT, @PageSize INT, @PmsId INT',
+        N'@Id BIGINT, @Date DATETIME, @AccountId TINYINT, @TransactionTypeId INT, @ScriptId SMALLINT, @BrokerId TINYINT, @PageIndex INT, @PageSize INT, @PmsId INT, @FromDate DATE, @ToDate DATE',
         @Id = @Id, 
         @Date = @Date, 
         @AccountId = @AccountId, 
         @TransactionTypeId = @TransactionTypeId, 
         @ScriptId = @ScriptId, 
         @BrokerId = @BrokerId, 
+		@FromDate = @FromDate,
+		@ToDate	  = @ToDate,	
         @PageIndex = @PageIndex, 
         @PageSize = @PageSize,
         @PmsId = @PmsId;
@@ -76,6 +82,8 @@ BEGIN
       AND T.[TransactionTypeId] = COALESCE(@TransactionTypeId, T.[TransactionTypeId])
       AND T.[ScriptId] = COALESCE(@ScriptId, T.[ScriptId])
       AND T.[BrokerId] = COALESCE(@BrokerId, T.[BrokerId])
+      AND (T.[Date] >= COALESCE(@FromDate, T.[Date]))
+      AND (T.[Date] <= COALESCE(@ToDate, T.[Date]))
       AND T.[PmsId] = COALESCE(@PmsId, T.[PmsId]);
       
 END

@@ -9,8 +9,8 @@ namespace PortfolioManagement.Entity.Transaction
 	/// Created By :: Rekansh Patel
 	/// Created On :: 11/22/2020
 	/// </summary>
-	public class IndexEntity
-	{
+	public class IndexEntity : IndexFiiDiiEntity
+    {
 		#region Constructor
 		/// <summary>
 		/// This construction is set properties default value based on its data type in table.

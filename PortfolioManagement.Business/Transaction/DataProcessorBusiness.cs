@@ -249,7 +249,7 @@ namespace PortfolioManagement.Business.Transaction
 
         private async Task startFiiDiiProcess(DateTime current, DateTime fiiDiiTime, string fiiDii_URL, string fiiDii_ApiURL)
         {
-            if (current >= fiiDiiTime.AddMinutes(-2) && current <= fiiDiiTime.AddMinutes(2))
+            if (current >= fiiDiiTime.AddMinutes(-5) && current <= fiiDiiTime.AddMinutes(5))
             {
                 IndexBusiness indexBusiness = new IndexBusiness(_config);
                 await indexBusiness.UpdateFiiDii(await scrapFiiDiiData(current, fiiDii_URL, fiiDii_ApiURL));

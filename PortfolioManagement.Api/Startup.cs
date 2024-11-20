@@ -26,8 +26,7 @@ namespace PortfolioManagement.Api
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Portfolio Api", Version = "v1" });
-                c.CustomSchemaIds(x => x.FullName);
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Portfolio Api", Version = "v1"  });
             });
 
             //Add JWT token authentication with all setting.

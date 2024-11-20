@@ -18,10 +18,9 @@ namespace PortfolioManagement.Business.Analysis
         {
             sql = CreateSqlInstance();
         }
-        public async Task<VolumeGridEntity> SelectForVolume(VolumeParameterEntity volumeParameterEntity)
+        public async Task<VolumeGridEntity> SelectForVolume()
         {
             VolumeGridEntity volumeGridEntity = new VolumeGridEntity();
-            sql.AddParameter("DateTime", DbType.DateTime, ParameterDirection.Input, volumeParameterEntity.DateTime);
             await sql.ExecuteEnumerableMultipleAsync<VolumeGridEntity>("Analysis_SelectForVolume", CommandType.StoredProcedure, 1, volumeGridEntity, MapVolumeEntity);
             return volumeGridEntity;
         }
