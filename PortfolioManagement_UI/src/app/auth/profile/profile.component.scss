@@ -1,0 +1,23 @@
+.form-signin {
+    padding: 23px;
+    height: auto;
+    position: absolute;
+    top: 58%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-60%);
+    background: rgb(255 255 255 / 90%);
+    border-radius: var(--border-radius-lr);
+}
+
+.g-captcha.is-invalid {
+    border: 1px solid #dc3545;
+    border-radius: var(--border-radius-sm);
+}
+
+.flex-centered {
+    position: relative;
+    height: 100vh;
+    width: 40%;
+    margin: auto;
+    overflow: auto;
+}

@@ -5,6 +5,7 @@ using PortfolioManagement.Business.Account;
 using PortfolioManagement.Business.Master;
 using PortfolioManagement.Entity.Account;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Account;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,6 +15,13 @@ namespace PortfolioManagement.Api.Controllers.Account
     [ApiController]
     public class RoleController : ControllerBase
     {
+        IRoleRepository roleRepository;
+
+        public RoleController(IRoleRepository roleRepository) 
+        {
+            this.roleRepository = roleRepository;
+        }
+
         #region Interface public methods
         /// <summary>
         /// Get all columns values for perticular role record.
@@ -28,8 +36,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                RoleBusiness roleBusiness = new RoleBusiness(Startup.Configuration);
-                response = new Response(await roleBusiness.SelectForRecord(Id));
+                response = new Response(await roleRepository.SelectForRecord(Id));
             }
             catch (Exception ex)
             {
@@ -51,8 +58,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                RoleBusiness roleBusiness = new RoleBusiness(Startup.Configuration);
-                response = new Response(await roleBusiness.SelectForLOV(roleParameterEntity));
+                response = new Response(await roleRepository.SelectForLOV(roleParameterEntity));
             }
             catch (Exception ex)
             {
@@ -74,8 +80,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                RoleBusiness roleBusiness = new RoleBusiness(Startup.Configuration);
-                response = new Response(await roleBusiness.SelectForGrid(roleParameterEntity));
+                response = new Response(await roleRepository.SelectForGrid(roleParameterEntity));
             }
             catch (Exception ex)
             {
@@ -97,8 +102,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                RoleBusiness roleBusiness = new RoleBusiness(Startup.Configuration);
-                response = new Response(await roleBusiness.Insert(roleEntity));
+                response = new Response(await roleRepository.Insert(roleEntity));
                 Cache.RoleMenuAccess.Refresh();
             }
             catch (Exception ex)
@@ -121,8 +125,8 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                RoleBusiness roleBusiness = new RoleBusiness(Startup.Configuration);
-                response = new Response(await roleBusiness.Update(roleEntity));
+
+                response = new Response(await roleRepository.Update(roleEntity));
                 Cache.RoleMenuAccess.Refresh();
             }
             catch (Exception ex)
@@ -145,8 +149,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                RoleBusiness roleBusiness = new RoleBusiness(Startup.Configuration);
-                await roleBusiness.Delete(Id);
+                await roleRepository.Delete(Id);
                 response = new Response();
                 Cache.RoleMenuAccess.Refresh();
             }

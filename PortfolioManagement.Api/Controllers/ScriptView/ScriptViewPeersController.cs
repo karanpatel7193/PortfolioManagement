@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.ScriptView;
+using PortfolioManagement.Repository.ScriptView;
 
 namespace PortfolioManagement.Api.Controllers.ScriptView
 {
@@ -10,6 +11,11 @@ namespace PortfolioManagement.Api.Controllers.ScriptView
     [ApiController]
     public class ScriptViewPeersController : ControllerBase
     {
+        IScriptViewPeersRepository scriptViewPeersRepository;
+        public ScriptViewPeersController(IScriptViewPeersRepository scriptViewPeersRepository)
+        {
+            this.scriptViewPeersRepository = scriptViewPeersRepository;
+        }
 
         [HttpGet]
         [Route("get/{id:int}", Name = "scriptViewPeers.record")]
@@ -19,8 +25,7 @@ namespace PortfolioManagement.Api.Controllers.ScriptView
             Response response;
             try
             {
-                ScriptViewPeersBusiness scriptViewPeersBusiness = new ScriptViewPeersBusiness(Startup.Configuration);
-                response = new Response(await scriptViewPeersBusiness.SelectForPeers(id));
+                response = new Response(await scriptViewPeersRepository.SelectForPeers(id));
             }
             catch (Exception ex)
             {

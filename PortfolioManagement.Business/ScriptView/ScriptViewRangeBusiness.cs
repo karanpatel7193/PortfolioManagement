@@ -8,10 +8,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PortfolioManagement.Repository.ScriptView;
 
 namespace PortfolioManagement.Business.ScriptView
 {
-    public class ScriptViewRangeBusiness : CommonBusiness
+    public class ScriptViewRangeBusiness : CommonBusiness, IScriptViewRangeRepository
     {
         ISql sql;
         public ScriptViewRangeBusiness(IConfiguration config) : base(config)
@@ -35,16 +36,21 @@ namespace PortfolioManagement.Business.ScriptView
             {
                 var filteredPrices = scriptViewRangeChartEntity.DayPrices;
                 int temp = 0;
+                double previousVolume = 0;
                 foreach (var price in filteredPrices)
                 {
-                    temp += 1;
+                    //var dateValuePair = new object[] { price.DateTime.ToString("yyyy-MM-dd HH:mm:ss+0000"), price.Price };
 
-                    var dateValuePair = new object[] { price.DateTime.ToString("yyyy-MM-dd HH:mm:ss+0000"), price.Price };
-
+                    TimeZoneInfo indianTimeZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                    DateTime istTime = TimeZoneInfo.ConvertTimeFromUtc(price.DateTime, indianTimeZone);
+                    var dateValuePair = new object[] { istTime.ToString("HH:mm")};
                     scriptViewRangeChartEntity.TimeSeries.Add(dateValuePair);
-                    scriptViewRangeChartEntity.PriceSeriesData.Add(price.Price);
-                    scriptViewRangeChartEntity.VolumeSeriesData.Add(price.Volume);
 
+                    scriptViewRangeChartEntity.PriceSeriesData.Add(price.Price);
+
+                    double volumeDifference = temp == 1 ? price.Volume : price.Volume - previousVolume;
+                    scriptViewRangeChartEntity.VolumeSeriesData.Add(volumeDifference);
+                    previousVolume = price.Volume;
                 }
             }
         }

@@ -1,96 +1,180 @@
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-12">
         <div class="card tile-panel w-100">
-            <div class="card-header ms-2 d-flex align-items-center justify-content-between">
-                <h4 class="card-title mb-0">Watchlist</h4>
-
-                <div class="mt-1 row w-100 align-items-center">
-                    <div class="col-md-4 ms-3">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item" *ngFor="let item of watchlist">
-                                <a class="nav-link" [class.active]="item.id === activeTabId"
-                                    [class.inactive]="item.id !== activeTabId" (click)="setActiveTab(item.id)"
-                                    style="cursor: pointer">
-                                    {{ item.name }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="col-md-2 d-flex justify-content-start">
-                        <button (click)="add()" class="btn btn-icon btn-tnx add-button tab"
-                            [ngClass]="{ 'btn-outline-primary': access.canInsert, 'btn-outline-secondary': !access.canInsert }"
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Watchlist</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="bi bi-three-dots-vertical"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarScroll">
+                        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll text-center text-lg-start" style="--bs-scroll-height: 100px;">
+                        <li class="nav-item" *ngFor="let item of watchlist">
+                            <a class="nav-link" [class.active]="item.id === activeTabId" [class.inactive]="item.id !== activeTabId"  (click)="setActiveTab(item.id)" style="cursor: pointer"> {{ item.name }}</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <button (click)="add()" class="btn btn-icon btn-tnx add-button tab"
+                            [ngClass]="{ 'btn-outline-success': access.canInsert, 'btn-outline-secondary': !access.canInsert }"
                             title="{{ access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.' }}">
                             <i class="fa fa-plus"></i>
-                        </button>
+                            </button>
+                        </li>
+                        </ul>
+                        <form class="d-flex" role="search" #watchlistForm="ngForm">
+                            <input id="script-dropdown" type="text" class="form-control me-2" [(ngModel)]="selectedScript" placeholder="Search" [ngbTypeahead]="search" [inputFormatter]="formatter" [resultFormatter]="formatter"
+                            [editable]="false" name="script-dropdown" 
+                            (selectItem)="onScriptSelected($event)" />
+                            <button (click)="scriptSave()" class="btn btn-icon btn-tnx add-button tab"
+                                    [ngClass]="{ 'btn-outline-success': access.canInsert, 'btn-outline-secondary': !access.canInsert }"
+                                    title="{{ access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.' }}">
+                                    <i class="fa fa-plus"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
-                <form #watchlistForm="ngForm" novalidate>
-                    <div class="d-flex align-items-center">
-                        <div class="input-group header-button" style="width: 250px; margin-right: 15px">
-                            <input id="script-dropdown" type="text" class="form-control" [(ngModel)]="selectedScript"
-                                [ngbTypeahead]="search" [inputFormatter]="formatter" [resultFormatter]="formatter"
-                                [editable]="false" name="script-dropdown" (selectItem)="onScriptSelected($event)" />
-                        </div>
-                        <button (click)="scriptSave()" class="btn btn-icon btn-tnx add-button "
-                            [ngClass]="{ 'btn-outline-primary': access.canInsert, 'btn-outline-secondary': !access.canInsert }"
-                            title="{{ access.canInsert 	? 'Click here to add new record.' 	: 'You do not have add access of this page.' }}">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <div class="card tile-panel w-100">
-                <div class="card-body">
-                    <div class="table-wrapper">
-                        <div class="table-scroll">
-                            <table class="table table-bordered table-hover">
-                                <thead >
-                                    <tr>
-                                        <th class="text-center">Name</th>
-                                        <th class="text-center">Price</th>
-                                        <th class="text-center">Volume</th>
-                                        <th class="text-center">Open</th>
-                                        <th class="text-center">Close</th>
-                                        <th class="text-center">High</th>
-                                        <th class="text-center">Low</th>
-                                        <th class="text-center">52 Week High</th>
-                                        <th class="text-center">52 Week Low</th>
-                                        <th class="text-center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of watchlistScriptTabModel"
-                                        [ngClass]="{ 'selected-row': watchlistParameterModel.id == item.id }">
-                                        <td class="cursor-pointer text-start" (click)="redirect(item.scriptId, item.name)"
-                                            title="{{ item.name }}">
-                                            {{ item.name }}
-                                        </td>
-                                        <td class="text-center" [ngClass]="getPriceChangeClass(item.oldPrice, item.price)">
-                                            {{ item.price | number: '1.2-2' }}
-                                        </td>
-                                        <td class="text-center">{{ item.volume | number: '1.2-2' }}</td>
-                                        <td class="text-center">{{ item.open | number: '1.2-2' }}</td>
-                                        <td class="text-center">{{ item.close | number: '1.2-2' }}</td>
-                                        <td class="text-center">{{ item.high | number: '1.2-2' }}</td>
-                                        <td class="text-center">{{ item.low | number: '1.2-2' }}</td>
-                                        <td class="text-center">{{ item.high52Week | number: '1.2-2' }}</td>
-                                        <td class="text-center">{{ item.low52Week | number: '1.2-2' }}</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-outline-danger btn-icon" (click)="delete(item.id)"
-                                                [ngClass]="{ 'btn-outline-danger': access.canDelete, 'btn-outline-secondary': !access.canDelete }"
-                                                title="{{ access.canDelete ? 'Click to delete this record.' : 'You do not have delete access.' }}">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </nav>
+
             
+            <hr class="my-custom-hr">
+            <div class="card-body">
+                <div class="table-wrapper">
+                    <div class="table-scroll">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="sort-header text-start" (click)="sortData('name')">
+                                        Name
+                                        <i class="fa"
+                                            [ngClass]="{
+                                                'fa-sort': (sortColumn !== 'name'),
+                                                'fa-sort-asc': (sortColumn === 'name' && sortDirection === 'asc'),
+                                                'fa-sort-desc': (sortColumn === 'name' && sortDirection === 'desc')
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th class="sort-header text-right" (click)="sortData('price')">
+                                        Price
+                                        <i class="fa"
+                                            [ngClass]="{
+                                                'fa-sort': (sortColumn !== 'price'),
+                                                'fa-sort-asc': (sortColumn === 'price' && sortDirection === 'asc'),
+                                                'fa-sort-desc': (sortColumn === 'price' && sortDirection === 'desc')
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th class="sort-header text-right" (click)="sortData('volume')">
+                                        Volume
+                                        <i class="fa"
+                                            [ngClass]="{
+                                                'fa-sort': (sortColumn !== 'volume'),
+                                                'fa-sort-asc': (sortColumn === 'volume' && sortDirection === 'asc'),
+                                                'fa-sort-desc': (sortColumn === 'volume' && sortDirection === 'desc')
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th class="sort-header text-right" (click)="sortData('open')">
+                                        Open
+                                        <i class="fa"
+                                            [ngClass]="{
+                                                'fa-sort': (sortColumn !== 'open'),
+                                                'fa-sort-asc': (sortColumn === 'open' && sortDirection === 'asc'),
+                                                'fa-sort-desc': (sortColumn === 'open' && sortDirection === 'desc')
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+
+                                    <th class="sort-header text-right" (click)="sortData('close')">
+                                        Close
+                                        <i class="fa"
+                                            [ngClass]="{
+                                                'fa-sort': (sortColumn !== 'close'),
+                                                'fa-sort-asc': (sortColumn === 'close' && sortDirection === 'asc'),
+                                                'fa-sort-desc': (sortColumn === 'close' && sortDirection === 'desc')
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+
+                                    <th class="sort-header text-right" (click)="sortData('high')">
+                                        High
+                                        <i class="fa"
+                                            [ngClass]="{
+                                                'fa-sort': (sortColumn !== 'high'),
+                                                'fa-sort-asc': (sortColumn === 'high' && sortDirection === 'asc'),
+                                                'fa-sort-desc': (sortColumn === 'high' && sortDirection === 'desc')
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+
+                                    <th class="sort-header text-right" (click)="sortData('low')">
+                                        Low
+                                        <i class="fa"
+                                            [ngClass]="{
+                                                'fa-sort': (sortColumn !== 'low'),
+                                                'fa-sort-asc': (sortColumn === 'low' && sortDirection === 'asc'),
+                                                'fa-sort-desc': (sortColumn === 'low' && sortDirection === 'desc')
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+
+                                    <th class="sort-header text-right" (click)="sortData('high52Week')">
+                                        High 52 Week
+                                        <i class="fa"
+                                            [ngClass]="{
+                                                'fa-sort': (sortColumn !== 'high52Week'),
+                                                'fa-sort-asc': (sortColumn === 'high52Week' && sortDirection === 'asc'),
+                                                'fa-sort-desc': (sortColumn === 'high52Week' && sortDirection === 'desc')
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+
+                                    <th class="sort-header text-right" (click)="sortData('low52Week')">
+                                        Low 52 Week
+                                        <i class="fa"
+                                            [ngClass]="{
+                                                'fa-sort': (sortColumn !== 'low52Week'),
+                                                'fa-sort-asc': (sortColumn === 'low52Week' && sortDirection === 'asc'),
+                                                'fa-sort-desc': (sortColumn === 'low52Week' && sortDirection === 'desc')
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+
+                                    <th class="action-column text-end">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of watchlistScriptTabModel" [ngClass]="{ 'selected-row': watchlistParameterModel.id == item.id }">
+                                    <td class="cursor-pointer text-start" (click)="redirect(item.scriptId, item.name)" title="{{ item.name }}"> {{ item.name }} </td>
+                                    <td class="text-end" [ngClass]="getPriceChangeClass(item.oldPrice, item.price)">
+                                        {{ item.price | number: '1.2-2' }}
+                                    </td>
+                                    <td class="text-end">{{ item.volume | number: '1.2-2' }}</td>
+                                    <td class="text-end">{{ item.open | number: '1.2-2' }}</td>
+                                    <td class="text-end">{{ item.close | number: '1.2-2' }}</td>
+                                    <td class="text-end">{{ item.high | number: '1.2-2' }}</td>
+                                    <td class="text-end">{{ item.low | number: '1.2-2' }}</td>
+                                    <td class="text-end">{{ item.high52Week | number: '1.2-2' }}</td>
+                                    <td class="text-end">{{ item.low52Week | number: '1.2-2' }}</td>
+                                    <td class="text-end">
+                                        <button class="btn btn-outline-danger btn-icon" (click)="delete(item.id)" [ngClass]="{ 'btn-outline-danger': access.canDelete, 'btn-outline-secondary': !access.canDelete }" title="{{ access.canDelete ? 'Click to delete this record.' : 'You do not have delete access.' }}"> <i class="fa fa-trash"></i> </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

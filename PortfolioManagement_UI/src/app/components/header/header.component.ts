@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { SessionService } from 'src/app/services/session.service';
 import { environment } from 'src/environments/environment';
 
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -21,7 +22,7 @@ import { environment } from 'src/environments/environment';
 export class HeaderComponent implements OnInit {
     public commonPageModel: PageModel = new PageModel();
     public currentUser: UserLoginModel = new UserLoginModel();
-
+    showProfileModal: boolean = false;
     public swVersion: string = environment.softwareVersion;
     public modelVersion: string = '';
 
@@ -58,6 +59,7 @@ export class HeaderComponent implements OnInit {
         this.fillDropdowns()
         this.getScriptData()
     }
+    
 
     // public logout() {
     //     this.userService.logoutUser().subscribe({
@@ -74,7 +76,17 @@ export class HeaderComponent implements OnInit {
     public logout() {
         this.sessionService.logout()
     }
+  
+    public cancel():void{
+        this.router.navigate(['auth/login'])
+    }
+    openProfileModal() {
+        this.showProfileModal = true;
+    }
 
+    closeProfileModal() {
+        this.showProfileModal = false;
+    }
     private fillDropdowns(): void {
         this.scriptService.getForLOV(this.scriptParameter).subscribe((data) => {
             this.stockTransactionListModel.scripts = data
@@ -101,19 +113,43 @@ export class HeaderComponent implements OnInit {
     }
 
     scrollLeft() {
-		const container = document.querySelector('.ttape-inner');
-		if (container) {
-		        container.scrollBy({ left: -100, behavior: 'smooth' });
-		}
-	}
-	  
-	scrollRight() {
-		const container = document.querySelector('.ttape-inner');
-		if (container) {
-		    container.scrollBy({ left: 100, behavior: 'smooth' });
-		}
-	}
-
+        const container = document.querySelector('.ttape-inner');
+        if (container) {
+            container.scrollBy({ left: -100, behavior: 'smooth' });
+        }
     }
+
+    scrollRight() {
+        const container = document.querySelector('.ttape-inner');
+        if (container) {
+            container.scrollBy({ left: 100, behavior: 'smooth' });
+        }
+    }
+    public redirect(id: number, symbol: string) {
+        this.commonService.redirectToPage(id, symbol);
+    }
+
+    //code for password change
+    showModal: boolean = false;
+
+    goToChangePassword() {
+        this.showModal = true;
+    }
+
+    closeModal() {
+        this.showModal = false; 
+    }
+  onBackdropClick(event: MouseEvent) {
+    const modalContent = document.querySelector('.modal-content');
+    if (modalContent && !modalContent.contains(event.target as Node)) {
+      this.closeModal(); 
+      this.closeProfileModal();
+    }
+  }
+
+  stopPropagation(event: MouseEvent) {
+    event.stopPropagation(); 
+  }
+}
 
 

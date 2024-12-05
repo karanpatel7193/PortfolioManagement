@@ -47,39 +47,16 @@
     }
 }
 
-.user-name {
-    padding: 6px;
-
-    .user-info {
-        color: var(--white);
-    }
-
-    .user-pic {
-        border: 2px solid var(--white);
-        padding: 3px;
-
-        img {
-            height: 36px;
-            width: 36px;
-        }
-    }
-
-    .dropdown-toggle::after {
-        content: none;
-    }
-
-    .dropdown-menu {
-        width: 222px;
-    }
-
-    .dropdown-item {
-        cursor: pointer;
-    }
+.dropdown-toggle::after {
+	content: none;
+}
+.user-role {
+	color: #ccc !important;
 }
 // start tag used for marquee
 .symbol {
-    margin-right: 5px;
-  }
+	margin-right: 5px;
+}
   
   .price {
     margin-right: 5px;
@@ -144,6 +121,14 @@
   .header{
       grid-template-columns: 1fr 2fr 1fr;
   }
+  .ticker-item-root span.cursor-pointer {
+    transition: color 0.3s ease; 
+}
+
+.ticker-item-root span.cursor-pointer:hover {
+    color: red; 
+    cursor: pointer;
+}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {

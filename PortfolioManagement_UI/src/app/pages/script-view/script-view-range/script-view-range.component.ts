@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ScriptViewRangeChartModel, ScriptViewRangeModel } from './script-view-range.model';
 import { ScriptViewRangeService } from './script-view-range.service';
 import { ScriptViewChartService } from '../script-view-chart/script-view-chart.service';
-import { ScriptViewParameterModel } from '../script-view-chart/script-view-chart.model';
-import { color } from 'echarts';
+import { ScriptViewChartModel, ScriptViewParameterModel } from '../script-view-chart/script-view-chart.model';
+import * as echarts from 'echarts';
+import { bottom } from '@popperjs/core';
 
 @Component({
     selector: 'app-script-view-range',
@@ -13,6 +14,7 @@ import { color } from 'echarts';
 export class ScriptViewRangeComponent implements OnInit, OnChanges {
     @Input() id!: number;
     public scriptViewRangeChartModel: ScriptViewRangeChartModel = new ScriptViewRangeChartModel();
+    public scriptViewChartModel: ScriptViewChartModel = new ScriptViewChartModel();
     public scriptviewParameterModel: ScriptViewParameterModel = new ScriptViewParameterModel();
     public myColor: string = '';
     
@@ -38,49 +40,110 @@ export class ScriptViewRangeComponent implements OnInit, OnChanges {
 	}
     
     public updateChartOptions(scriptViewRangeChartModel: ScriptViewRangeChartModel) {
-        
-        const maxPrice = Math.ceil(Math.max(...scriptViewRangeChartModel.priceSeriesData));
-        const minPrice = Math.floor(Math.min(...scriptViewRangeChartModel.priceSeriesData));
+        let myChart = echarts.init(document.getElementById('chartContainer') as HTMLElement);
     
-        this.lineChartOption = {
-            xAxis : [
-                {
-                    type: 'time',
-                    boundaryGap:false             
-                }
-            ],
-            yAxis : [
-                {
-                    type : 'value',
-                    min: minPrice,
-                    max: maxPrice
-                }
-            ],
+        const categories = scriptViewRangeChartModel.timeSeries; 
+        const priceData = scriptViewRangeChartModel.priceSeriesData; 
+        const volumeData = scriptViewRangeChartModel.volumeSeriesData;
+    
+        const minPrice = Math.floor(Math.min(...priceData));
+        const maxPrice = Math.ceil(Math.max(...priceData));
+        const minVolume = Math.floor(Math.min(...volumeData));
+        const maxVolume = Math.ceil(Math.max(...volumeData));
+    
+        let option = {
             tooltip: {
                 trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#283b56'
+                    }
+                },
+                formatter: (params: any) => {
+                    const timeIndex = params[0].dataIndex;
+                    const price = priceData[timeIndex];
+                    const volume = volumeData[timeIndex];
+                    return `
+                        <div>
+                            <strong>Price:</strong> ${price} <br>
+                            <strong>Volume:</strong> ${volume}
+                        </div>
+                    `;
+                }
             },
-            dataZoom: [
+            xAxis: [
                 {
-                    type: 'inside', 
-                    start: 0,
-                    end: 100 
+                    type: 'category',
+                    boundaryGap: true,
+                    data: categories 
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: 'Price',
+                    min: minPrice,
+                    max: maxPrice,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    position: 'left',
+                },
+                {
+                    type: 'value',
+                    name: 'Volume',
+                    min: minVolume,
+                    max: maxVolume,
+                    axisLabel: {
+                        formatter: function (value: any) {
+                            if (value >= 10000000) { // 1 crore or more
+                                return (value / 10000000).toFixed(1) + 'Cr'; 
+                            } else if (value >= 100000) { // 1 lakh or more
+                                return (value / 100000).toFixed(1) + 'L'; 
+                            } else if (value >= 1000) { // 1 thousand or more
+                                return (value / 1000).toFixed(1) + 'k'; 
+                            }
+                            return value; // Less than 1 thousand
+                        }
+                    },
+                    position: 'right',
+                    show: true
+                }
+            ],
+            series: [
+                {
+                    name: 'Price',
+                    type: 'line',
+                    yAxisIndex: 0,
+                    data: priceData,
+                    lineStyle: {
+                        color: '#5470C6',
+                        width: 3
+                    },
+                    areaStyle: {
+                        color: 'rgba(84,112,198, 0.3)'
+                    }
+                },
+                {
+                    name: 'Volume',
+                    type: 'bar',
+                    yAxisIndex: 1,
+                    data: volumeData,
+                    itemStyle: {
+                        color: '#91CC75',
+                    },
+                    barWidth: 10 
                 }
             ],
             grid: {
-                left: 40,
-                top: 10,
-                right: 20,
-                bottom: 20
+                top: '13px',    
+                bottom: '25px', 
+                left: '10%',    
+                right: '11%'    
             },
-            series: [
-                {
-                    name:'PriceSeries',
-                    type: 'line',
-                    itemStyle: {normal: {areaStyle: {color: this.myColor}}, color: this.myColor},
-                    lineStyle: {color: this.myColor},
-                    data: scriptViewRangeChartModel.timeSeries,
-                }
-            ]
         };
+    
+        myChart.setOption(option);
     }
 }

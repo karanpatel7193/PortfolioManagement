@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
-using PortfolioManagement.Business.Transaction;
+using PortfolioManagement.Business.Portfolio;
 using PortfolioManagement.Entity.Transaction;
 using PortfolioManagement.Entity.Transaction.StockTransaction;
+using PortfolioManagement.Repository.Portfolio;
 
 namespace PortfolioManagement.Api.Controllers.Portfolio
 {
@@ -12,6 +13,11 @@ namespace PortfolioManagement.Api.Controllers.Portfolio
     [ApiController]
     public class PortfolioDatewiseController : ControllerBase
     {
+        IPortfolioDatewiseReository portfolioDatewiseReository;
+        public PortfolioDatewiseController(IPortfolioDatewiseReository portfolioDatewiseReository)
+        {
+            this.portfolioDatewiseReository = portfolioDatewiseReository;
+        }
         [HttpPost]
         [Route("getPortfolioDatewiseReport", Name = "portfolioDatewise.getPortfolioDatewiseReport")]
         [AuthorizeAPI(pageName: "Portfolio Report", pageAccess: PageAccessValues.View)]
@@ -21,8 +27,7 @@ namespace PortfolioManagement.Api.Controllers.Portfolio
             try
             {
                 portfolioDatewiseParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                PortfolioDatewiseBusiness portfolioDatewiseBusiness = new PortfolioDatewiseBusiness(Startup.Configuration);
-                response = new Response(await portfolioDatewiseBusiness.SelectForPortfolioDatewiseData(portfolioDatewiseParameterEntity));
+                response = new Response(await portfolioDatewiseReository.SelectForPortfolioDatewiseData(portfolioDatewiseParameterEntity));
             }
             catch (Exception ex)
             {

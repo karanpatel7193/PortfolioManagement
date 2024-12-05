@@ -2,6 +2,7 @@
 using CommonLibrary.SqlDB;
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Master;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioManagement.Business.Master
 {
-    public class BrokerBusiness : CommonBusiness
+    public class BrokerBusiness : CommonBusiness, IBrokerRepository
     {
         ISql sql;
         public BrokerBusiness(IConfiguration config) : base(config)

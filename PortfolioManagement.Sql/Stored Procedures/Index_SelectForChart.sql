@@ -37,16 +37,16 @@ BEGIN
     END
 
     
-    IF @DateRange = '1 day'
+    IF @DateRange = '1D'
     BEGIN
-        SELECT * 
+        SELECT [DateTime] AS [Date], Sensex, Nifty
         FROM [IndexRaw]
         WHERE [DateTime] >= @StartDate
           AND [DateTime] <= @TodayDate;
     END
     ELSE
     BEGIN
-        SELECT * 
+        SELECT Date,  Sensex, Nifty
         FROM [Index]
         WHERE [Date] >= @StartDate
           AND [Date] <= @TodayDate;

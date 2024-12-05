@@ -1,74 +1,102 @@
 <div class="card tile-panel w-100">
-    <div class="card-header">
-        <h4 style="display: contents ;" class="card-title mb-0">Brokers</h4>
-        <button (click)="add()" class="btn btn-icon btn-tnx float-end"
-        [ngClass]="{'btn-outline-success':access.canInsert, 'btn-outline-secondary':!access.canInsert}" 
-        title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access of this page.'}}"><i class="fa fa-plus"></i></button>
-        <div class="input-group float-end header-button" style="width:250px;">
-            <input type="text" class="form-control shadow-sm" [(ngModel)]="brokerParameter.name" placeholder="Search here..." />
-            <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary"><i class="fa fa-search"></i></button>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-lg-12">
-                <form #SearchbrokerForm="ngForm" novalidate>
-                </form>
+    <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+        <h4 class="card-title mb-0">Brokers</h4>
+        <div class="d-flex gap-2 mt-2 mt-md-0">
+            <div class="input-group float-end header-button">
+                <input type="text" class="form-control shadow-sm" [(ngModel)]="brokerParameter.name" placeholder="Search here..." />
+                <button (click)="search()" class="btn btn-icon btn-tnx btn-outline-secondary"><i class="fa fa-search"></i></button>
             </div>
+            <button (click)="add()" class="btn btn-icon btn-tnx"
+                    [ngClass]="{'btn-outline-success': access.canInsert, 'btn-outline-secondary': !access.canInsert}" 
+                    title="{{access.canInsert ? 'Click here to add new record.' : 'You do not have add access to this page.'}}">
+                <i class="fa fa-plus"></i>
+            </button>
         </div>
-        <table class="table table-bordered table-hover sort">
-            <thead style="cursor: pointer;">
-                <tr [id]="'broker-list'">
-
-                    <th (click)="sort('Name')" class="sort-header">
-                        Name
-                        <i class="fa" [ngClass]="{'fa-sort': (brokerParameter.sortExpression != 'Name'), 'fa-sort-asc': (brokerParameter.sortExpression == 'Name' && brokerParameter.sortDirection == 'asc'), 'fa-sort-desc': (brokerParameter.sortExpression == 'Name' && brokerParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                    </th>
-
-                    <th (click)="sort('BseCode')" class="sort-header">
-                        BrokerType
-                        <i class="fa" [ngClass]="{'fa-sort': (brokerParameter.sortExpression != 'BseCode'), 'fa-sort-asc': (brokerParameter.sortExpression == 'BseCode' && brokerParameter.sortDirection == 'asc'), 'fa-sort-desc': (brokerParameter.sortExpression == 'BseCode' && brokerParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                    </th>
-
-                    <th (click)="sort('NseCode')" class="sort-header">
-                        Buy Brokerage
-                        <i class="fa" [ngClass]="{'fa-sort': (brokerParameter.sortExpression != 'NseCode'), 'fa-sort-asc': (brokerParameter.sortExpression == 'NseCode' && brokerParameter.sortDirection == 'asc'), 'fa-sort-desc': (brokerParameter.sortExpression == 'NseCode' && brokerParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                    </th>
-
-                    <th (click)="sort('ISINCode')" class="sort-header">
-                        Sell Brokerage
-                        <i class="fa" [ngClass]="{'fa-sort': (brokerParameter.sortExpression != 'ISINCode'), 'fa-sort-asc': (brokerParameter.sortExpression == 'ISINCode' && brokerParameter.sortDirection == 'asc'), 'fa-sort-desc': (brokerParameter.sortExpression == 'ISINCode' && brokerParameter.sortDirection == 'desc') }" aria-hidden="true"></i>
-                    </th>
-                    <th style="width:100px;">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of brokerGrid?.brokers;" (click)="brokerParameter.id == item.id;" [ngClass]="{'selected-row': (brokerParameter.id == item.id)}">
-                    <td>{{item.name}}</td>
-                    <td>{{item.brokerType}}</td>
-                    <td>{{item.buyBrokerage}}</td>
-                    <td>{{item.sellBrokerage}}</td>
-                    <td>
-                        <button class="btn btn-icon btn-tnx" (click)="edit(item.id)" [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}"  title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-icon btn-tnx" (click)="delete(item.id)" [ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}"  title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
-    <div class="card-footer text-body-secondary">
-        <div class="float-start card-header-controls">
-            <select [(ngModel)]="brokerParameter.pageSize" (change)="search()" class="form-select">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover sort">
+                <thead>
+                    <tr>
+                        <th (click)="sort('Name')" class="sort-header" style="cursor: pointer;">
+                            Name
+                            <i class="fa" 
+                               [ngClass]="{'fa-sort': (brokerParameter.sortExpression != 'Name'), 
+                                           'fa-sort-asc': (brokerParameter.sortExpression == 'Name' && brokerParameter.sortDirection == 'asc'), 
+                                           'fa-sort-desc': (brokerParameter.sortExpression == 'Name' && brokerParameter.sortDirection == 'desc')}" 
+                               aria-hidden="true"></i>
+                        </th>
+                        <th (click)="sort('BseCode')" class="sort-header" style="cursor: pointer;">
+                            BrokerType
+                            <i class="fa" 
+                               [ngClass]="{'fa-sort': (brokerParameter.sortExpression != 'BseCode'), 
+                                           'fa-sort-asc': (brokerParameter.sortExpression == 'BseCode' && brokerParameter.sortDirection == 'asc'), 
+                                           'fa-sort-desc': (brokerParameter.sortExpression == 'BseCode' && brokerParameter.sortDirection == 'desc')}" 
+                               aria-hidden="true"></i>
+                        </th>
+                        <th (click)="sort('NseCode')" class="sort-header" style="cursor: pointer;">
+                            Buy Brokerage
+                            <i class="fa" 
+                               [ngClass]="{'fa-sort': (brokerParameter.sortExpression != 'NseCode'), 
+                                           'fa-sort-asc': (brokerParameter.sortExpression == 'NseCode' && brokerParameter.sortDirection == 'asc'), 
+                                           'fa-sort-desc': (brokerParameter.sortExpression == 'NseCode' && brokerParameter.sortDirection == 'desc')}" 
+                               aria-hidden="true"></i>
+                        </th>
+                        <th (click)="sort('ISINCode')" class="sort-header" style="cursor: pointer;">
+                            Sell Brokerage
+                            <i class="fa" 
+                               [ngClass]="{'fa-sort': (brokerParameter.sortExpression != 'ISINCode'), 
+                                           'fa-sort-asc': (brokerParameter.sortExpression == 'ISINCode' && brokerParameter.sortDirection == 'asc'), 
+                                           'fa-sort-desc': (brokerParameter.sortExpression == 'ISINCode' && brokerParameter.sortDirection == 'desc')}" 
+                               aria-hidden="true"></i>
+                        </th>
+                        <th style="width: 100px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of brokerGrid?.brokers" 
+                        [ngClass]="{'selected-row': (brokerParameter.id == item.id)}">
+                        <td>{{item.name}}</td>
+                        <td>{{item.brokerType}}</td>
+                        <td>{{item.buyBrokerage}}</td>
+                        <td>{{item.sellBrokerage}}</td>
+                        <td>
+                            <button class="btn btn-icon btn-tnx" (click)="edit(item.id)" 
+                                    [ngClass]="{'btn-outline-primary': access.canUpdate, 'btn-outline-secondary': !access.canUpdate}" 
+                                    title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access to this page.'}}">
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-icon btn-tnx" (click)="delete(item.id)" 
+                                    [ngClass]="{'btn-outline-danger': access.canDelete, 'btn-outline-secondary': !access.canDelete}" 
+                                    title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access to this page.'}}">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card-footer text-body-secondary d-flex flex-wrap justify-content-between align-items-center">
+        <div class="d-flex gap-3 align-items-center">
+            <select [(ngModel)]="brokerParameter.pageSize" (change)="search()" class="form-select w-auto">
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
                 <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
             </select>
+            <span>Total Records: <strong>{{brokerGrid.totalRecords}}</strong></span>
         </div>
-        <div class="float-start total-records">Total Record(s) <strong>{{brokerGrid.totalRecords}}</strong></div>
-        <div class="float-end">
-            <ngb-pagination [collectionSize]="brokerGrid.totalRecords" [pageSize]="brokerParameter.pageSize" [(page)]="brokerParameter.pageIndex" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="search()"></ngb-pagination>
-        </div>
+        <ngb-pagination [collectionSize]="brokerGrid.totalRecords" [pageSize]="brokerParameter.pageSize" 
+                        [(page)]="brokerParameter.pageIndex" [maxSize]="5" [rotate]="true" 
+                        [ellipses]="false" [boundaryLinks]="true" (pageChange)="search()">
+        </ngb-pagination>
     </div>
+    
 </div>

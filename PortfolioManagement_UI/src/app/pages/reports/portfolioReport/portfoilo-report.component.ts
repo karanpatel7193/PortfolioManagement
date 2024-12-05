@@ -6,7 +6,7 @@ import { StocktransactionService } from '../../transaction/stocktransaction/stoc
 import { SessionService } from 'src/app/services/session.service';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/services/toast.service';
-import { PortfolioDonutChartModel, PortfolioReportModel } from './portfolio-report.model';
+import { PortfolioDonutChartModel, PortfolioReportModel, PortfolioScriptModel } from './portfolio-report.model';
 import { CommonService } from 'src/app/services/common.service';
 import { BrokerModel } from '../../master/broker/broker.model';
 
@@ -26,6 +26,8 @@ export class PortfolioReportComponent implements OnInit {
 	public masterValues: MasterValuesModel[] = [];
 	public investmentSectorData: PortfolioDonutChartModel[] = [];
 	public marketSectorData: PortfolioDonutChartModel[] = [];
+    sortColumn: string = ''; 
+    sortDirection: string = '';
 	// public filteredBrokers: BrokerModel[] = [];
 
 	showFilters = false;
@@ -52,7 +54,16 @@ export class PortfolioReportComponent implements OnInit {
 	public toggleFilters(): void {
 		this.showFilters = !this.showFilters;
 	}
-
+    public sortData(column: keyof PortfolioScriptModel) {
+        this.portfolioReportModels.scripts = this.commonService.sortGrid(this.portfolioReportModels.scripts, column, this.sortColumn, this.sortDirection);
+    
+        if (this.sortColumn === column) {
+            this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            this.sortColumn = column;
+            this.sortDirection = 'asc'; 
+        }
+    }
 	toggleMenu() {
         this.showFilters = !this.showFilters; 
     }

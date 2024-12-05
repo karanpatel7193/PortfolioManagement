@@ -2,6 +2,9 @@
 	// Theme colors
 	--primary-background: #ffffff;
 	--dark-background: #6f6af8;
+	--primary-color: #6f6af8;
+	--primary-hover-color: #8c88f7;
+	--primary-active-color: #504ae9;
 	//--primary-background: #11cdef;
 	--primary-background-hover: rgb(246 247 251 / 55%);
 	--primary-active: #f2f2fc;
@@ -20,6 +23,8 @@
 	--box-shadow-xl: 0 0 2rem 0 rgba(136,152,170,.15);
 	--secondary-outline: 1px solid #E2E8F0;
 	--bs-body-font-size: 0.9rem;
+	--bs-link-color-rgb: 242, 242, 252;
+	--bs-link-hover-color: #8c88f7;
 }
 .accordion {
     --bs-accordion-btn-padding-y: 0.5rem;

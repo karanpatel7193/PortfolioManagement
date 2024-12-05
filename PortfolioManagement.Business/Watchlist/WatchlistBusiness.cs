@@ -12,10 +12,11 @@ using PortfolioManagement.Entity.Master;
 using PortfolioManagement.Entity.Transaction.StockTransaction;
 using PortfolioManagement.Entity.Transaction;
 using PortfolioManagement.Entity.Account;
+using PortfolioManagement.Repository.Watchlist;
 
 namespace PortfolioManagement.Business.Watchlist
 {
-    public class WatchlistBusiness : CommonBusiness
+    public class WatchlistBusiness : CommonBusiness, IWatchlistRepository
     {
         ISql sql;
 

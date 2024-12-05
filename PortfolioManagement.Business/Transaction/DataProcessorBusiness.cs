@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using PortfolioManagement.Business.Master;
 using System.Runtime.Caching;
+using PortfolioManagement.Repository.Transaction;
 
 namespace PortfolioManagement.Business.Transaction
 {
@@ -19,7 +20,7 @@ namespace PortfolioManagement.Business.Transaction
     /// Created By :: Rekansh Patel
     /// Created On :: 11/22/2020
     /// </summary>
-    public class DataProcessorBusiness
+    public class DataProcessorBusiness: IDataProcessorRepository
     {
         IConfiguration _config;
         ScrapingBrowser _browser;

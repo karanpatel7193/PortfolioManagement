@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Entity.Analysis;
 using PortfolioManagement.Entity.Index;
+using PortfolioManagement.Repository.Analysis;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioManagement.Business.Analysis
 {
-    public class VolumeBusiness : CommonBusiness
+    public class VolumeBusiness : CommonBusiness, IVolumeRepository
     {
         ISql sql;
         public VolumeBusiness(IConfiguration config) : base(config)

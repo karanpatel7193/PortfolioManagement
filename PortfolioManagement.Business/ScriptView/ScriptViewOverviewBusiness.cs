@@ -3,6 +3,7 @@ using CommonLibrary.SqlDB;
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Entity.Master;
 using PortfolioManagement.Entity.ScriptView;
+using PortfolioManagement.Repository.ScriptView;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioManagement.Business.ScriptView
 {
-    public class ScriptViewOverviewBusiness :CommonBusiness
+    public class ScriptViewOverviewBusiness :CommonBusiness, IScriptViewOverviewRepository
     {
         ISql sql;
         public ScriptViewOverviewBusiness(IConfiguration config) : base(config)

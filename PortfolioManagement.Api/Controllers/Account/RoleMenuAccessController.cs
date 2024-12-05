@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.Account;
 using PortfolioManagement.Entity.Account;
+using PortfolioManagement.Repository.Account;
 
 namespace PortfolioManagement.Api.Controllers.Account
 {
@@ -10,6 +11,12 @@ namespace PortfolioManagement.Api.Controllers.Account
     [ApiController]
     public class RoleMenuAccessController : Controller
     {
+        IRoleMenuAccessRepository roleMenuAccessRepository;
+
+        public RoleMenuAccessController (IRoleMenuAccessRepository roleMenuAccessRepository)
+        {
+            this.roleMenuAccessRepository = roleMenuAccessRepository;
+        }
         /// <summary>
         /// Get role menu access by role id and parent menu id.
         /// </summary>

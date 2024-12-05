@@ -2,14 +2,14 @@
 using CommonLibrary.SqlDB;
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Master;
 using System.Data;
 
 namespace PortfolioManagement.Business.Master
 {
-    public class AccountBusiness : CommonBusiness
+    public class AccountBusiness : CommonBusiness,IAccounRepository
     {
         ISql sql;
-
         public AccountBusiness(IConfiguration config) : base(config)
         {
             sql = CreateSqlInstance();
@@ -52,7 +52,6 @@ namespace PortfolioManagement.Business.Master
             return await sql.ExecuteListAsync<AccountMainEntity>("Account_SelectForLOV", CommandType.StoredProcedure);
         }
 
-        /// Selects records with pagination and sorting.
         public async Task<AccountGridEntity> SelectForGrid(AccountParameterEntity accountParameterEntity)
         {
             AccountGridEntity accountGridEntity = new AccountGridEntity();

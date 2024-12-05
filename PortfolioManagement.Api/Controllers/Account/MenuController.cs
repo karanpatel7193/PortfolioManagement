@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.Account;
 using PortfolioManagement.Entity.Account;
+using PortfolioManagement.Repository.Account;
 
 namespace PortfolioManagement.Api.Controllers.Account
 {
@@ -10,6 +11,12 @@ namespace PortfolioManagement.Api.Controllers.Account
     [ApiController]
     public class MenuController : ControllerBase
     {
+        IMenuRepository menuRepository;
+        public MenuController(IMenuRepository menuRepository) 
+        {
+            this.menuRepository = menuRepository; 
+        }
+
         #region Interface public methods
         /// <summary>
         /// Get all columns values for perticular menu record.
@@ -18,14 +25,13 @@ namespace PortfolioManagement.Api.Controllers.Account
         /// <returns></returns>
         [HttpGet]
         [Route("getRecord/{Id:int}", Name = "account.menu.record")]
-        [AuthorizeAPI(pageName: "Menu", pageAccess: PageAccessValues.View)]
+        //[AuthorizeAPI(pageName: "Menu", pageAccess: PageAccessValues.View)]
         public async Task<Response> GetForRecord(int Id)
         {
             Response response;
             try
             {
-                MenuBusiness menuBusiness = new MenuBusiness(Startup.Configuration);
-                response = new Response(await menuBusiness.SelectForRecord(Id));
+                response = new Response(await menuRepository.SelectForRecord(Id));
             }
             catch (Exception ex)
             {
@@ -48,8 +54,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                MenuBusiness menuBusiness = new MenuBusiness(Startup.Configuration);
-                response = new Response(await menuBusiness.SelectForAdd(menuParameterEntity));
+                response = new Response(await menuRepository.SelectForAdd(menuParameterEntity));
             }
             catch (Exception ex)
             {
@@ -72,8 +77,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                MenuBusiness menuBusiness = new MenuBusiness(Startup.Configuration);
-                response = new Response(await menuBusiness.SelectForEdit(menuParameterEntity));
+                response = new Response(await menuRepository.SelectForEdit(menuParameterEntity));
             }
             catch (Exception ex)
             {
@@ -96,8 +100,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                MenuBusiness menuBusiness = new MenuBusiness(Startup.Configuration);
-                response = new Response(await menuBusiness.SelectForGrid(menuParameterEntity));
+                response = new Response(await menuRepository.SelectForGrid(menuParameterEntity));
             }
             catch (Exception ex)
             {
@@ -120,8 +123,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                MenuBusiness menuBusiness = new MenuBusiness(Startup.Configuration);
-                response = new Response(await menuBusiness.Insert(menuEntity));
+                response = new Response(await menuRepository.Insert(menuEntity));
                 Cache.Menu.Refresh();
             }
             catch (Exception ex)
@@ -145,8 +147,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                MenuBusiness menuBusiness = new MenuBusiness(Startup.Configuration);
-                response = new Response(await menuBusiness.Update(menuEntity));
+                response = new Response(await menuRepository.Update(menuEntity));
                 Cache.Menu.Refresh();
             }
             catch (Exception ex)
@@ -170,8 +171,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                MenuBusiness menuBusiness = new MenuBusiness(Startup.Configuration);
-                await menuBusiness.Delete(Id);
+                await menuRepository.Delete(Id);
                 response = new Response();
                 Cache.Menu.Refresh();
             }
@@ -197,8 +197,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                MenuBusiness menuBusiness = new MenuBusiness(Startup.Configuration);
-                response = new Response(await menuBusiness.SelectParent());
+                response = new Response(await menuRepository.SelectParent());
             }
             catch (Exception ex)
             {
@@ -221,8 +220,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                MenuBusiness menuBusiness = new MenuBusiness(Startup.Configuration);
-                response = new Response(await menuBusiness.SelectChild(ParentId));
+                response = new Response(await menuRepository.SelectChild(ParentId));
             }
             catch (Exception ex)
             {

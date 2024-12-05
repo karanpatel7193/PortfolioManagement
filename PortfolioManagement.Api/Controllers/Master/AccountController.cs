@@ -4,12 +4,19 @@ using Microsoft.AspNetCore.Http;
 using PortfolioManagement.Business.Master;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Master;
 namespace PortfolioManagement.Api.Controllers.Master
 {
     [Route("master/account")]
     [ApiController]
     public class AccountController : ControllerBase
     {
+        IAccounRepository accounRepository;
+        public AccountController(IAccounRepository accounRepository)
+        {
+            this.accounRepository = accounRepository;
+        }
+
         #region Interface public methods
 
         /// Get all columns information for a particular account record.
@@ -22,8 +29,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
 
-                AccountBusiness accountBusiness = new AccountBusiness(Startup.Configuration);
-                response = new Response(await accountBusiness.SelectForRecord(id));
+                
+                response = new Response(await accounRepository.SelectForRecord(id));
             }
             catch (Exception ex)
             {
@@ -42,8 +49,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 accountParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                AccountBusiness accountBusiness = new AccountBusiness(Startup.Configuration);
-                response = new Response(await accountBusiness.SelectForLOV(accountParameterEntity));
+                response = new Response(await accounRepository.SelectForLOV(accountParameterEntity));
 
             }
             catch (Exception ex)
@@ -64,8 +70,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 accountParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                AccountBusiness accountBusiness = new AccountBusiness(Startup.Configuration);
-                response = new Response(await accountBusiness.SelectForGrid(accountParameterEntity));
+                response = new Response(await accounRepository.SelectForGrid(accountParameterEntity));
             }
             catch (Exception ex)
             {
@@ -84,8 +89,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 accountParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                AccountBusiness accountBusiness = new AccountBusiness(Startup.Configuration);
-                response = new Response(await accountBusiness.SelectForAdd(accountParameterEntity));
+                response = new Response(await accounRepository.SelectForAdd(accountParameterEntity));
             }
             catch (Exception ex)
             {
@@ -104,8 +108,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 accountParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                AccountBusiness accountBusiness = new AccountBusiness(Startup.Configuration);
-                response = new Response(await accountBusiness.SelectForEdit(accountParameterEntity));
+                response = new Response(await accounRepository.SelectForEdit(accountParameterEntity));
             }
             catch (Exception ex)
             {
@@ -124,8 +127,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 accountEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                AccountBusiness accountBusiness = new AccountBusiness(Startup.Configuration);
-                response = new Response(await accountBusiness.Insert(accountEntity));
+                response = new Response(await accounRepository.Insert(accountEntity));
             }
             catch (Exception ex)
             {
@@ -146,8 +148,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                AccountBusiness accountBusiness = new AccountBusiness(Startup.Configuration);
-                response = new Response(await accountBusiness.Update(accountEntity));
+                response = new Response(await accounRepository.Update(accountEntity));
             }
             catch (Exception ex)
             {
@@ -165,9 +166,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-
-                AccountBusiness accountBusiness = new AccountBusiness(Startup.Configuration);
-                await accountBusiness.Delete(id);
+                await accounRepository.Delete(id);
                 response = new Response();
             }
             catch (Exception ex)

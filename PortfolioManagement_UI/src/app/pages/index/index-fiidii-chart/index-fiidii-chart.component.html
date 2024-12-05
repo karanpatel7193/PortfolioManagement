@@ -1,6 +1,6 @@
   <div class="card tile-panel w-100">
     <div class="card-body">
-      <h5 class="card-title">Index FiiDii Chart</h5>
+      <h5 class="card-title">FII / DII</h5>
       <div class="button-container float-end">
         <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '1W'}" (click)="setDateRange('1W')">1W</button>
         <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '1M'}" (click)="setDateRange('1M')">1M</button>
@@ -8,8 +8,8 @@
         <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '6M'}" (click)="setDateRange('6M')">6M</button>
         <button class="btn btn-outline-primary" [ngClass]="{'active': selectedRange === '1Y'}" (click)="setDateRange('1Y')">1Y</button>
       </div>
+  
       <hr />
-      <div echarts [options]="niftyChart" class="chart-container" #chartContainer style="height: 550px;"></div>
+      <div echarts [options]="niftyChart" class="chart-container" #chartContainer style="height: 400px;"></div>
     </div>
   </div>
-  

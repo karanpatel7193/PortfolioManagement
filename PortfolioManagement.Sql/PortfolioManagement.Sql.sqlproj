@@ -221,6 +221,7 @@
     <Build Include="Security\RoleMemberships.sql" />
     <Build Include="Stored Procedures\Index_SelectForFiiDiiChart.sql" />
     <Build Include="Stored Procedures\Index_SelectForChart.sql" />
+    <Build Include="Stored Procedures\User_UpdateProfile.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GenerateScript.txt" />

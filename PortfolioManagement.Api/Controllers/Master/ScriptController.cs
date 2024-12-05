@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.Master;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Master;
 
 namespace PortfolioManagement.Api.Controllers.Master
 {
@@ -14,6 +15,12 @@ namespace PortfolioManagement.Api.Controllers.Master
     [ApiController]
     public class ScriptController : ControllerBase
     {
+        IScriptRepository scriptRepository;
+        public ScriptController(IScriptRepository scriptRepository)
+        {
+            this.scriptRepository = scriptRepository;
+        }
+
         #region Interface public methods
         /// <summary>
         /// Get all columns information for particular script record.
@@ -28,8 +35,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                ScriptBusiness scriptBusiness = new ScriptBusiness(Startup.Configuration);
-                response = new Response(await scriptBusiness.SelectForRecord(id));
+                response = new Response(await scriptRepository.SelectForRecord(id));
             }
             catch (Exception ex)
             {
@@ -51,8 +57,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                ScriptBusiness scriptBusiness = new ScriptBusiness(Startup.Configuration);
-                response = new Response(await scriptBusiness.SelectForLOV(scriptParameterEntity));
+                response = new Response(await scriptRepository.SelectForLOV(scriptParameterEntity));
             }
             catch (Exception ex)
             {
@@ -74,8 +79,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                ScriptBusiness scriptBusiness = new ScriptBusiness(Startup.Configuration);
-                response = new Response(await scriptBusiness.SelectForGrid(scriptParameterEntity));
+                response = new Response(await scriptRepository.SelectForGrid(scriptParameterEntity));
             }
             catch (Exception ex)
             {
@@ -97,8 +101,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                ScriptBusiness scriptBusiness = new ScriptBusiness(Startup.Configuration);
-                response = new Response(await scriptBusiness.Insert(scriptEntity));
+                response = new Response(await scriptRepository.Insert(scriptEntity));
             }
             catch (Exception ex)
             {
@@ -120,8 +123,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                ScriptBusiness scriptBusiness = new ScriptBusiness(Startup.Configuration);
-                response = new Response(await scriptBusiness.Update(scriptEntity));
+                response = new Response(await scriptRepository.Update(scriptEntity));
             }
             catch (Exception ex)
             {
@@ -143,8 +145,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                ScriptBusiness scriptBusiness = new ScriptBusiness(Startup.Configuration);
-                await scriptBusiness.Delete(id);
+                await scriptRepository.Delete(id);
                 response = new Response();
             }
             catch (Exception ex)

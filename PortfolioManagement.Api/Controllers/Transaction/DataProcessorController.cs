@@ -1,7 +1,8 @@
 ﻿using CommonLibrary;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
-using PortfolioManagement.Business.Transaction;
+using PortfolioManagement.Business.Portfolio;
+using PortfolioManagement.Repository.Transaction;
 using System;
 using System.Threading.Tasks;
 
@@ -14,6 +15,12 @@ namespace PortfolioManagement.Api.Controllers.Transaction
     [ApiController]
     public class DataProcessorController : ControllerBase
     {
+        IDataProcessorRepository dataProcessorRepository;
+        public DataProcessorController(IDataProcessorRepository dataProcessorRepository)
+        {
+            this.dataProcessorRepository = dataProcessorRepository;
+        }
+
         #region Interface public methods
         /// <summary>
         /// Get all columns information for particular transaction record.
@@ -38,9 +45,7 @@ namespace PortfolioManagement.Api.Controllers.Transaction
                 DateTime fiiDiiTime = new DateTime(current.Year, current.Month, current.Day, MyConvert.ToInt(fiiDiiTimePart[0]), MyConvert.ToInt(fiiDiiTimePart[1]), MyConvert.ToInt(fiiDiiTimePart[2]));
                 DateTime portfolioDateTime = new DateTime(current.Year, current.Month, current.Day, MyConvert.ToInt(portfolioDateTimePart[0]), MyConvert.ToInt(portfolioDateTimePart[1]), MyConvert.ToInt(portfolioDateTimePart[2]));
                 
-                DataProcessorBusiness dataProcessorBusiness = new DataProcessorBusiness(Startup.Configuration);
-                await dataProcessorBusiness.StartScrap(current, fromTime, toTime, fiiDiiTime, AppSettings.ApplicationScrapNifty500_URL, AppSettings.ApplicationScrapNifty500_ApiURL, AppSettings.ApplicationScrapNseScript_URL, AppSettings.ApplicationScrapNifty50_URL, AppSettings.ApplicationScrapSensex_URL, AppSettings.ApplicationScrapFiiDii_URL, AppSettings.ApplicationScrapNseScript_ApiURL, AppSettings.ApplicationScrapNifty50_ApiURL, AppSettings.ApplicationScrapSensex_ApiURL, AppSettings.ApplicationScrapFiiDii_ApiURL);
-
+                await dataProcessorRepository.StartScrap(current, fromTime, toTime, fiiDiiTime, AppSettings.ApplicationScrapNifty500_URL, AppSettings.ApplicationScrapNifty500_ApiURL, AppSettings.ApplicationScrapNseScript_URL, AppSettings.ApplicationScrapNifty50_URL, AppSettings.ApplicationScrapSensex_URL, AppSettings.ApplicationScrapFiiDii_URL, AppSettings.ApplicationScrapNseScript_ApiURL, AppSettings.ApplicationScrapNifty50_ApiURL, AppSettings.ApplicationScrapSensex_ApiURL, AppSettings.ApplicationScrapFiiDii_ApiURL);
                 PortfolioDatewiseBusiness portfolioDatewiseBusiness = new PortfolioDatewiseBusiness(Startup.Configuration);
                 await portfolioDatewiseBusiness.ProcessPortfolioDatewise(current, portfolioDateTime);
 

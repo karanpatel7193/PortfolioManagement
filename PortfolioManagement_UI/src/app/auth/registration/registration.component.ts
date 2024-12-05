@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { AccessModel } from 'src/app/models/access.model';
 import { MasterValuesModel } from 'src/app/models/mastervalue.model';
 import { RoleMainModel } from 'src/app/pages/account/role/role.model';
@@ -7,6 +8,7 @@ import { UserModel, UserAddModel, UserEditModel, UserParameterModel } from 'src/
 import { UserService } from 'src/app/pages/account/user/user.service';
 import { SessionService } from 'src/app/services/session.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { RegistrationSuccessComponent } from './registration-success.component';
 
 @Component({
   selector: 'app-registration',
@@ -26,20 +28,30 @@ export class RegistrationComponent implements OnInit {
     public userEdit: UserEditModel = new UserEditModel();
     public userParameter: UserParameterModel = new UserParameterModel();
     public masterValues: MasterValuesModel[] = [];
+
+    public ModalOption: NgbModalOptions = {
+        backdrop: 'static',
+        beforeDismiss: () => {
+            this.router.navigate([{ outlets: { popup: null } }]);
+            return true;
+        }
+    }
     
     constructor(private userService: UserService, private sessionService: SessionService,
         private router: Router,
         private route: ActivatedRoute,
-        private toaster: ToastService) {
-        }
+        private toaster: ToastService,
+        private modalService: NgbModal,
+        public activeModal: NgbActiveModal,
+    ){}
 
     ngOnInit(): void {
-        //this.loadMasterValues()
     }
 
-    // loadMasterValues() {
-    //     this.masterValues = this.sessionService.getUser().masterValues.filter(x => x.masterId == 1);
-    // }
+    public OnRegistrationDone() {
+        this.activeModal.close('');
+        const successModal = this.modalService.open(RegistrationSuccessComponent, this.ModalOption);
+    }
 
     public save(isFormValid: boolean): void {
         if (isFormValid) {
@@ -49,10 +61,10 @@ export class RegistrationComponent implements OnInit {
             }
             this.userService.Registration(this.user).subscribe(data => {
                 if (data === 0)
-                    this.toaster.warning('Record is already exist.');
+                    this.toaster.warning('Record already exists.');
                 else if (data > 0) {
-                    this.toaster.success('Record submitted successfully.');
-                    this.router.navigate(['auth/login'])
+                    this.toaster.success('Registration is successful, Please check your mail and active your account.');
+                    //this.OnRegistrationDone();
                 }
             });
         } else {

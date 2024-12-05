@@ -8,13 +8,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PortfolioManagement.Repository.Master;
 
 namespace PortfolioManagement.Business.Master
 {
     //internal class SplitBonusBusiness
     //{
     //}
-    public class SplitBonusBusiness : CommonBusiness
+    public class SplitBonusBusiness : CommonBusiness, ISplitBonusRepository
     {
         ISql sql;
 
@@ -143,7 +144,7 @@ namespace PortfolioManagement.Business.Master
                 sql.AddParameter("FromRatio", splitBonusEntity.FromRatio);
             if (splitBonusEntity.ToRatio != 0)
                 sql.AddParameter("ToRatio", splitBonusEntity.ToRatio);
-            sql.AddParameter("NseCode", splitBonusEntity.NseCode);
+            sql.AddParameter("ScriptID", splitBonusEntity.ScriptID);
             sql.AddParameter("IsSplit", splitBonusEntity.IsSplit);
             sql.AddParameter("IsBonus", splitBonusEntity.IsBonus);
             sql.AddParameter("AnnounceDate", DbType.DateTime, ParameterDirection.Input, splitBonusEntity.AnnounceDate);

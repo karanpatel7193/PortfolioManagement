@@ -6,7 +6,7 @@
             <marquee behavior="scroll" direction="left" scrollamount="5" class="marquee-style">
                 <ng-container *ngFor="let item of headerGridModel?.nifty50">
                     <div class="ticker-item-root pointer relative" style="display: inline-block; margin: 0 20px;">
-                        <span class="symbol nowrap">{{ item.nseCode }}</span>
+                        <span (click)="redirect(item.scriptId,item.nseCode)" class="cursor-pointer">{{item.nseCode }} </span>
                         <span class="price">{{ item.price | number: '1.2-2' }}</span>
                         <i [ngClass]="item.priceChange > 0 ? 'icon-price-up' : 'icon-price-down'"></i>
                         <span [ngClass]="item.priceChange > 0 ? 'change up' : 'change down'">{{ item.pricePercentage | number: '1.2-2'}}%</span>
@@ -66,16 +66,44 @@
                     </div>
                     <div class="ms-3 user-info text-white d-none d-lg-block">
                         <div>{{ currentUser.firstName }} {{ currentUser.lastName }}</div>
-                        <div class="small text-muted">{{ currentUser.roleName }}</div>
+                        <div class="small text-muted user-role">{{ currentUser.roleName }}</div>
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-light text-small shadow">
-                    <li><a class="dropdown-item" routerLink="/app/profile">Profile</a></li>
+                    <li>
+                        <a class="dropdown-item" (click)="openProfileModal()">Profile</a>
+                    </li>
                     <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+                    <li><a class="dropdown-item" (click)="goToChangePassword()">Change Password</a></li>
                 </ul>
             </div>
         </div>
     </div>
-  </header>
+</header>
+
+<!-- Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true" [ngClass]="{'show': showProfileModal}" [ngStyle]="{display: showProfileModal ? 'block' : 'none'}" (click)="onBackdropClick($event)">
+    <div class="modal-dialog" role="document" (click)="stopPropagation($event)">
+        <div class="modal-content">
+        <app-profile></app-profile>
+        </div>
+    </div>
+</div>
 
 
+
+
+  
+  
+  <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true" 
+  [ngClass]="{'show': showModal}" 
+  [ngStyle]="{display: showModal ? 'block' : 'none'}" 
+  (click)="onBackdropClick($event)">
+
+<div class="modal-dialog" role="document" (click)="stopPropagation($event)">
+ <div class="modal-content">
+   <!-- Modal Content (ChangePasswordComponent) -->
+   <app-change-password (closeModal)="closeModal()"></app-change-password>
+ </div>
+</div>
+</div>

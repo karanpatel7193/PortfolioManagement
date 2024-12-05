@@ -1,31 +1,23 @@
 <div class="flex-centered col-xl-3 col-lg-4 col-md-5 col-sm-7 col-10">
-    <div class="form-signin w-100 m-auto tile-panel">
+    <div class="form-signin w-100 m-auto tile-panel glass-effect">
         <form (ngSubmit)="login(UserForm.valid ?? false)" #UserForm="ngForm" autocomplete="off" novalidate>
             <h1 class="h3 mt-2 mb-2 fw-normal">Login here</h1>
             <p class="sub-title mb-2">Sign in with your username or email</p>
-            <!-- Uncomment and adjust as needed -->
-            <!--
-            <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted" class="alert alert-danger" role="alert">
-                <div><strong>Oh snap!</strong></div>
-                <div *ngFor="let error of errors">{{ error }}</div>
-            </div>
-
-            <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted" class="alert alert-success" role="alert">
-                <div><strong>Hooray!</strong></div>
-                <div *ngFor="let message of messages">{{ message }}</div>
-            </div>
-            -->
+            
             <div class="form-floating mb-3">
                 <input type="text" name="inputEmail" id="inputEmail" class="form-control shadow-sm size-lg" autofocus [(ngModel)]="user.username" placeholder="Username" required #inputEmail="ngModel" [ngClass]="{'form-control-danger':(UserForm.submitted || inputEmail.dirty  || inputEmail.touched) && (inputEmail.invalid)}" />
-                <label for="floatingEmail">Email Address</label>
+                <label for="floatingEmail">Username / Email</label>
                 <div class="invalid-feedback text-start" *ngIf="(UserForm.submitted && inputEmail.invalid) || (inputEmail.dirty && inputEmail.invalid) || (inputEmail.touched && inputEmail.invalid)">
                     <p>Username is required!</p>
                 </div>
             </div>
-            <div class="form-floating mb-3">
-                <input type="password" name="inputPassword" id="inputPassword" class="form-control shadow-sm size-lg" [(ngModel)]="user.password" placeholder="Password" required #inputPassword="ngModel" [ngClass]="{'form-control-danger':(UserForm.submitted || inputPassword.dirty  || inputPassword.touched) && (inputPassword.invalid)}" />
+            <div class="form-floating mb-3 position-relative">
+                <input type="{{showPassword.password}}" name="inputPassword" id="inputPassword" class="form-control shadow-sm size-lg" [(ngModel)]="user.password" placeholder="Password" required #inputPassword="ngModel" [ngClass]="{'form-control-danger': (UserForm.submitted || inputPassword.dirty || inputPassword.touched) && inputPassword.invalid}"/>
                 <label for="floatingPassword">Password</label>
-                <div class="invalid-feedback text-start" *ngIf="(UserForm.submitted && inputPassword.invalid) || (inputPassword.dirty && inputPassword.invalid) || (inputPassword.touched && inputPassword.invalid)">
+                <span class="bi position-absolute top-50 translate-middle-y end-0 pe-2 show-pwd" (click)="togglePassword('password')">
+                    <i [ngClass]="{'bi-eye-slash': showPassword.password === 'password', 'bi-eye': showPassword.password === 'text'}"></i>
+                </span>
+                <div class="invalid-feedback text-start" *ngIf="(UserForm.submitted && inputPassword.invalid) || (inputPassword.dirty && inputPassword.invalid) || (inputPassword.touched && inputPassword.invalid)" >
                     <p>Password is required.</p>
                 </div>
             </div>

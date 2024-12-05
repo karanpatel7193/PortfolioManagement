@@ -6,6 +6,7 @@ using PortfolioManagement.Entity.Master;
 using PortfolioManagement.Entity.ScriptView;
 using PortfolioManagement.Entity.Transaction;
 using PortfolioManagement.Entity.Transaction.StockTransaction;
+using PortfolioManagement.Repository.ScriptView;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioManagement.Business.ScriptView
 {
-    public class ScriptViewChartBusiness : CommonBusiness
+    public class ScriptViewChartBusiness : CommonBusiness, IScriptViewChartRepository
     {
         ISql sql;
 

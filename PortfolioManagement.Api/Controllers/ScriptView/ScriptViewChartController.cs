@@ -5,6 +5,7 @@ using PortfolioManagement.Business.ScriptView;
 using PortfolioManagement.Business.Transaction.StockTransaction;
 using PortfolioManagement.Entity.ScriptView;
 using PortfolioManagement.Entity.Transaction.StockTransaction;
+using PortfolioManagement.Repository.ScriptView;
 
 namespace PortfolioManagement.Api.Controllers.ScriptView
 {
@@ -12,6 +13,13 @@ namespace PortfolioManagement.Api.Controllers.ScriptView
      [ApiController]
     public class ScriptViewChartController
     {
+        IScriptViewChartRepository scriptViewChartRepository;
+        public ScriptViewChartController(IScriptViewChartRepository scriptViewChartRepository)
+        {
+
+            this.scriptViewChartRepository = scriptViewChartRepository;
+
+        }
         [HttpPost]
         [Route("getForChart", Name = "scriptView.chartData")]
         //[AuthorizeAPI(pageName: "ScriptView", pageAccess: PageAccessValues.IgnoreAuthentication)]
@@ -20,8 +28,7 @@ namespace PortfolioManagement.Api.Controllers.ScriptView
             Response response;
             try
             {
-                ScriptViewChartBusiness scriptViewChartBusiness = new ScriptViewChartBusiness(Startup.Configuration);
-                response = new Response(await scriptViewChartBusiness.SelectForChart(scriptViewParameterEntity));
+                response = new Response(await scriptViewChartRepository.SelectForChart(scriptViewParameterEntity));
             }
             catch (Exception ex)
             {

@@ -17,12 +17,13 @@ export class UserModel extends UserMainModel {
     public roleName: string = '';
     public username: string = '';
     public password: string = '';
+    public OldPassword: string = '';
     public passwordSalt: string = '';
     public phoneNumber: string = '';
     public birthDate: Date = new  Date(0);
     public gender: number = 0;
     public imageSrc: string = '';
-    public lastUpdateDateTime: Date = new Date(0);
+    public lastUpdateDateTime: Date = new Date();
     public isActive: boolean = true;
     public confirmPassword: string = '';
     public mode: string = 'Admin';
@@ -72,4 +73,10 @@ export class UserLoginModel extends UserMainModel {
     public pmsName: string = '';
 
 }
-
+export class UserUpdateModel {
+    id: number = 0
+    firstName: string = ''
+    lastName: string = ''
+    username: string = ''
+    email: string = ''
+}

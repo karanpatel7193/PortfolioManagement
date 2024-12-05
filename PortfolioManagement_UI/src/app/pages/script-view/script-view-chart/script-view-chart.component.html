@@ -2,6 +2,7 @@
     <div class="card-body">
         <h5 class="float-start">Advanced Chart</h5>
         <div class="button-container float-end">
+            <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '1D'}" (click)="setDateRange('1D')">1D</button>
             <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '1W'}" (click)="setDateRange('1W')">1W</button>
             <button class="btn btn-outline-primary me-2" [ngClass]="{'active': selectedRange === '1M'}" (click)="setDateRange('1M')">1M</button>
             <button class="btn btn-outline-primary" [ngClass]="{'active': selectedRange === '1Y'}" (click)="setDateRange('1Y')">1Y</button>

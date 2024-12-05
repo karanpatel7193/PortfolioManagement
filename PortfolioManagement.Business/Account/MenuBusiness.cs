@@ -2,6 +2,7 @@
 using CommonLibrary.SqlDB;
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Entity.Account;
+using PortfolioManagement.Repository.Account;
 using System.Data;
 
 namespace PortfolioManagement.Business.Account
@@ -11,7 +12,7 @@ namespace PortfolioManagement.Business.Account
     /// Created By :: Rekansh Patel
     /// Created On :: 02/03/2018
     /// </summary>
-    public class MenuBusiness : CommonBusiness
+    public class MenuBusiness : CommonBusiness, IMenuRepository
     {
         ISql sql;
 
@@ -19,7 +20,8 @@ namespace PortfolioManagement.Business.Account
         /// <summary>
         /// This construction is set properties default value based on its data type in table.
         /// </summary>
-        public MenuBusiness(IConfiguration configuration) : base(configuration)
+        
+        public MenuBusiness(IConfiguration config) : base(config)
         {
             sql = CreateSqlInstance();
         }

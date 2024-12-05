@@ -17,7 +17,6 @@ export class ScriptViewComponent {
     public setId(){
       this.route.params.subscribe(x=>{
           this.id = +x['id']
-          console.log('id: ', this.id);
       })
   }
 

@@ -11,7 +11,7 @@
     @Password           varchar(max), 
     @PasswordSalt       varchar(max),
     @ImageSrc           VARCHAR(MAX)    = NULL,
-    @IsActive           BIT             = NULL,
+    @IsActive           BIT,
     @LastUpdateDateTime DATETIME        = NULL,
     @Type               varchar(100),   
     @PmsName			varchar(100)    = NULL

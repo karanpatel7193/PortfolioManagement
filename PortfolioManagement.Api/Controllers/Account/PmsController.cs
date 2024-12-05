@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.Account;
 using PortfolioManagement.Entity.Account;
+using PortfolioManagement.Repository.Account;
 
 namespace PortfolioManagement.Api.Controllers.Account
 {
@@ -11,6 +12,12 @@ namespace PortfolioManagement.Api.Controllers.Account
     [ApiController]
     public class PmsController : ControllerBase
     {
+        IPmsRepository pmsRepository;
+
+        public PmsController(IPmsRepository pmsRepository)
+        {
+            this.pmsRepository = pmsRepository;
+        }
         [HttpGet]
         [Route("getRecord/{Id:int}", Name = "account.pms.record")]
         [AuthorizeAPI(pageName: "PMS", pageAccess: PageAccessValues.View)]
@@ -19,8 +26,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                PmsBusiness pmsBusiness = new PmsBusiness(Startup.Configuration);
-                response = new Response(await pmsBusiness.SelectForRecord(Id));
+                response = new Response(await pmsRepository.SelectForRecord(Id));
             }
             catch (Exception ex)
             {
@@ -37,8 +43,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                PmsBusiness pmsBusiness = new PmsBusiness(Startup.Configuration);
-                response = new Response(await pmsBusiness.SelectForGrid(pmsParameterEntity));
+                response = new Response(await pmsRepository.SelectForGrid(pmsParameterEntity));
             }
             catch (Exception ex)
             {
@@ -55,8 +60,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                PmsBusiness pmsBusiness = new PmsBusiness(Startup.Configuration);
-                response = new Response(await pmsBusiness.Insert(pmsEntity));
+                response = new Response(await pmsRepository.Insert(pmsEntity));
             }
             catch (Exception ex)
             {
@@ -73,8 +77,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                PmsBusiness pmsBusiness = new PmsBusiness(Startup.Configuration);
-                response = new Response(await pmsBusiness.Update(pmsEntity));
+                response = new Response(await pmsRepository.Update(pmsEntity));
             }
             catch (Exception ex)
             {
@@ -91,8 +94,7 @@ namespace PortfolioManagement.Api.Controllers.Account
             Response response;
             try
             {
-                PmsBusiness pmsBusiness = new PmsBusiness(Startup.Configuration);
-                await pmsBusiness.Delete(Id);
+                await pmsRepository.Delete(Id);
                 response = new Response();
             }
             catch (Exception ex)

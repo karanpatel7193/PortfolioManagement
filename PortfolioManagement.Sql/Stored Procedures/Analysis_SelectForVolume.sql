@@ -19,9 +19,9 @@ BEGIN
 					R.ScriptName,
 					R.Volume,
 					R.WeekVolumeAverage,
-					ROUND(R.WeekVolumeAverage * 100 / R.Volume, 2) AS WeekVolumePercentage,
+					ROUND((R.Volume * 100 / R.WeekVolumeAverage), 2) AS WeekVolumePercentage,
 					R.MonthVolumeAverage,
-					ROUND(R.MonthVolumeAverage * 100 / R.Volume, 2) AS MonthVolumePercentage,
+					ROUND((R.Volume * 100 / R.MonthVolumeAverage), 2) AS MonthVolumePercentage,
 					0 AS NewsCount
 			FROM	(
 						SELECT			SP.ScriptId,

@@ -3,13 +3,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.ScriptView;
+using PortfolioManagement.Repository.ScriptView;
 
 namespace PortfolioManagement.Api.Controllers.ScriptView
 {
+
     [Route("scriptView/CorporateAction")]
     [ApiController]
     public class ScriptViewCorporateActionController : ControllerBase
     {
+        IScriptViewCorporateActionRepository scriptViewCorporateActionRepository;
+        public ScriptViewCorporateActionController(IScriptViewCorporateActionRepository scriptViewCorporateActionRepository)
+        {
+            this.scriptViewCorporateActionRepository = scriptViewCorporateActionRepository;
+        }
+
         [HttpGet]
         [Route("bonus/{id:int}", Name = "ScriptView.bonus")] 
         [AuthorizeAPI(pageName: "ScriptView", pageAccess: PageAccessValues.View)]
@@ -18,8 +26,7 @@ namespace PortfolioManagement.Api.Controllers.ScriptView
             Response response;
             try
             {
-                ScriptViewCorporateActionBusiness scriptViewCorporateActionBusiness = new ScriptViewCorporateActionBusiness(Startup.Configuration);
-                response = new Response(await scriptViewCorporateActionBusiness.SelectForBonus(id));
+                response = new Response(await scriptViewCorporateActionRepository.SelectForBonus(id));
             }
             catch (Exception ex)
             {
@@ -36,8 +43,7 @@ namespace PortfolioManagement.Api.Controllers.ScriptView
             Response response;
             try
             {
-                ScriptViewCorporateActionBusiness scriptViewCorporateActionBusiness = new ScriptViewCorporateActionBusiness(Startup.Configuration);
-                response = new Response(await scriptViewCorporateActionBusiness.SelectForSplit(id));
+                response = new Response(await scriptViewCorporateActionRepository.SelectForSplit(id));
             }
             catch (Exception ex)
             {

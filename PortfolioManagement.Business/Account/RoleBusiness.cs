@@ -2,6 +2,7 @@
 using CommonLibrary.SqlDB;
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Entity.Account;
+using PortfolioManagement.Repository.Account;
 using System.Data;
 
 namespace PortfolioManagement.Business.Account
@@ -11,7 +12,7 @@ namespace PortfolioManagement.Business.Account
     /// Created By :: Rekansh Patel
     /// Created On :: 02/03/2018
     /// </summary>
-    public class RoleBusiness : CommonBusiness
+    public class RoleBusiness : CommonBusiness, IRoleRepository
     {
         ISql sql;
 

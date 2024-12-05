@@ -6,6 +6,7 @@ using PortfolioManagement.Entity.Account;
 using PortfolioManagement.Entity.Analysis;
 using PortfolioManagement.Entity.Master;
 using PortfolioManagement.Entity.Transaction.StockTransaction;
+using PortfolioManagement.Repository.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioManagement.Business.Transaction.StockTransaction
 {
-    public class StockTransactionBusiness : CommonBusiness
+    public class StockTransactionBusiness : CommonBusiness, IStockTransactionRepository
     {
         ISql sql;
         public StockTransactionBusiness(IConfiguration config) : base(config)

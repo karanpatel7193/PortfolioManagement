@@ -3,6 +3,7 @@ using CommonLibrary.SqlDB;
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Business;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Master;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace PortfolioManagement.Business.Master
     /// Created By :: Rekansh Patel
     /// Created On :: 10/30/2020
     /// </summary>
-    public class ScriptBusiness : CommonBusiness
+    public class ScriptBusiness : CommonBusiness, IScriptRepository
     {
         ISql sql;
 

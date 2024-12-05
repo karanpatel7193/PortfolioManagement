@@ -10,6 +10,7 @@ export class HeaderModel {
 export class HeaderNifty50Model {
     public nseCode: string = '';
     public price: number = 0;
+    public scriptId: number = 0;
     public priceChange: number = 0;
     public pricePercentage: number = 0;
 }

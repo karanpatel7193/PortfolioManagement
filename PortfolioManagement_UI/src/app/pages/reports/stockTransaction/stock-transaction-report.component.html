@@ -89,94 +89,147 @@
             <table class="table table-hover common-table-bordered main-table">
                 <thead>
                     <tr [id]="'transaction-list'">
-                        <th  (click)="sort('date')" class="sort-header fixed text-start">
+                        <th (click)="sortData('date')" class="sort-header fixed  fixed text-start">
                             Date
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'date'), 'fa-sort-asc': (transactionParameter.sortExpression == 'date' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'date' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'date'), 
+                                   'fa-sort-asc': (sortColumn === 'date' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'date' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('accountId')" class="sort-header text-end">
+                        <th (click)="sortData('accountId')" class="sort-header fixed  text-start">
                             Account
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'accountId'), 'fa-sort-asc': (transactionParameter.sortExpression == 'accountId' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'accountId' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'accountId'), 
+                                   'fa-sort-asc': (sortColumn === 'accountId' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'accountId' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('brokerId')" class="sort-header text-end">
+                        <th (click)="sortData('brokerId')" class="sort-header fixed  text-start">
                             Broker
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'brokerId'), 'fa-sort-asc': (transactionParameter.sortExpression == 'brokerId' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'brokerId' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'brokerId'), 
+                                   'fa-sort-asc': (sortColumn === 'brokerId' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'brokerId' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('transactionTypeId')" class="sort-header text-end">
+                        <th (click)="sortData('transactionTypeId')" class="sort-header fixed  text-start">
                             Transaction
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'transactionTypeId'), 'fa-sort-asc': (transactionParameter.sortExpression == 'transactionTypeId' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'transactionTypeId' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'transactionTypeId'), 
+                                   'fa-sort-asc': (sortColumn === 'transactionTypeId' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'transactionTypeId' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('scriptId')" class="sort-header  text-end">
+                        <th (click)="sortData('scriptId')" class="sort-header fixed  text-start">
                             Script
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'scriptId'), 'fa-sort-asc': (transactionParameter.sortExpression == 'scriptId' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'scriptId' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'scriptId'), 
+                                   'fa-sort-asc': (sortColumn === 'scriptId' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'scriptId' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('qty')" class="sort-header text-end">
+                        <th (click)="sortData('qty')" class="sort-header fixed  text-end">
                             Quantity
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'qty'), 'fa-sort-asc': (transactionParameter.sortExpression == 'qty' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'qty' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'qty'), 
+                                   'fa-sort-asc': (sortColumn === 'qty' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'qty' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('price')" class="sort-header text-end">
+                        <th (click)="sortData('price')" class="sort-header fixed  text-end">
                             Price
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'price'), 'fa-sort-asc': (transactionParameter.sortExpression == 'price' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'price' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'price'), 
+                                   'fa-sort-asc': (sortColumn === 'price' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'price' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('brokerage')" class="sort-header text-end">
+                        <th (click)="sortData('brokerage')" class="sort-header fixed  text-end">
                             Brokerage
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'brokerage'), 'fa-sort-asc': (transactionParameter.sortExpression == 'brokerage' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'brokerage' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'brokerage'), 
+                                   'fa-sort-asc': (sortColumn === 'brokerage' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'brokerage' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('buy')" class="sort-header text-end">
+                        <th (click)="sortData('buy')" class="sort-header fixed  text-end">
                             Buy
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'buy'), 'fa-sort-asc': (transactionParameter.sortExpression == 'buy' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'buy' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'buy'), 
+                                   'fa-sort-asc': (sortColumn === 'buy' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'buy' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('sell')" class="sort-header text-end">
+                        <th (click)="sortData('sell')" class="sort-header fixed  text-end">
                             Sell
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'sell'), 'fa-sort-asc': (transactionParameter.sortExpression == 'sell' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'sell' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'sell'), 
+                                   'fa-sort-asc': (sortColumn === 'sell' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'sell' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
                         
-                        <th (click)="sort('dividend')" class="sort-header text-end">
+                        <th (click)="sortData('dividend')" class="sort-header fixed  text-end">
                             Dividend
                             <i class="fa"
-                                [ngClass]="{'fa-sort': (transactionParameter.sortExpression != 'dividend'), 'fa-sort-asc': (transactionParameter.sortExpression == 'dividend' && transactionParameter.sortDirection == 'asc'), 'fa-sort-desc': (transactionParameter.sortExpression == 'dividend' && transactionParameter.sortDirection == 'desc') }"
-                                aria-hidden="true"></i>
+                               [ngClass]="{
+                                   'fa-sort': (sortColumn !== 'dividend'), 
+                                   'fa-sort-asc': (sortColumn === 'dividend' && sortDirection === 'asc'), 
+                                   'fa-sort-desc': (sortColumn === 'dividend' && sortDirection === 'desc')
+                               }"
+                               aria-hidden="true">
+                            </i>
                         </th>
-    
-                        <!-- <th style="width:100px;">Actions</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of stocks;" (click)="transactionParameter.id == item.id;"
                         [ngClass]="{'selected-row': (transactionParameter.id == item.id)}">
                         <td class="text-start">{{item.date | date:'shortDate'}}</td>
-                        <td >{{item.accountName}}</td>
-                        <td >{{item.brokerName}}</td>
-                        <td >{{item.transactionTypeName}}</td>
-                        <td (click)="redirect(item.scriptId,item.scriptName)" class="cursor-pointer">{{item.scriptName}}</td>
+                        <td class="text-start">{{item.accountName}}</td>
+                        <td class="text-start">{{item.brokerName}}</td>
+                        <td class="text-start">{{item.transactionTypeName}}</td>
+                        <td (click)="redirect(item.scriptId,item.scriptName)" class="text-start cursor-pointer">{{item.scriptName}}</td>
                         <td class="text-end">{{item.qty }}</td>
                         <td class="text-end">{{item.price | number: '1.2-2'}}</td>
                         <td class="text-end">{{item.brokerage | number: '1.2-2'}}</td>

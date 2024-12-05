@@ -4,6 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { AuthLayoutComponent } from '../layouts/auth-layout/auth-layout.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ProfileComponent } from './profile/profile.component';
+import { RegistrationActiveComponent } from './registration/registration-active.component';
 
 const routes: Routes = [
     {
@@ -17,6 +19,10 @@ const routes: Routes = [
             {
                 path: 'registration',
                 component: RegistrationComponent
+            },
+            {
+                path: 'activate/:activation',
+                component: RegistrationActiveComponent
             },
             {
                 path: 'forgetPassword',

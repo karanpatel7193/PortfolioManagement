@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2016.Presentation.Command;
-using PortfolioManagement.Entity.Account;
+﻿using PortfolioManagement.Entity.Account;
 using PortfolioManagement.Entity.Common;
 using System.Text.Json.Serialization;
 
@@ -124,7 +123,7 @@ namespace PortfolioManagement.Entity.Master
         /// <summary>
         /// Get & Set Last Update Date Time
         /// </summary>
-        public DateTime LastUpdateDateTime { get; set; }
+        public DateTime LastUpdateDateTime { get; set; } = DateTime.UtcNow;
 
         /// <summary>
         /// Get & Set Image Src
@@ -144,7 +143,7 @@ namespace PortfolioManagement.Entity.Master
         [JsonIgnore]
         public int PmsId { get; set; }
 
-        public string Type { get; set; } 
+        public string Type { get; set; }
 
         public string PmsName { get; set; }
 
@@ -248,7 +247,7 @@ namespace PortfolioManagement.Entity.Master
         public string API_URL { get; set; }
 
         [JsonIgnore]
-        public int PmsId { get; set; } 
+        public int PmsId { get; set; }
         #endregion
 
         #region Private Methods
@@ -321,7 +320,7 @@ namespace PortfolioManagement.Entity.Master
         [JsonIgnore]
         public int PmsId { get; set; } = 0;
 
-        public string PmsName { get; set; } 
+        public string PmsName { get; set; }
 
         private List<RoleMenuAccessEntity> roleMenuAccessEntitys;
         public List<RoleMenuAccessEntity> RoleMenuAccesss
@@ -394,6 +393,16 @@ namespace PortfolioManagement.Entity.Master
         public string email { get; set; } = string.Empty;
         public string phone { get; set; } = string.Empty;
         public int gender { get; set; } = 0;
+
+    }
+
+    public class UserUpdateEntity
+    {
+        public long Id { get; set; } = 0;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
     }
 }

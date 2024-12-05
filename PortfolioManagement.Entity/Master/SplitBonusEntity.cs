@@ -32,7 +32,8 @@ namespace PortfolioManagement.Entity.Master
         public double OldFaceValue { get; set; }
         public double NewFaceValue { get; set; }
         public int FromRatio { get; set; }
-        public int ToRatio { get; set; }
+        public int ToRatio { get; set; } = 0;
+        public int ScriptID { get; set; } = 0;
         public DateTime AnnounceDate { get; set; }
         public DateTime RewardDate { get; set; }
         public bool IsApply { get; set; }

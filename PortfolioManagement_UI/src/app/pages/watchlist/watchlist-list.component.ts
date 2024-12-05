@@ -26,7 +26,9 @@ export class WatchlistListComponent implements OnInit {
 	public watchlistParameterModel: WatchlistParameterModel = new WatchlistParameterModel();
 	public access: AccessModel = new AccessModel();
 	public activeTabId: number = 0;
-	public refreshInterval: any; // To store the interval reference
+	public refreshInterval: any; 
+	sortColumn: string = ''; 
+	sortDirection: string = '';
 
 	public selectedScript: ScriptMainModel = new ScriptMainModel();
 	formatter = (script: ScriptMainModel) => script.name;
@@ -74,6 +76,23 @@ export class WatchlistListComponent implements OnInit {
 				this.selectedScript = event.item; 
 			}
 		}
+
+		sortData(column: keyof WatchlistScriptTabModel) {
+			this.watchlistScriptTabModel = this.commonService.sortGrid(
+				this.watchlistScriptTabModel,
+				column,
+				this.sortColumn,
+				this.sortDirection
+			);
+		
+			if (this.sortColumn === column) {
+				this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+			} else {
+				this.sortColumn = column;
+				this.sortDirection = 'asc';
+			}
+		}
+		
 
 		public fetchData(): void {
 			this.watchlistService.getTabRecord().subscribe({

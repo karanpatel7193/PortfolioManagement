@@ -34,6 +34,9 @@ export class ScriptViewChartComponent implements OnInit {
         this.scriptviewParameterModel.toDate = new Date(today);
     
         switch (range) {
+            case '1D':
+                this.scriptviewParameterModel.fromDate.setDate(today.getDate());
+                break;
             case '1W':
                 this.scriptviewParameterModel.fromDate.setDate(today.getDate() - 7);
                 break;

@@ -91,14 +91,67 @@
                 <table class="common-table common-table-bordered main-table">
                     <thead class="">
                         <tr [id]="'transaction-list'">
-                            <th class="sort-header text-start">Account</th>
-                            <th class="sort-header text-end">Buy</th>
-                            <th class="sort-header text-end">Sell</th>
-                            <th class="sort-header text-end">Dividend</th>
-                            <th class="sort-header text-end">Profit</th>
-                            <th class="sort-header text-end">Investment</th>
+                            <th class="sort-header text-start" (click)="sortData('accountName')">
+                                Account
+                                <i class="fa"
+                                    [ngClass]="{
+                                        'fa-sort': (sortColumn !== 'accountName'),
+                                        'fa-sort-asc': (sortColumn === 'accountName' && sortDirection === 'asc'),
+                                        'fa-sort-desc': (sortColumn === 'accountName' && sortDirection === 'desc')
+                                    }">
+                                </i>
+                            </th>
+                            <th class="sort-header text-end" (click)="sortData('buy')">
+                                Buy
+                                <i class="fa"
+                                    [ngClass]="{
+                                        'fa-sort': (sortColumn !== 'buy'),
+                                        'fa-sort-asc': (sortColumn === 'buy' && sortDirection === 'asc'),
+                                        'fa-sort-desc': (sortColumn === 'buy' && sortDirection === 'desc')
+                                    }">
+                                </i>
+                            </th>
+                            <th class="sort-header text-end" (click)="sortData('sell')">
+                                Sell
+                                <i class="fa"
+                                    [ngClass]="{
+                                        'fa-sort': (sortColumn !== 'sell'),
+                                        'fa-sort-asc': (sortColumn === 'sell' && sortDirection === 'asc'),
+                                        'fa-sort-desc': (sortColumn === 'sell' && sortDirection === 'desc')
+                                    }">
+                                </i>
+                            </th>
+                            <th class="sort-header text-end" (click)="sortData('dividend')">
+                                Dividend
+                                <i class="fa"
+                                    [ngClass]="{
+                                        'fa-sort': (sortColumn !== 'dividend'),
+                                        'fa-sort-asc': (sortColumn === 'dividend' && sortDirection === 'asc'),
+                                        'fa-sort-desc': (sortColumn === 'dividend' && sortDirection === 'desc')
+                                    }">
+                                </i>
+                            </th>
+                            <th class="sort-header text-end" (click)="sortData('profit')">
+                                Profit
+                                <i class="fa"
+                                    [ngClass]="{
+                                        'fa-sort': (sortColumn !== 'profit'),
+                                        'fa-sort-asc': (sortColumn === 'profit' && sortDirection === 'asc'),
+                                        'fa-sort-desc': (sortColumn === 'profit' && sortDirection === 'desc')
+                                    }">
+                                </i>
+                            </th>
+                            <th class="sort-header text-end" (click)="sortData('investment')">
+                                Investment
+                                <i class="fa"
+                                    [ngClass]="{
+                                        'fa-sort': (sortColumn !== 'investment'),
+                                        'fa-sort-asc': (sortColumn === 'investment' && sortDirection === 'asc'),
+                                        'fa-sort-desc': (sortColumn === 'investment' && sortDirection === 'desc')
+                                    }">
+                                </i>
+                            </th>
                         </tr>
-                        
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of stockTransactionSummaryes " (click)="transactionParameter.id == item.accountId;"

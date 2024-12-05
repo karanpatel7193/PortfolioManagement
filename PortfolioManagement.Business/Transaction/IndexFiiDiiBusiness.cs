@@ -1,11 +1,20 @@
 ﻿using CommonLibrary.SqlDB;
 using Microsoft.Extensions.Configuration;
+using PortfolioManagement.Entity.Index;
+using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Entity.ScriptView;
 using PortfolioManagement.Entity.Transaction;
+using PortfolioManagement.Repository.Transaction;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PortfolioManagement.Business.Transaction
 {
-    public class IndexFiiDiiBusiness : CommonBusiness
+    public class IndexFiiDiiBusiness : CommonBusiness, IIndexFiiDiiRepository
     {
         ISql sql;
         public IndexFiiDiiBusiness(IConfiguration config) : base(config)

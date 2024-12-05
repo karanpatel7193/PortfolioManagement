@@ -37,6 +37,10 @@ export class CommonService {
         return items.sort((a, b) => {
             const aValue = a[column];
             const bValue = b[column];
+
+            if (typeof aValue === 'number' && typeof bValue === 'number') {
+                return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+            }
     
             const aStr = String(aValue).toLowerCase();
             const bStr = String(bValue).toLowerCase();

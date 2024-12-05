@@ -97,12 +97,12 @@
                         <td class="cursor-pointer text-start" title="{{ item.scriptName }}" (click)="redirect(item.scriptId, item.scriptName)">
                             {{ item.scriptName }}
                         </td> 
-                        <td class="text-end">{{ item.weekVolumeAverage }}</td>
-                        <td class="text-end">{{ item.weekVolumePercentage }}</td>
-                        <td class="text-end">{{ item.volume }}</td>
-                        <td class="text-end">{{ item.monthVolumeAverage }}</td>
-                        <td class="text-end">{{ item.monthVolumePercentage }}</td>
-                        <td class="text-end">{{ item.newsCount }}</td>
+                        <td class="text-end">{{ item.volume | number:'1.0-0' }}</td>
+                        <td class="text-end">{{ item.weekVolumeAverage  | number:'1.0-0' }}</td>
+                        <td class="text-end">{{ item.weekVolumePercentage  | number:'1.0-0' }}</td>
+                        <td class="text-end">{{ item.monthVolumeAverage  | number:'1.0-0' }}</td>
+                        <td class="text-end">{{ item.monthVolumePercentage  | number:'1.0-0' }}</td>
+                        <td class="text-end">{{ item.newsCount  | number:'1.0-0' }}</td>
                     </tr>
                 </tbody>
             </table>

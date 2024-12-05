@@ -4,12 +4,19 @@ using Microsoft.AspNetCore.Http;
 using PortfolioManagement.Business.Master;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Master;
 namespace PortfolioManagement.Api.Controllers.Master
 {
     [Route("master/broker")]
     [ApiController]
     public class BrokerController : ControllerBase
     {
+        IBrokerRepository brokerRepository;
+        public BrokerController(IBrokerRepository brokerRepository)
+        {
+            this.brokerRepository = brokerRepository;
+        }
+
         #region Interface public methods
 
         /// Get all columns information for a particular broker record.
@@ -21,8 +28,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                BrokerBusiness brokerBusiness = new BrokerBusiness(Startup.Configuration);
-                response = new Response(await brokerBusiness.SelectForRecord(id));
+                response = new Response(await brokerRepository.SelectForRecord(id));
             }
             catch (Exception ex)
             {
@@ -41,8 +47,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 brokerParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                BrokerBusiness brokerBusiness = new BrokerBusiness(Startup.Configuration);
-                response = new Response(await brokerBusiness.SelectForLOV(brokerParameterEntity));
+                response = new Response(await brokerRepository.SelectForLOV(brokerParameterEntity));
             }
             catch (Exception ex)
             {
@@ -61,8 +66,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 brokerParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                BrokerBusiness brokerBusiness = new BrokerBusiness(Startup.Configuration);
-                response = new Response(await brokerBusiness.SelectForGrid(brokerParameterEntity));
+                response = new Response(await brokerRepository.SelectForGrid(brokerParameterEntity));
             }
             catch (Exception ex)
             {
@@ -80,8 +84,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 brokerEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                BrokerBusiness brokerBusiness = new BrokerBusiness(Startup.Configuration);
-                response = new Response(await brokerBusiness.Insert(brokerEntity));
+                response = new Response(await brokerRepository.Insert(brokerEntity));
             }
             catch (Exception ex)
             {
@@ -98,8 +101,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                BrokerBusiness brokerBusiness = new BrokerBusiness(Startup.Configuration);
-                response = new Response(await brokerBusiness.Update(brokerEntity));
+                response = new Response(await brokerRepository.Update(brokerEntity));
             }
             catch (Exception ex)
             {
@@ -117,8 +119,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                BrokerBusiness brokerBusiness = new BrokerBusiness(Startup.Configuration);
-                await brokerBusiness.Delete(id);
+                await brokerRepository.Delete(id);
                 response = new Response();
 
             }

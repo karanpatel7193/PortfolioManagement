@@ -10,7 +10,7 @@
                 <input type="date" class="form-control form-control-sm" (change)="onDateChange()" [ngModel]="portfolioDatewiseParameterModel.toDate | date:'yyyy-MM-dd' " (ngModelChange)="portfolioDatewiseParameterModel.toDate= $event" id="toDate" name="toDate" />
             </div>
         </div>
-        <hr class="m-1" />
+        <hr class="m-0 mb-3"/>
         <div echarts [options]="lineChartOption"></div>
     </div>
 </div>

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import {
     UserModel, UserMainModel, UserParameterModel, UserGridModel,
-    UserAddModel, UserEditModel, UserListModel, UserLoginModel
+    UserAddModel, UserEditModel, UserListModel, UserLoginModel,
+    UserUpdateModel
 } from './user.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -69,6 +70,30 @@ export class UserService {
                 return response;
             }),
         );
+    }
+
+    public RegistrationActive(Activation: string): Observable<string> {
+        return this.http.get('account/user/registrationActive?Activation=' + Activation).pipe(
+            map((response: string) => {
+                return response;
+            }),
+        );
+    }
+
+    public RegenerateRegistrationActive(Activation: string): Observable<string> {
+        return this.http.get('account/user/regenerateRegistrationActive?Activation=' + Activation).pipe(
+            map((response: string) => {
+                return response;
+            }),
+        );
+    }
+
+    public userUpadte(userUpdateModel: UserUpdateModel):Observable<number>{
+        return  this.http.post('account/user/userUpdate',userUpdateModel).pipe(
+            map((response:number)=>{
+                return response;
+            })
+        )
     }
 
     public save(user: UserModel): Observable<number> {

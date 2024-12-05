@@ -13,7 +13,8 @@ export class UserModel {
     last_login: Date | null = null;
     prev_login: Date | null = null;
     authToken: string | null = null;
-    
+    type: string = 'Individual'; 
+    pmsName?: string;
     password: string = '';
 
 }

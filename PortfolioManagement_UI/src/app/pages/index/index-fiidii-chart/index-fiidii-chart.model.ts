@@ -8,7 +8,7 @@ export class IndexFiiDiiModel {
 
 export class IndexFiiDiiParameterModel {
     dateRange: string = '';   
-    todayDate: Date = new Date();
+    todayDate: Date = new Date(new Date().setUTCHours(0, 0, 0, 0));
 }
 
 export class IndexFiiDiiChartModel {

@@ -22,6 +22,7 @@ namespace PortfolioManagement.Entity.Index
         public double Price { get; set; } = 0;
         public double PriceChange { get; set; } = 0;
         public double PricePercentage { get; set; } = 0;
+        public int ScriptId { get; set; } = 0;
     }
     public class HeaderGridEntity
     {

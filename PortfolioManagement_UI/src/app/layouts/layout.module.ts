@@ -9,6 +9,8 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgiSelectModule } from "../components/ngi-select/multiselect-dropdown-lib/src/lib/ngi-select.component";
+import { ChangePasswordComponent } from '../auth/changePassword/change-password.component';
+import { ProfileComponent } from '../auth/profile/profile.component';
 
 const routes: Routes = [];
 
@@ -17,7 +19,10 @@ const routes: Routes = [];
     AuthLayoutComponent,
     AppLayoutComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    ChangePasswordComponent,
+    ProfileComponent
+    
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,7 @@ using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.Analysis;
 using PortfolioManagement.Business.Index;
 using PortfolioManagement.Entity.Analysis;
+using PortfolioManagement.Repository.Analysis;
 
 namespace PortfolioManagement.Api.Controllers.Analysis
 {
@@ -13,6 +14,11 @@ namespace PortfolioManagement.Api.Controllers.Analysis
     [ApiController]
     public class VolumeController : ControllerBase
     {
+        IVolumeRepository volumeRepository; 
+        public VolumeController(IVolumeRepository volumeRepository)
+        {
+            this.volumeRepository = volumeRepository;
+        }
         [HttpPost]
         [Route("getForVolume", Name = "analysis.getForVolume")]
         // [AuthorizeAPI(pageName: "Analysis", pageAccess: PageAccessValues.View)]
@@ -21,8 +27,7 @@ namespace PortfolioManagement.Api.Controllers.Analysis
             Response response;
             try
             {
-                VolumeBusiness volumeBusiness = new VolumeBusiness(Startup.Configuration);
-                response = new Response(await volumeBusiness.SelectForVolume());
+                response = new Response(await volumeRepository.SelectForVolume());
             }
             catch (Exception ex)
             {

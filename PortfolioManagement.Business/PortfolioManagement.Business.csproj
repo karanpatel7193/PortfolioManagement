@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PortfolioManagement.Entity\PortfolioManagement.Entity.csproj" />
+    <ProjectReference Include="..\PortfolioManagement.Repository\PortfolioManagement.Repository.csproj" />
   </ItemGroup>
 
 </Project>

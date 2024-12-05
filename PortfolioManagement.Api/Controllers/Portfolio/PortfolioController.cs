@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
-using PortfolioManagement.Business.Transaction;
+using PortfolioManagement.Business.Portfolio;
 using PortfolioManagement.Business.Transaction.StockTransaction;
 using PortfolioManagement.Entity.Transaction;
 using PortfolioManagement.Entity.Transaction.StockTransaction;
+using PortfolioManagement.Repository.Portfolio;
 
 namespace PortfolioManagement.Api.Controllers.Portfolio
 {
@@ -13,6 +14,11 @@ namespace PortfolioManagement.Api.Controllers.Portfolio
     [ApiController]
     public class PortfolioController : ControllerBase
     {
+        IPortfolioRepository portfolioRepository;
+        public PortfolioController(IPortfolioRepository portfolioRepository)
+        {
+            this.portfolioRepository = portfolioRepository;
+        }
 
         [HttpPost]
         [Route("getPortfolioReport", Name = "portfolio.getPortfolioReport")]
@@ -23,8 +29,7 @@ namespace PortfolioManagement.Api.Controllers.Portfolio
             try
             {
                 transactionParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                ProtfolioBusiness protfolioBusiness = new ProtfolioBusiness(Startup.Configuration);
-                response = new Response(await protfolioBusiness.SelectPortfolioReport(transactionParameterEntity));
+                response = new Response(await portfolioRepository.SelectPortfolioReport(transactionParameterEntity));
             }
             catch (Exception ex)
             {

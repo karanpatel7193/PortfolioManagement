@@ -8,7 +8,7 @@ import { ToastService } from 'src/app/services/toast.service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls:[
+    styleUrls: [
         './login.component.scss'
     ]
 })
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
         private userService: UserService,
         private session: SessionService,
         private toaster: ToastService,
-        ) {
+    ) {
     }
 
     ngOnInit() {
@@ -35,13 +35,13 @@ export class LoginComponent implements OnInit {
                     this.session.setUser(data);
                     //this.broadcaster.broadcast('OnLoggedIn', 'Success');
                     this.router.navigate(['../app/dashboard'])
-                    .then(success => {
-                        if (success) {
-                            console.log('Navigation is successful!');
-                        } else {
-                            console.error('Navigation has failed!');
-                        }
-                    });
+                        .then(success => {
+                            if (success) {
+                                console.log('Navigation is successful!');
+                            } else {
+                                console.error('Navigation has failed!');
+                            }
+                        });
                 }
                 else {
                     this.toaster.error('Username or Password is incorrect.', 'Incorrect Credentials')
@@ -52,5 +52,11 @@ export class LoginComponent implements OnInit {
         else {
             this.toaster.warning('Provide required fields.');
         }
+    }
+
+    showPassword: { password: 'password' | 'text' } = { password: 'password' };
+
+    togglePassword(field: 'password'): void {
+        this.showPassword[field] = this.showPassword[field] === 'password' ? 'text' : 'password';
     }
 }

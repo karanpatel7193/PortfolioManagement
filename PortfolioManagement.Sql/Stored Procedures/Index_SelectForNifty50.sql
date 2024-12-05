@@ -4,6 +4,7 @@ BEGIN
     SELECT 
         SP.[NseCode], 
         SLV.[Price],
+        SLV.ScriptId,
         (SLV.[Price] - SLV.[PreviousDay]) AS PriceChange,
         ((SLV.[Price] - SLV.[PreviousDay]) / SLV.[PreviousDay]) * 100 AS PricePercentage
     FROM 

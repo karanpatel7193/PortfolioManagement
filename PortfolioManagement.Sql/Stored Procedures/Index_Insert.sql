@@ -30,11 +30,6 @@ BEGIN
 			INSERT INTO Dbo.[Index] ([Date], [SensexPreviousDay], [SensexOpen], [SensexClose], [SensexHigh], [SensexLow], [NiftyPreviousDay], [NiftyOpen], [NiftyClose], [NiftyHigh], [NiftyLow], [Sensex], [Nifty]) 
 			VALUES (@Datetime, @SensexPreviousDay, @SensexOpen, @SensexClose, @SensexHigh, @SensexLow, @NiftyPreviousDay, @NiftyOpen, @NiftyClose, @NiftyHigh, @NiftyLow, @Sensex, @Nifty)
 
-			INSERT INTO Dbo.[IndexRaw] ([DateTime], [SensexOpen], [SensexClose], [SensexHigh], [SensexLow], [NiftyOpen], [NiftyClose], [NiftyHigh], [NiftyLow], [Sensex], [Nifty]) 
-			VALUES (@DateTime, @SensexOpen, @SensexClose, @SensexHigh, @SensexLow, @NiftyOpen, @NiftyClose, @NiftyHigh, @NiftyLow, @Sensex, @Nifty);
-
-
-			SET @Id = SCOPE_IDENTITY();
 		END
 		ELSE
 		BEGIN
@@ -53,22 +48,12 @@ BEGIN
 					[Nifty]				= @Nifty
 			WHERE	[Date]				= @Date;
 
-			UPDATE	[IndexRaw]
-			SET		[SensexOpen]		= @SensexOpen, 
-					[SensexClose]		= @SensexClose, 
-					[SensexHigh]		= @SensexHigh, 
-					[SensexLow]			= @SensexLow, 
-					[NiftyOpen]			= @NiftyOpen, 
-					[NiftyClose]		= @NiftyClose, 
-					[NiftyHigh]			= @NiftyHigh, 
-					[NiftyLow]			= @NiftyLow, 
-					[Sensex]			= @Sensex,
-					[Nifty]				= @Nifty
-			WHERE	[DateTime]			= @DateTime;
-
-			SET @Id = (SELECT [Id] FROM [Index] WHERE [Date] = @Date);
 		END
+		
+		INSERT INTO Dbo.[IndexRaw] ([DateTime], [SensexOpen], [SensexClose], [SensexHigh], [SensexLow], [NiftyOpen], [NiftyClose], [NiftyHigh], [NiftyLow], [Sensex], [Nifty]) 
+		VALUES (@DateTime, @SensexOpen, @SensexClose, @SensexHigh, @SensexLow, @NiftyOpen, @NiftyClose, @NiftyHigh, @NiftyLow, @Sensex, @Nifty);
 
-		SELECT @Id;
+
+		SELECT SCOPE_IDENTITY();
 
 END

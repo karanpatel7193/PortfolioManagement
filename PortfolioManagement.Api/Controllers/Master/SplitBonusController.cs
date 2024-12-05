@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.Master;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Master;
 
 namespace PortfolioManagement.Api.Controllers.Master
 {
@@ -12,6 +13,12 @@ namespace PortfolioManagement.Api.Controllers.Master
     [ApiController]
     public class SplitBonusController : ControllerBase
     {
+        ISplitBonusRepository splitBonusRepository;
+        public SplitBonusController(ISplitBonusRepository splitBonusRepository)
+        {
+            this.splitBonusRepository = splitBonusRepository;
+        }
+
         #region Interface public methods
         /// <summary>
         /// Get all columns information for particular SplitBonus record.
@@ -26,8 +33,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                SplitBonusBusiness SplitBonusBusiness = new SplitBonusBusiness(Startup.Configuration);
-                response = new Response(await SplitBonusBusiness.SelectForRecord(id));
+                response = new Response(await splitBonusRepository.SelectForRecord(id));
             }
             catch (Exception ex)
             {
@@ -50,8 +56,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                SplitBonusBusiness splitBonusBusiness = new SplitBonusBusiness(Startup.Configuration);
-                response = new Response(await splitBonusBusiness.SelectForGrid());
+                response = new Response(await splitBonusRepository.SelectForGrid());
             }
             catch (Exception ex)
             {
@@ -73,8 +78,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                SplitBonusBusiness splitBonusBusiness = new SplitBonusBusiness(Startup.Configuration);
-                response = new Response(await splitBonusBusiness.Insert(splitBonusEntity));
+                response = new Response(await splitBonusRepository.Insert(splitBonusEntity));
             }
             catch (Exception ex)
             {
@@ -96,8 +100,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                SplitBonusBusiness splitBonusBusiness = new SplitBonusBusiness(Startup.Configuration);
-                response = new Response(await splitBonusBusiness.Update(splitBonusEntity));
+                response = new Response(await splitBonusRepository.Update(splitBonusEntity));
             }
             catch (Exception ex)
             {
@@ -119,8 +122,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                SplitBonusBusiness splitBonusBusiness = new SplitBonusBusiness(Startup.Configuration);
-                await splitBonusBusiness.Delete(id);
+                await splitBonusRepository.Delete(id);
                 response = new Response();
             }
             catch (Exception ex)
@@ -138,8 +140,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                SplitBonusBusiness splitBonusBusiness = new SplitBonusBusiness(Startup.Configuration);
-                response = new Response(await splitBonusBusiness.SplitBonusApply(id, IsApply));
+                response = new Response(await splitBonusRepository.SplitBonusApply(id, IsApply));
             }
             catch (Exception ex)
             {

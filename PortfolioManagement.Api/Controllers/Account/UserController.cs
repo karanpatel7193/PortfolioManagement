@@ -5,6 +5,7 @@ using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.Master;
 using PortfolioManagement.Entity.Account;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Account;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -19,11 +20,15 @@ namespace PortfolioManagement.Api.Controllers.Master
 
     public class UserController : ControllerBase
     {
+        IUserReppository userReppository;
+        
         private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public UserController(IWebHostEnvironment hostingEnvironment)
+        public UserController(IWebHostEnvironment hostingEnvironment, IUserReppository userReppository)
         {
             _hostingEnvironment = hostingEnvironment;
+            this.userReppository = userReppository;
+
         }
 
         #region Interface public methods
@@ -41,8 +46,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                response = new Response(await userBusiness.SelectForRecord(Id));
+               
+                response = new Response(await userReppository.SelectForRecord(Id));
             }
             catch (Exception ex)
             {
@@ -65,8 +70,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                response = new Response(await userBusiness.SelectForLOV(userParameterEntity));
+                
+                response = new Response(await userReppository.SelectForLOV(userParameterEntity));
             }
             catch (Exception ex)
             {
@@ -89,8 +94,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                response = new Response(await userBusiness.SelectForAdd(userParameterEntity));
+               
+                response = new Response(await userReppository.SelectForAdd(userParameterEntity));
             }
             catch (Exception ex)
             {
@@ -113,8 +118,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                response = new Response(await userBusiness.SelectForEdit(userParameterEntity));
+               
+                response = new Response(await userReppository.SelectForEdit(userParameterEntity));
             }
             catch (Exception ex)
             {
@@ -138,8 +143,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 userParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                response = new Response(await userBusiness.SelectForGrid(userParameterEntity));
+               
+                response = new Response(await userReppository.SelectForGrid(userParameterEntity));
             }
             catch (Exception ex)
             {
@@ -163,8 +168,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             try
             {
                 userParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                response = new Response(await userBusiness.SelectForList(userParameterEntity));
+               
+                response = new Response(await userReppository.SelectForList(userParameterEntity));
             }
             catch (Exception ex)
             {
@@ -190,8 +195,8 @@ namespace PortfolioManagement.Api.Controllers.Master
                 if (userEntity.RoleId == 1)
                     throw new Exception("Invalid role");
                 userEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                response = new Response(await userBusiness.Insert(userEntity));
+               
+                response = new Response(await userReppository.Insert(userEntity));
             }
             catch (Exception ex)
             {
@@ -207,16 +212,34 @@ namespace PortfolioManagement.Api.Controllers.Master
         /// <returns></returns>
         [HttpPost]
         [Route("registration", Name = "account.user.registration")]
-        //[AuthorizeAPI(pageName: "User", pageAccess: PageAccessValues.Insert)]
-
+        [AuthorizeAPI(pageName: "User", pageAccess: PageAccessValues.IgnoreAuthentication)]
         public async Task<Response> Registration(UserEntity userEntity)
         {
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
+               
                 userEntity.RoleId = (int)RoleType.PmsAdmin;
-                response = new Response(await userBusiness.Registration(userEntity));
+                userEntity.LastUpdateDateTime = DateTime.UtcNow;
+                userEntity.IsActive = true;
+                long id = await userReppository.Registration(userEntity);
+
+                if (id > 0)
+                {
+                    try
+                    {
+                        PortfolioManagement.Api.Common.Emails emails = new Emails(Startup.Configuration, _hostingEnvironment);
+                        emails.Registration(userEntity);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    response = new Response(id);
+                }
+                else
+                {
+                    response = new Response(id);
+                }
             }
             catch (Exception ex)
             {
@@ -225,6 +248,66 @@ namespace PortfolioManagement.Api.Controllers.Master
             return response;
         }
 
+        [HttpGet]
+        [Route("registrationActive", Name = "account.user.registrationActive")]
+        [AuthorizeAPI(pageName: "User", pageAccess: PageAccessValues.IgnoreAuthentication)]
+        public async Task<Response> RegistrationActive(string Activation)
+        {
+            Response objResponse;
+            try
+            {
+                string[] ActivationString = Activation.ToDeHex().Split('#');                
+                DateTime SentDateTime = new DateTime(MyConvert.ToInt(ActivationString[2].Substring(0, 4)), MyConvert.ToInt(ActivationString[2].Substring(4, 2)), MyConvert.ToInt(ActivationString[2].Substring(6, 2)), MyConvert.ToInt(ActivationString[2].Substring(8, 2)), MyConvert.ToInt(ActivationString[2].Substring(10, 2)), MyConvert.ToInt(ActivationString[2].Substring(12, 2)));
+
+                if (DateTime.UtcNow > SentDateTime.AddHours(AppSettings.LinkExpireDuration))
+                    return new Response("expired");
+
+                UserEntity userEntity = new UserEntity();
+                userEntity.Id = MyConvert.ToInt(ActivationString[0]);
+                userEntity.Email = ActivationString[1];
+                userEntity.IsActive = true;
+
+               
+                bool IsUpdate = await userReppository.UpdateActive(userEntity);
+                if (IsUpdate)
+                    objResponse = new Response("success");
+                else
+                    objResponse = new Response("fail");
+            }
+            catch (Exception ex)
+            {
+                objResponse = new Response(ex.WriteLogFile(), ex);
+            }
+            return objResponse;
+        }
+
+        [HttpGet]
+        [Route("regenerateRegistrationActive", Name = "account.user.regenerateRegistrationActive")]
+        [AuthorizeAPI(pageName: "User", pageAccess: PageAccessValues.IgnoreAuthentication)]
+        public async Task<Response> RegenerateRegistrationActive(string Activation) 
+        {
+            Response objResponse;
+            var activationlink = string.Empty;
+            try
+            {
+                string[] ActivationString = Activation.ToDeHex().Split('#');
+
+                UserEntity userEntity = new UserEntity();
+                userEntity.Id = MyConvert.ToInt(ActivationString[0]);
+                userEntity.Email = ActivationString[1];
+                userEntity.IsActive = true;
+
+                PortfolioManagement.Api.Common.Emails emails = new Emails(Startup.Configuration, _hostingEnvironment);
+                activationlink = emails.RegenerateRegistrationActivation(userEntity);
+
+                objResponse = new Response(activationlink);
+            }
+            catch (Exception ex)
+            {
+                objResponse = new Response(ex.WriteLogFile(), ex);
+            }
+            return objResponse;
+        }
         /// <summary>
         /// Update record in user table.
         /// </summary>
@@ -239,8 +322,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                response = new Response(await userBusiness.Update(userEntity));
+               
+                response = new Response(await userReppository.Update(userEntity));
             }
             catch (Exception ex)
             {
@@ -263,9 +346,30 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                await userBusiness.Delete(Id);
+               
+                await userReppository.Delete(Id);
                 response = new Response();
+            }
+            catch (Exception ex)
+            {
+                response = new Response(await ex.WriteLogFileAsync(), ex);
+            }
+            return response;
+        }
+
+     
+
+        [HttpPost]
+        [Route("userUpdate", Name = "account.user.userUpdate")]
+        //[AuthorizeAPI(pageName: "User", pageAccess: PageAccessValues.Update)]
+
+        public async Task<Response> userUpdate(UserUpdateEntity userUpdateEntity)
+        {
+            Response response;
+            try
+            {
+               
+                response = new Response(await userReppository.UserUpdate(userUpdateEntity));
             }
             catch (Exception ex)
             {
@@ -291,8 +395,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                UserLoginEntity userLoginEntity = await userBusiness.ValidateLogin(userEntity);
+               
+                UserLoginEntity userLoginEntity = await userReppository.ValidateLogin(userEntity);
                 userLoginEntity.ImageSrc = userLoginEntity.ImageSrc.Replace("##API_URL##", AppSettings.API_URL);
                 userLoginEntity.Token = GenerateToken(userLoginEntity.Username, userLoginEntity.Id, userLoginEntity.RoleId, userLoginEntity.PmsId);
                 if (userLoginEntity != null && userLoginEntity.Id != 0)
@@ -327,8 +431,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                userEntity = await userBusiness.ResetPassword(userEntity.Username);
+               
+                userEntity = await userReppository.ResetPassword(userEntity.Username);
 
                 if (userEntity.Id > 0)
                 {
@@ -362,8 +466,8 @@ namespace PortfolioManagement.Api.Controllers.Master
                 userEntity.Email = ActivationString[1];
                 userEntity.LastUpdateDateTime = DateTime.UtcNow;
 
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                bool IsUpdate =  await userBusiness.UpdatePassword(userEntity);
+               
+                bool IsUpdate =  await userReppository.UpdatePassword(userEntity);
                 if (IsUpdate)
                     response = new Response("success");
                 else
@@ -390,8 +494,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                UserBusiness userBusiness = new UserBusiness(Startup.Configuration);
-                response = new Response(await userBusiness.SelectForUsersTest());
+               
+                response = new Response(await userReppository.SelectForUsersTest());
             }
             catch (Exception ex)
             {
@@ -426,5 +530,27 @@ namespace PortfolioManagement.Api.Controllers.Master
             return tokenHandler.WriteToken(token);
         }
         #endregion
+
+        //ChangePassword
+        [HttpPost]
+        [Route("changePassword", Name = "admin.account.user.changePassword")]
+        [AuthorizeAPI(pageName: "User", pageAccess: PageAccessValues.IgnoreAuthorization)]
+        public async Task<Response> ChangePassord(UserEntity userEntity)
+        {
+            Response response;
+            try
+            {
+                //userEntity.Id = AuthenticateCliam.UserId(Request);
+                userEntity.PmsId = AuthenticateCliam.PmsId(Request);
+                userEntity.LastUpdateDateTime = DateTime.UtcNow;
+
+                response = new Response(await userReppository.ChangePassword(userEntity));
+            }
+            catch (Exception ex)
+            {
+                response = new Response(await ex.WriteLogFileAsync(), ex);
+            }
+            return response;
+        }
     }
 }

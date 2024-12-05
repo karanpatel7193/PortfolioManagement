@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Entity.Index;
 using PortfolioManagement.Entity.ScriptView;
+using PortfolioManagement.Repository.Account;
+using PortfolioManagement.Repository.Index;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioManagement.Business.Index
 {
-    public class HeaderBusiness : CommonBusiness
+    public class HeaderBusiness : CommonBusiness,IHeaderRepository
     {
         ISql sql;
         public HeaderBusiness(IConfiguration config) : base(config)

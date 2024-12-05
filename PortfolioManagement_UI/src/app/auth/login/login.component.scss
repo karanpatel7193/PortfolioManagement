@@ -20,4 +20,11 @@
     margin: auto;
     overflow: auto;
 }
-
+.form-floating > label {
+	color: #434343;
+}
+.show-pwd {
+	font-size: 1.25rem;
+	cursor: pointer;
+	color: #434343;
+}

@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IndexChartService } from './index-chart.service';
 import { IndexChartGridModel, IndexChartModel, IndexChartParameterModel } from './index-chart.model';
-import * as echarts from 'echarts';
-import { bottom } from '@popperjs/core';
 
 @Component({
   selector: 'app-index-chart',
@@ -36,13 +34,21 @@ export class IndexChartComponent implements OnInit {
     });
   }
 
-
   updateChartOptions(): void {
     const colors = ['blue', 'green'];
     const niftyMin = Math.min(...this.indexChartGridModel.niftySeriesData);
     const niftyMax = Math.max(...this.indexChartGridModel.niftySeriesData);
-    const sensexMin = Math.min(...this.indexChartGridModel.sensexSeriesData) - 500;
-    const sensexMax = Math.max(...this.indexChartGridModel.sensexSeriesData) + 500;
+    const sensexMin = Math.min(...this.indexChartGridModel.sensexSeriesData);
+    const sensexMax = Math.max(...this.indexChartGridModel.sensexSeriesData);
+
+    // const formattedDates = this.indexChartGridModel.dates.map(date => {
+    //   const formattedDate = new Date(date);
+    //   if (this.selectedRange === '1D') {
+    //     return formattedDate.toLocaleString(); // Includes both date and time
+    //   } else {
+    //     return formattedDate.toLocaleDateString(); // Only the date
+    //   }
+    // });
 
     this.indexChart = {
       color: colors,
@@ -53,7 +59,7 @@ export class IndexChartComponent implements OnInit {
         }
       },
       grid: {
-        right: '10%',
+        right: '6%',
         left: '6%',
         top: '7%',
         bottom: '5%'
@@ -67,7 +73,7 @@ export class IndexChartComponent implements OnInit {
           axisTick: {
             alignWithLabel: true
           },
-          data: this.indexChartGridModel.dates.map(date => new Date(date).toLocaleDateString()) // Format date as string
+          data: this.indexChartGridModel.dates // Use the formatted dates
         }
       ],
       yAxis: [
@@ -95,7 +101,6 @@ export class IndexChartComponent implements OnInit {
           max: sensexMax,
           position: 'right',
           alignTicks: false,
-          // offset: 80,
           axisLine: {
             show: true,
             lineStyle: {

@@ -14,10 +14,11 @@ namespace PortfolioManagement.Entity.Index
     }
     public class IndexChartGridEntity
     {
-        public List<DateTime> Dates { get; set; } = new List<DateTime>();
+        public List<string> Dates { get; set; } = new List<string>();
         public List<double> SensexSeriesData { get; set; } = new List<double>();
         public List<double> NiftySeriesData { get; set; } = new List<double>();
     }
+
     public class IndexChartParameterEntity
     {
         public string DateRange { get; set; } = string.Empty;

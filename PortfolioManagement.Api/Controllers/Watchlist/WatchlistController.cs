@@ -6,6 +6,7 @@ using PortfolioManagement.Business.Watchlist;
 using PortfolioManagement.Entity.Master;
 using PortfolioManagement.Entity.Transaction.StockTransaction;
 using PortfolioManagement.Entity.Watchlist;
+using PortfolioManagement.Repository.Watchlist;
 using System;
 using System.Threading.Tasks;
 
@@ -15,6 +16,13 @@ namespace PortfolioManagement.Api.Controllers.Watchlist
     [ApiController]
     public class WatchlistController : ControllerBase
     {
+        IWatchlistRepository watchlistRepository;
+        public WatchlistController(IWatchlistRepository watchlistRepository)
+        {
+
+            this.watchlistRepository = watchlistRepository;
+
+        }
         #region Interface public methods
 
         /// GetForTab
@@ -27,8 +35,7 @@ namespace PortfolioManagement.Api.Controllers.Watchlist
             try
             {
                 var PmsId = AuthenticateCliam.PmsId(Request);
-                WatchlistBusiness watchlistBusiness = new WatchlistBusiness(Startup.Configuration);
-                response = new Response(await watchlistBusiness.SelectForTab(PmsId));  
+                response = new Response(await watchlistRepository.SelectForTab(PmsId));  
             }
             catch (Exception ex)
             {
@@ -49,8 +56,7 @@ namespace PortfolioManagement.Api.Controllers.Watchlist
             try
             {
                 watchlistParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                WatchlistBusiness watchlistBusiness = new WatchlistBusiness(Startup.Configuration);
-                response = new Response(await watchlistBusiness.SelectForTabScript(watchlistParameterEntity));
+                response = new Response(await watchlistRepository.SelectForTabScript(watchlistParameterEntity));
             }
             catch (Exception ex)
             {
@@ -68,8 +74,7 @@ namespace PortfolioManagement.Api.Controllers.Watchlist
             try
             {
                 watchlistEntity.PmsId = AuthenticateCliam.PmsId(Request);
-                WatchlistBusiness watchlistBusiness = new WatchlistBusiness(Startup.Configuration);
-                response = new Response(await watchlistBusiness.Insert(watchlistEntity));
+                response = new Response(await watchlistRepository.Insert(watchlistEntity));
             }
             catch (Exception ex)
             {
@@ -89,8 +94,7 @@ namespace PortfolioManagement.Api.Controllers.Watchlist
             {
                 watchlistParameterEntity.PmsId = AuthenticateCliam.PmsId(Request);
 
-                WatchlistBusiness watchlistBusiness = new WatchlistBusiness(Startup.Configuration);
-                response = new Response(await watchlistBusiness.InsertScript(watchlistParameterEntity));
+                response = new Response(await watchlistRepository.InsertScript(watchlistParameterEntity));
             }
             catch (Exception ex)
             {
@@ -108,8 +112,7 @@ namespace PortfolioManagement.Api.Controllers.Watchlist
             Response response;
             try
             {
-                WatchlistBusiness watchlistBusiness = new WatchlistBusiness(Startup.Configuration);
-                response = new Response(await watchlistBusiness.Update(watchlistEntity));
+                response = new Response(await watchlistRepository.Update(watchlistEntity));
             }
             catch (Exception ex)
             {
@@ -127,8 +130,7 @@ namespace PortfolioManagement.Api.Controllers.Watchlist
             Response response;
             try
             {
-                WatchlistBusiness watchlistBusiness = new WatchlistBusiness(Startup.Configuration);
-                await watchlistBusiness.Delete(id);
+                await watchlistRepository.Delete(id);
                 response = new Response();
             }
             catch (Exception ex)
@@ -147,8 +149,7 @@ namespace PortfolioManagement.Api.Controllers.Watchlist
             Response response;
             try
             {
-                WatchlistBusiness watchlistBusiness = new WatchlistBusiness(Startup.Configuration);
-                await watchlistBusiness.DeleteScript(id);
+                await watchlistRepository.DeleteScript(id);
                 response = new Response();
             }
             catch (Exception ex)

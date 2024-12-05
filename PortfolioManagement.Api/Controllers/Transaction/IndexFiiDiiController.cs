@@ -6,6 +6,7 @@ using PortfolioManagement.Business.Master;
 using PortfolioManagement.Business.Transaction;
 using PortfolioManagement.Entity.Master;
 using PortfolioManagement.Entity.Transaction;
+using PortfolioManagement.Repository.Transaction;
 
 namespace PortfolioManagement.Api.Controllers.Transaction
 {
@@ -13,6 +14,12 @@ namespace PortfolioManagement.Api.Controllers.Transaction
     [ApiController]
     public class IndexFiiDiiController : ControllerBase
     {
+        IIndexFiiDiiRepository indexFiiDiiRepository;
+        public IndexFiiDiiController(IIndexFiiDiiRepository indexFiiDiiRepository)
+        {
+            this.indexFiiDiiRepository = indexFiiDiiRepository;
+        }
+
         [HttpPost]
         [Route("getChartData", Name = "transaction.indexfiidii.getChartData")]
         public async Task<Response> GetForChart(IndexFiiDiiParameterEntity indexFiiDiiParameterEntity)
@@ -20,8 +27,7 @@ namespace PortfolioManagement.Api.Controllers.Transaction
             Response response;
             try
             {
-                IndexFiiDiiBusiness indexFiiDiiBusiness = new IndexFiiDiiBusiness(Startup.Configuration);
-                response = new Response(await indexFiiDiiBusiness.SelectForChart(indexFiiDiiParameterEntity));
+                response = new Response(await indexFiiDiiRepository.SelectForChart(indexFiiDiiParameterEntity));
             }
             catch (Exception ex)
             {

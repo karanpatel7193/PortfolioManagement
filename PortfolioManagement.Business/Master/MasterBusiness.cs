@@ -3,6 +3,7 @@ using CommonLibrary.SqlDB;
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Entity.Master;
 using PortfolioManagement.Entity.Transaction.StockTransaction;
+using PortfolioManagement.Repository.Master;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioManagement.Business.Master
 {
-    public class MasterBusiness : CommonBusiness
+    public class MasterBusiness : CommonBusiness, IMasterRepositoroy
     {
         ISql sql;
         public MasterBusiness(IConfiguration config) : base(config)

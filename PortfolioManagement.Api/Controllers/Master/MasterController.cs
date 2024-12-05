@@ -6,12 +6,19 @@ using PortfolioManagement.Api.Common;
 using PortfolioManagement.Entity.Master;
 using PortfolioManagement.Business.Transaction.StockTransaction;
 using PortfolioManagement.Entity.Transaction.StockTransaction;
+using PortfolioManagement.Repository.Master;
 namespace PortfolioManagement.Api.Controllers.Master
 {
     [Route("master/master")]
     [ApiController]
     public class MasterController : ControllerBase
     {
+        IMasterRepositoroy masterRepositoroy;
+        public MasterController(IMasterRepositoroy masterRepositoroy)
+        {
+            this.masterRepositoroy = masterRepositoroy;
+        }
+
         #region Interface public methods
 
         /// Insert a record into the master table.
@@ -23,8 +30,8 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                MasterBusiness masterBusiness = new MasterBusiness(Startup.Configuration);
-                response = new Response(await masterBusiness.Insert(masterEntity));
+
+                response = new Response(await masterRepositoroy.Insert(masterEntity));
             }
             catch (Exception ex)
             {
@@ -42,8 +49,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                MasterBusiness masterBusiness = new MasterBusiness(Startup.Configuration);
-                response = new Response(await masterBusiness.Update(masterEntity));
+                response = new Response(await masterRepositoroy.Update(masterEntity));
             }
             catch (Exception ex)
             {
@@ -61,8 +67,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                MasterBusiness masterBusiness = new MasterBusiness(Startup.Configuration);
-                await masterBusiness.Delete(id);
+                await masterRepositoroy.Delete(id);
                 response = new Response();
             }
             catch (Exception ex)
@@ -80,8 +85,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                MasterBusiness masterBusiness = new MasterBusiness(Startup.Configuration);
-                response = new Response(await masterBusiness.SelectForGrid());
+                response = new Response(await masterRepositoroy.SelectForGrid());
             }
             catch (Exception ex)
             {
@@ -98,8 +102,7 @@ namespace PortfolioManagement.Api.Controllers.Master
             Response response;
             try
             {
-                MasterBusiness masterBusiness = new MasterBusiness(Startup.Configuration);
-                response = new Response(await masterBusiness.SelectForRecord(id));
+                response = new Response(await masterRepositoroy.SelectForRecord(id));
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Api.Common;
 using PortfolioManagement.Business.ScriptView;
+using PortfolioManagement.Repository.ScriptView;
 
 namespace PortfolioManagement.Api.Controllers.ScriptView
 {
@@ -10,6 +11,12 @@ namespace PortfolioManagement.Api.Controllers.ScriptView
     [ApiController]
     public class ScriptViewAboutCompanyController : ControllerBase
     {
+        IScriptViewAboutCompanyRpository scriptViewAboutCompanyRpository;
+        public ScriptViewAboutCompanyController(IScriptViewAboutCompanyRpository scriptViewAboutCompanyRpository)
+        {
+            this.scriptViewAboutCompanyRpository = scriptViewAboutCompanyRpository;
+        }
+
         [HttpGet]
         [Route("get/{id:int}", Name = "scriptViewAboutCompany.record")]
         [AuthorizeAPI(pageName: "ScriptView", pageAccess: PageAccessValues.View)]
@@ -18,8 +25,7 @@ namespace PortfolioManagement.Api.Controllers.ScriptView
             Response response;
             try
             {
-                ScriptViewAboutCompanyBusiness scriptViewAboutCompanyBusiness = new ScriptViewAboutCompanyBusiness(Startup.Configuration);
-                response = new Response(await scriptViewAboutCompanyBusiness.SelectForAboutCompany(id));
+                response = new Response(await scriptViewAboutCompanyRpository.SelectForAboutCompany(id));
             }
             catch (Exception ex)
             {

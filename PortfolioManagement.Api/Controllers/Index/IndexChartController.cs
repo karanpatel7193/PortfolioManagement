@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Business.Index;
 using PortfolioManagement.Entity.Index;
+using PortfolioManagement.Repository.Index;
 
 namespace PortfolioManagement.Api.Controllers.Index
 {
@@ -9,6 +10,11 @@ namespace PortfolioManagement.Api.Controllers.Index
     [ApiController]
     public class IndexChartController : ControllerBase
     {
+        IIndexChartRepository indexChartRepository;
+        public IndexChartController(IIndexChartRepository indexChartRepository)
+        {
+            this.indexChartRepository = indexChartRepository;
+        }
         [HttpPost]
         [Route("getIndexChart", Name = "index.chart")]
         // [AuthorizeAPI(pageName: "Header", pageAccess: PageAccessValues.View)]
@@ -17,8 +23,7 @@ namespace PortfolioManagement.Api.Controllers.Index
             Response response;
             try
             {
-                IndexChartBusiness indexChartBusiness = new IndexChartBusiness(Startup.Configuration);
-                response = new Response(await indexChartBusiness.SelectForIndexChart(indexChartParameterEntity));
+                response = new Response(await indexChartRepository.SelectForIndexChart(indexChartParameterEntity));
             }
             catch (Exception ex)
             {

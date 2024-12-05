@@ -11,7 +11,7 @@ CREATE PROCEDURE [dbo].[User_UpdateActive]
 AS
 BEGIN
 	
-	IF EXISTS(SELECT 1 FROM dbo.[User] U WHERE U.Id = @Id AND U.Email = @Email)
+	IF EXISTS(SELECT 1 FROM dbo.[User] U WHERE U.Id = @Id OR U.Email = @Email)
 	BEGIN
 		UPDATE [User] 
 		SET [IsActive] = @IsActive,

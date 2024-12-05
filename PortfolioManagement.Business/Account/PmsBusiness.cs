@@ -8,10 +8,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PortfolioManagement.Repository.Account;
 
 namespace PortfolioManagement.Business.Account
 {
-    public class PmsBusiness : CommonBusiness
+    public class PmsBusiness : CommonBusiness,IPmsRepository
     {
         ISql sql;
         public PmsBusiness(IConfiguration configuration) : base(configuration)

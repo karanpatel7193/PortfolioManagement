@@ -8,6 +8,7 @@ import { StocktransactionService } from '../../transaction/stocktransaction/stoc
 import { MasterValuesModel } from 'src/app/models/mastervalue.model';
 import { ScriptMainModel } from '../../master/script/script.model';
 import { debounceTime, distinctUntilChanged, filter, map, Observable } from 'rxjs';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-stock-transaction-summary',
@@ -21,11 +22,11 @@ public access: AccessModel = new AccessModel();
 	public stockTransactionSummaryes: StockTransactionSummaryModel[] = [];
 	public transactionList: StockTransactionListModel = new StockTransactionListModel();
 	public transactionGrid: StockTransactionGridModel = new StockTransactionGridModel();
-
-
     public stockTransactionListModel: StockTransactionListModel = new StockTransactionListModel();
 	public masterValues: MasterValuesModel[] = [];
     public selectedScript: ScriptMainModel = new ScriptMainModel();
+	sortColumn: string = ''; 
+	sortDirection: string = '';
 	formatter = (script: ScriptMainModel) => script.name;
 	searchScript = (text$: Observable<string>) =>
 		text$.pipe(
@@ -38,6 +39,7 @@ public access: AccessModel = new AccessModel();
 
 	constructor(private transactionService: StocktransactionService,
 		private sessionService: SessionService,
+		private commonService: CommonService,
 		private router: Router,
 		private toastr: ToastService) {
 		this.setAccess();
@@ -89,17 +91,31 @@ public access: AccessModel = new AccessModel();
 		});
 	}
 
-	public sort(sortExpression: string): void {
-		if (sortExpression === this.transactionParameter.sortExpression) {
-			this.transactionParameter.sortDirection = this.transactionParameter.sortDirection === 'asc' ? 'desc' : 'asc';
+	sortData(column: keyof StockTransactionSummaryModel | 'profit' | 'investment') {
+		if (column === 'profit' || column === 'investment') {
+			this.stockTransactionSummaryes.sort((a, b) => {
+				const valueA = this.getInvestmentAndProfit(a)[column];
+				const valueB = this.getInvestmentAndProfit(b)[column];
+				return this.sortDirection === 'asc' ? valueA - valueB : valueB - valueA;
+			});
+		} else {
+			this.stockTransactionSummaryes = this.commonService.sortGrid(
+				this.stockTransactionSummaryes,
+				column,
+				this.sortColumn,
+				this.sortDirection
+			);
 		}
-		else {
-			this.transactionParameter.sortExpression = sortExpression;
-			this.transactionParameter.sortDirection = 'asc';
+	
+		if (this.sortColumn === column) {
+			this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+		} else {
+			this.sortColumn = column;
+			this.sortDirection = 'asc';
 		}
-		this.search();
 	}
-
+	
+	
 	
 	public setPageListMode(): void {
 		if (!this.access.canView) {

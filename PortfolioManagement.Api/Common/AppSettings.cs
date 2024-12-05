@@ -19,11 +19,11 @@ namespace PortfolioManagement.Api.Common
                 return MyConvert.ToString(Startup.Configuration["AppSettings:Email:From"]);
             }
         }
-        public static string AdminWebsiteUrl
+        public static string WebsiteUrl
         {
             get
             {
-                return MyConvert.ToString(Startup.Configuration["AppSettings:AdminWebsiteUrl"]);
+                return MyConvert.ToString(Startup.Configuration["AppSettings:WebsiteUrl"]);
             }
         }
         public static string ClientWebsiteUrl

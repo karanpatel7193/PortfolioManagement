@@ -27,7 +27,8 @@ export class StockTransactionReportComponent implements OnInit {
     public stockTransactionListModel: StockTransactionListModel = new StockTransactionListModel();
     public masterValues: MasterValuesModel[] = [];
 	public filteredBrokers: BrokerModel[] = [];
-
+    sortColumn: string = ''; 
+    sortDirection: string = '';
 
 	public selectedScript: ScriptMainModel = new ScriptMainModel();
 	formatter = (script: ScriptMainModel) => script.name;
@@ -96,16 +97,16 @@ export class StockTransactionReportComponent implements OnInit {
 		});
 	}
 
-	public sort(sortExpression: string): void {
-		if (sortExpression === this.transactionParameter.sortExpression) {
-			this.transactionParameter.sortDirection = this.transactionParameter.sortDirection === 'asc' ? 'desc' : 'asc';
-		}
-		else {
-			this.transactionParameter.sortExpression = sortExpression;
-			this.transactionParameter.sortDirection = 'asc';
-		}
-		this.search();
-	}
+	public sortData(column: keyof StockTransactionModel) {
+        this.stocks = this.commonService.sortGrid(this.stocks, column, this.sortColumn, this.sortDirection);
+    
+        if (this.sortColumn === column) {
+            this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            this.sortColumn = column;
+            this.sortDirection = 'asc'; 
+        }
+    }
 
 	public add(): void {
 		if (!this.access.canInsert) {

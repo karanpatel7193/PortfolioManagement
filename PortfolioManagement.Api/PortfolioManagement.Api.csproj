@@ -12,9 +12,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PortfolioManagement.Business\PortfolioManagement.Business.csproj" />
+    <ProjectReference Include="..\PortfolioManagement.Repository\PortfolioManagement.Repository.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="EmailTemplate\Registration.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="UploadedFiles\test.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

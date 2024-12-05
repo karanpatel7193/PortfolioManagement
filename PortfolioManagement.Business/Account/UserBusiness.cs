@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Extensions.Configuration;
 using PortfolioManagement.Entity.Account;
 using PortfolioManagement.Entity.Master;
+using PortfolioManagement.Repository.Account;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,7 +18,7 @@ namespace PortfolioManagement.Business.Master
     /// Created By :: Rekansh Patel
     /// Created On :: 02/06/2018
     /// </summary>
-    public class UserBusiness : CommonBusiness
+    public class UserBusiness : CommonBusiness, IUserReppository
     {
         ISql sql;
 
@@ -331,8 +332,8 @@ namespace PortfolioManagement.Business.Master
                 sql.AddParameter("MiddleName", userEntity.MiddleName);
             if (userEntity.BirthDate != DateTime.MinValue)
                 sql.AddParameter("BirthDate", DbType.DateTime, ParameterDirection.Input, userEntity.BirthDate);
-            if (userEntity.IsActive != false)
-                sql.AddParameter("IsActive", userEntity.IsActive);
+            //if (userEntity.IsActive != false)
+            sql.AddParameter("IsActive", userEntity.IsActive);
             if (userEntity.Gender != 0)
                 sql.AddParameter("Gender", userEntity.Gender);
 
@@ -347,6 +348,8 @@ namespace PortfolioManagement.Business.Master
             }
             return MyConvert.ToLong(await sql.ExecuteScalarAsync("User_Registration", CommandType.StoredProcedure));
         }
+
+
 
         public async Task<List<UsersEntity>> SelectForUsersTest()
         {
@@ -389,6 +392,16 @@ namespace PortfolioManagement.Business.Master
             sql.AddParameter("Id", Id);
             await sql.ExecuteNonQueryAsync("User_Delete", CommandType.StoredProcedure);
         }
+
+        public async Task<int> UserUpdate(UserUpdateEntity userUpdateEntity)
+        {
+            sql.AddParameter("Id", userUpdateEntity.Id);
+            sql.AddParameter("FirstName", userUpdateEntity.FirstName);
+            sql.AddParameter("LastName", userUpdateEntity.LastName);
+            sql.AddParameter("Username", userUpdateEntity.Username);
+            sql.AddParameter("Email", userUpdateEntity.Email);
+            return MyConvert.ToInt(await sql.ExecuteScalarAsync("User_UpdateProfile", CommandType.StoredProcedure));
+        }
         #endregion
 
         #region other public methods
@@ -420,7 +433,7 @@ namespace PortfolioManagement.Business.Master
             sql.AddParameter("Id", userEntity.Id);
             sql.AddParameter("Email", userEntity.Email);
             sql.AddParameter("IsActive", userEntity.IsActive);
-            sql.AddParameter("LastUpdateDateTime", DateTime.UtcNow);
+            sql.AddParameter("LastUpdateDateTime", DbType.DateTime, ParameterDirection.Input, DateTime.UtcNow);
             return MyConvert.ToBoolean(await sql.ExecuteScalarAsync("User_UpdateActive", CommandType.StoredProcedure));
         }
 
@@ -446,12 +459,14 @@ namespace PortfolioManagement.Business.Master
                 sql.AddParameter("Id", userEntity.Id);
                 sql.AddParameter("Password", userEntity.Password.ToEncrypt(sPasswordSalt));
                 sql.AddParameter("PasswordSalt", sPasswordSalt.ToEncrypt());
-                sql.AddParameter("LastUpdateDateTime", userEntity.LastUpdateDateTime);
+                sql.AddParameter("LastUpdateDateTime",DbType.DateTime,ParameterDirection.Input, userEntity.LastUpdateDateTime);
                 return MyConvert.ToBoolean(await sql.ExecuteScalarAsync("User_UpdatePasswordDirect", CommandType.StoredProcedure));
             }
             else
                 return false;
         }
+       
+
 
         public async Task<bool> UpdatePasswordDirect(UserEntity userEntity)
         {
@@ -462,6 +477,7 @@ namespace PortfolioManagement.Business.Master
             sql.AddParameter("LastUpdateDateTime", userEntity.LastUpdateDateTime);
             return MyConvert.ToBoolean(await sql.ExecuteScalarAsync("User_UpdatePasswordDirect", CommandType.StoredProcedure));
         }
+
         #endregion
 
     }

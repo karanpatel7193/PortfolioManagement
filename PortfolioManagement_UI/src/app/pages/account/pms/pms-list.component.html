@@ -15,22 +15,22 @@
             <table class="table table-hover table-bordered sort ">
                 <thead>
                     <tr>
-                        <th (click)="sort('Name')" class="sort-header">
+                        <th (click)="sort('Name')" class="sort-header text-start ">
                             Name
                             <i class="fa"
                                 [ngClass]="{'fa-sort': (pmsParameter.sortExpression != 'Name'), 'fa-sort-asc': (pmsParameter.sortExpression == 'Name' && pmsParameter.sortDirection === 'asc'), 'fa-sort-desc': (pmsParameter.sortExpression == 'Name' && pmsParameter.sortDirection == 'desc') }"
                                 aria-hidden="true"></i>
                         </th>
-                        <th class="sort-header">isActive?</th>
-                        <th class="sort-header">Type</th>
+                        <th class="sort-header text-start">isActive?</th>
+                        <th class="sort-header text-start">Type</th>
                         <th style="width:100px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of pmsGrid?.pmss;">
-                        <td>{{item.name}}</td>
-                        <td>{{item.isActive}}</td>
-                        <td>{{item.type}}</td>
+                        <td class="text-start">{{item.name}}</td>
+                        <td class="text-start">{{item.isActive}}</td>
+                        <td class="text-start">{{item.type}}</td>
                         <td>
                             <button class="btn btn-icon btn-tnx" (click)="edit(item.id)" [ngClass]="{'btn-outline-primary':access.canUpdate, 'btn-outline-secondary':!access.canUpdate}"title="{{access.canUpdate ? 'Click here to edit this record.' : 'You do not have edit access of this page.'}}"><i class="fa fa-pencil"></i></button>
                             <button class="btn btn-icon btn-tnx" (click)="delete(item.id)" [ngClass]="{'btn-outline-danger':access.canDelete, 'btn-outline-secondary':!access.canDelete}" title="{{access.canDelete ? 'Click here to delete this record.' : 'You do not have delete access of this page.'}}"><i class="fa fa-trash"></i></button>

@@ -1,5 +1,5 @@
 <div class="flex-centered col-xl-3 col-lg-4 col-md-5 col-sm-7 col-10">
-    <div class="form-signin w-100 m-auto tile-panel">
+    <div class="form-signin w-100 m-auto tile-panel glass-effect">
         <form #userForm="ngForm" novalidate>
             <div class="rounded">
                 <div class="card-body">
@@ -83,7 +83,7 @@
                             <input type="text" class="form-control shadow-sm mb-2" [(ngModel)]="user.username"
                                 id="inUsername" name="inUsername" placeholder="username" required
                                 #inUsername="ngModel"
-                                [ngClass]="{'form-control-danger':((userForm.submitted || inUsername.invalid) && (inUsername.dirty || inUsername.touched))}">
+                                [ngClass]="{'form-control-danger':(userForm.submitted || inUsername.dirty  || inUsername.touched) && (inUsername.invalid)}">
                             <div class="invalid-feedback"
                                 *ngIf="(userForm.submitted && inUsername.invalid) || (inUsername.dirty && inUsername.invalid) || (inUsername.touched && inUsername.invalid)">
                                 username is required.
@@ -98,7 +98,7 @@
                                 <input type="password" class="form-control shadow-sm mb-2" [(ngModel)]="user.password"
                                     id="inPassword" name="inPassword" placeholder="Password" required
                                     #inPassword="ngModel"
-                                    [ngClass]="{'form-control-danger':((userForm.submitted || inPassword.invalid) && (inPassword.dirty || inPassword.touched))}">
+                                    [ngClass]="{'form-control-danger':(userForm.submitted || inPassword.dirty  || inPassword.touched) && (inPassword.invalid)}">
                                 <div class="invalid-feedback"
                                     *ngIf="(inPassword.touched && inPassword.invalid)">
                                     Password is required.
@@ -111,7 +111,7 @@
                                 <input type="password" class="form-control shadow-sm mb-2" [(ngModel)]="user.confirmPassword"
                                     id="inConfirmPassword" name="inConfirmPassword" placeholder="Confirm Password" required
                                     #inConfirmPassword="ngModel"
-                                    [ngClass]="{'form-control-danger':((userForm.submitted || inConfirmPassword.invalid) && (inConfirmPassword.dirty || inConfirmPassword.touched))}">
+                                    [ngClass]="{'form-control-danger':(userForm.submitted || inConfirmPassword.dirty  || inConfirmPassword.touched) && (inConfirmPassword.invalid)}">
                                 <div class="invalid-feedback"
                                     *ngIf="(inConfirmPassword.touched && inConfirmPassword.invalid)">
                                     Confirm Password is required.

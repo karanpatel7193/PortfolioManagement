@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioManagement.Business.ScriptView;
+using PortfolioManagement.Repository.ScriptView;
 
 namespace PortfolioManagement.Api.Controllers.ScriptView
 {
@@ -9,17 +10,23 @@ namespace PortfolioManagement.Api.Controllers.ScriptView
     [ApiController]
     public class ScriptViewRangeController : ControllerBase
     {
+        IScriptViewRangeRepository scriptViewRangeRepository;
+
+        public ScriptViewRangeController(IScriptViewRangeRepository scriptViewRangeRepository)
+        {
+            this.scriptViewRangeRepository = scriptViewRangeRepository;
+        }
+
         [HttpGet]
         [Route("get/{id:int}", Name = "ScriptViewRange.record")]
-        //[AuthorizeAPI(pageName: "scriptViewRange", pageAccess: PageAccessValues.View)]
+        //[authorizeapi(pagename: "scriptviewrange", pageaccess: pageaccessvalues.view)]
 
         public async Task<Response> GetForRange(int id)
         {
             Response response;
             try
             {
-                ScriptViewRangeBusiness scriptViewRangeBusiness = new ScriptViewRangeBusiness(Startup.Configuration);
-                response = new Response(await scriptViewRangeBusiness.SelectForRange(id));
+                response = new Response(await scriptViewRangeRepository.SelectForRange(id));
             }
             catch (Exception ex)
             {
